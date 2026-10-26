@@ -1,0 +1,687 @@
+/* landing.css · Jacomy & Mayne · F7 build (ronda 2, 2026-10-23). Composición de cada sección (DESIGN.md → Layout) con SOLO tokens
+   de tokens.css. Mobile primero (390) → 480 → 992 → 1440.
+   Regla de movimiento: todo lo que acá está quieto es el estado FINAL de cada gesto, que también es la página con reduced-motion o
+   sin JS. Los pins (sticky) y los estados iniciales ocultos viven solo bajo html.motion, que pone motion.js cuando GSAP cargó y el
+   usuario no pidió menos movimiento. Separación por espacio y cambio de campo, nunca por filetes. */
+
+/* ================= base de la marca ================= */
+html{background:var(--fondo);scroll-padding-top:calc(var(--alto-barra) + 12px);overflow-x:clip}   /* r12: nunca una barra de scroll horizontal (la página no tiene contenido de costado fuera de sus escenas) */
+body{background:var(--fondo);color:var(--tinta);font:400 var(--t-cuerpo)/var(--lh-texto) var(--f-texto)}
+::selection{background:var(--tinta);color:var(--fondo)}
+[hidden]{display:none!important}
+p+p{margin-top:0}
+.saltar:focus{position:fixed!important;top:8px;left:8px;width:auto;height:auto;clip:auto;margin:0;padding:.7em 1em;z-index:60;background:var(--tinta);color:var(--fondo);white-space:normal}
+:focus-visible{outline:2px solid var(--acento);outline-offset:3px}
+
+/* una sola regla de títulos (R21): Heros 400, tracking −0,032 em; la Bodoni siempre en cursiva y nunca dentro de un titular */
+.display{font:400 var(--t-display)/var(--lh-display) var(--f-display);letter-spacing:var(--track-display);text-wrap:initial}
+.h2{font:400 var(--t-h2)/1 var(--f-display);letter-spacing:var(--track-display);text-wrap:balance}
+.h3{font:italic 400 var(--t-h3)/1.08 var(--f-acento);letter-spacing:.01em}
+.lead,.enunciado{font:italic 400 var(--t-lead)/1.22 var(--f-acento);letter-spacing:.01em;color:inherit;max-width:24em}
+.renglon{display:block}
+.parte{display:block}                        /* R32: renglón de 390; desde 992 se juntan */
+.palabra{display:inline-block;white-space:nowrap}
+.letra{display:inline-block}
+
+/* botones (DESIGN → Components): rectos, salvo barra y hero en pastilla (R7) */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:.9em 1.55em;border:0;border-radius:var(--r-medio);
+  background:var(--primario);color:var(--sobre-primario);font:400 15px/1 var(--f-texto);letter-spacing:.01em;text-decoration:none;cursor:pointer;
+  transition:transform var(--rapido) var(--salida),opacity var(--rapido) var(--salida)}
+.btn-pastilla{border-radius:var(--r-pastilla)}
+.btn:hover{transform:translateY(-2px)}   /* r17: hover sin media query (el panel de Efraín y las laptops táctiles dan hover:none) */
+.btn:active{transform:translateY(1px) scale(.98)}
+.btn[disabled]{opacity:.5}
+.btn-texto{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;padding:0 .35em;border:0;background:none;color:var(--tinta-suave);font:400 var(--t-chico)/1 var(--f-texto);
+  text-decoration:underline;text-underline-offset:.3em;cursor:pointer;transition:color var(--rapido) var(--salida)}
+.btn-texto:hover{color:var(--tinta)}   /* r17: hover sin media query (el panel de Efraín y las laptops táctiles dan hover:none) */
+
+/* ================= barra fija ================= */
+.barra{position:fixed;inset:0 0 auto 0;z-index:30;height:var(--alto-barra);display:flex;align-items:center;gap:clamp(16px,3vw,48px);
+  padding-inline:var(--gutter);background:var(--fondo)}
+.barra-firma{display:inline-flex;align-items:center;min-height:44px;color:var(--tinta)}
+.barra-firma svg{width:clamp(118px,10vw,150px);height:auto;fill:currentColor}
+.barra-nav{display:none;gap:clamp(20px,2.6vw,40px);margin-left:auto}
+.barra-nav a{display:inline-flex;align-items:center;min-height:44px;font-size:var(--t-chico);letter-spacing:.02em;text-decoration:none;color:var(--tinta)}
+.barra-nav a:hover{text-decoration:underline;text-underline-offset:.3em}   /* r17: hover sin media query (el panel de Efraín y las laptops táctiles dan hover:none) */
+.barra .btn{margin-left:auto;min-height:44px;padding:.8em 1.3em;font-size:var(--t-chico);white-space:nowrap}
+@media (min-width:480px){.barra-nav{display:flex}.barra .btn{margin-left:0}}
+
+/* ================= S1 hero (ronda 9, ronda-9-diseno.md): foto a sangre + la firma = h1 + UNA línea + la pausa como ícono (R43) ================= */
+.hero{position:relative;height:100svh;min-height:520px;overflow:hidden;background:var(--fondo)}
+.hero-mueve{position:absolute;inset:0}                                 /* lo que hace parallax al bajar (0,4 × scroll, Holy Studio) */
+.hero-slides{position:absolute;inset:0}
+.hero-slide{position:absolute;inset:0;margin:0;opacity:0;transition:opacity .5s var(--suave)}   /* fundido que pasa por negro: nunca dos fotos a la vez */
+.hero-slide.activa{opacity:1}
+.hero-slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:34% 50%}   /* celular: negro arriba a la izquierda para la línea */
+.hero-censurado img{object-position:50% 50%}
+.hero-slides::after{content:"";position:absolute;inset:0 0 auto 0;height:34%;pointer-events:none;
+  background:linear-gradient(to bottom,rgb(0 0 0 / .6),rgb(0 0 0 / 0))}   /* taste-skill-ignore: el único velo neutro (DESIGN.md → Colors), solo arriba, para la línea */
+.hero-bajada{position:absolute;z-index:24;left:var(--gutter);top:calc(var(--alto-barra) + 6px);margin:0;max-width:20em;
+  font:italic 400 var(--t-nota)/1.25 var(--f-acento);letter-spacing:.01em;color:var(--tinta)}
+.hero-bajada .renglon{display:block}                                   /* 390: 2 renglones decididos a mano */
+.hero-firma{position:absolute;left:8px;right:8px;bottom:clamp(8px,1.6svh,20px);z-index:25;margin:0;font-size:1rem;line-height:0;color:var(--firma-fin);pointer-events:none}
+.hero-firma svg{display:block;width:100%;height:auto;max-height:42svh;fill:currentColor}   /* de lado a lado, como el wordmark de Holy Studio */
+.hero-pausa{position:absolute;z-index:26;right:calc(var(--gutter) - 12px);bottom:calc(min((100vw - 16px) * .2125, 42svh) + clamp(8px,1.6svh,20px) + 4px);
+  width:44px;height:44px;display:grid;place-items:center;padding:0;border:0;background:none;color:var(--tinta);opacity:.72;cursor:pointer;
+  transition:opacity var(--rapido) var(--salida)}                       /* apoyada sobre el final de la firma */
+.hero-pausa svg{width:12px;height:14px;fill:currentColor}
+.hero-pausa .ic-play,.hero-pausa[aria-pressed=true] .ic-pausa{display:none}
+.hero-pausa[aria-pressed=true] .ic-play{display:block}
+.hero-pausa:hover{opacity:1}   /* r17: hover sin media query (el panel de Efraín y las laptops táctiles dan hover:none) */
+.hero-pausa:focus-visible{opacity:1;outline:2px solid var(--tinta);outline-offset:3px}
+.barra{transition:background-color .5s var(--suave),color var(--rapido) var(--salida)}   /* r17: el fondo entra con un fundido de 0,5 s, nunca de golpe; sobre el hero no hay fondo (sobre-hero ya viene en el HTML) */   /* r13: 0,3 s (con 0,65 s el texto de la barra quedaba a mitad de camino, 2,45:1, al volver arriba rápido) */   /* r11: cambia de tema al cruzar el borde de un tramo (MONOLOG) */
+.barra.sobre-hero{background:transparent}   /* sobre el hero la barra flota, como en Holy Studio */
+.js .barra-firma{opacity:0}                 /* la firma chica se apaga dentro del hero (la grande es el nombre); motion.js la cruza al bajar */
+.barra-firma:focus-visible{opacity:1!important}
+/* G1 · estados de la intro (los pone el script en línea; sin JS no existen) */
+.velo{display:none}
+html.intro .velo{display:block;position:fixed;inset:0;z-index:20;background:var(--velo);pointer-events:none}   /* el toque pasa: saltea la intro */
+html.intro [data-intro-fade]{opacity:0}
+html.intro .hero-firma{color:var(--firma-ini);transform:translateY(calc(-50svh + 50% + clamp(8px,1.6svh,20px)))}   /* centrada en alto desde el primer pintado */
+@media (min-width:992px){
+  .parte{display:inline}
+  .hero-slide img{object-position:30% 42%}                             /* la botella corrida a la derecha de la línea (R32: ≥ 90 px libres a 1024) */
+  .hero-bajada{top:calc(var(--alto-barra) / 2);transform:translateY(-50%);max-width:34em}   /* en el renglón de la barra, en el lugar de la firma chica */
+  .hero-bajada .renglon{display:inline}
+  .hero-bajada.dos .renglon{display:block}                             /* utm remembered / generic: la frase del anuncio + la de siempre */
+}
+
+/* ================= S1b titular (ronda 9): el dolor solo, a todo el ancho ================= */
+.titular{padding:96px var(--gutter)}
+.titular-h .renglon{display:block}
+.titular-h .renglon.mascara{clip-path:inset(-.4em -.2em -.3em -.2em)}     /* máscara del renglón mientras entra (G3 de MONOLOG); se saca al terminar */
+.titular-h .renglon-in{display:block}
+.clientes{margin-top:28px;font-size:.9375rem;line-height:1.45;color:var(--tinta-suave);max-width:24em}
+@media (min-width:992px){
+  .titular{min-height:88svh;display:grid;align-content:center;padding:var(--seccion) var(--gutter)}
+  .titular-h .renglon{white-space:nowrap}
+  .clientes{margin-top:48px;font-size:var(--t-cuerpo)}
+}
+
+/* ================= S3 frase horizontal (G4) ================= */
+.frase-sec{padding-top:var(--seccion)}
+.fr-escena{padding-block:8px}
+.fr-ventana{overflow:hidden}   /* recorta solo el lienzo (la respuesta queda afuera del recorte) */
+.fr-lienzo{display:flex;flex-wrap:wrap;align-items:center;gap:.06em .22em;padding-inline:var(--gutter);
+  font:700 var(--t-frase)/.92 var(--f-display);text-transform:uppercase;letter-spacing:-.015em;
+  color:rgb(255 255 255 / 0);-webkit-text-stroke:1.5px var(--tinta)}   /* contorno (equity: la cinta en contorno del sitio); la tinta es el trazo */
+.fr-palabra{display:inline-block;white-space:nowrap}
+.fr-foto{display:inline-block;flex:none;width:1.45em;height:1em;overflow:hidden;background:var(--superficie)}
+.fr-foto img{width:100%;height:100%;object-fit:cover}
+.fr-firma{display:inline-flex;flex:none;align-items:center;width:calc(.92em * 4.706);height:1em;color:var(--tinta);-webkit-text-stroke:0}
+.fr-firma svg{display:block;width:100%;height:auto;fill:currentColor}
+html.motion .fr-firma svg{clip-path:inset(-2% calc(100% - var(--firma-p,100%)) -2% 0)}   /* r18: se escribe atada al scroll (motion.js G4) */
+.fr-tapado{position:relative;display:inline-block}
+@media (max-width:991px){.cinta{top:.13em;height:.38em}}   /* 390: la cinta tapa solo la franja de los *** (crítica r5) */
+.cinta{position:absolute;left:-.03em;right:-.04em;top:.122em;height:.767em;background:var(--cinta);transform:rotate(-1.4deg);transform-origin:0 50%;
+  clip-path:polygon(2% 0,98% 4%,100% 30%,97% 52%,100% 76%,98% 100%,1% 96%,3% 62%,0 34%)}   /* cinta opaca de Censurado: 1,05 × la altura de mayúscula, extremos dentados */   /* cinta opaca de Censurado, extremos cortados a mano (9 puntos) */
+.respuesta{padding:clamp(40px,6vw,96px) var(--gutter) 0}
+.respuesta-texto{font:italic 400 var(--t-lead)/1.22 var(--f-acento);letter-spacing:.01em;max-width:28em}
+@media (min-width:992px){.respuesta-texto{margin-left:calc(100% / 12 * 5);font-size:clamp(1.75rem,2.4vw,2.4rem)}}
+html.motion .fr-escena{flex-direction:column;justify-content:center;align-items:stretch}
+html.motion .fr-ventana{width:100%}
+
+/* ================= S4 servicios (G5 v2, ronda 9: igual al video de Neutomni) =================
+   Sin JS / reduced-motion: tarjetas llenas (la luz arriba) con el texto negro encima. Con movimiento, la luz arranca vacía y el texto,
+   del color del fondo, no se ve hasta que la luz pasa por detrás. Sin mix-blend-mode. */
+.servicios-sec{padding-top:var(--seccion)}
+.servicios-cabeza{display:grid;gap:20px;padding-inline:var(--gutter)}
+.servicios-bajada{max-width:30em}
+.sv-tarjetas{position:relative;margin-top:clamp(40px,5vw,72px)}
+.servicios{list-style:none;margin:0;padding:0 var(--gutter);display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.servicio{--k:1;position:relative;min-height:320px;color:var(--fondo)}   /* la tarjeta no tiene caja: es la luz que sube. El texto es del color del fondo de la sección */
+.relleno{position:absolute;inset:0;padding:20px;display:flex;flex-direction:column;justify-content:space-between;gap:32px;background:var(--luz);
+  clip-path:inset(calc((1 - var(--k)) * 100%) 0 0 0)}   /* la luz desde el piso: --k = alto (motion.js lo lleva de 0 a 1). El texto vive adentro y no se mueve: la luz lo va descubriendo */
+.num{font-size:var(--t-chico);letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.servicio-pie{display:grid;gap:12px}
+.servicio-nombre{max-width:8em}
+.servicio-linea{font-size:1.0625rem;line-height:1.4;max-width:18em}
+.sv-lienzo{display:none}
+@media (min-width:760px){.servicios{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:992px){
+  .servicios-cabeza{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px;align-items:end}
+  .sv-titulo{grid-column:1 / 8;font-size:clamp(2.25rem,3.6vw,4rem)}   /* la cabecera queda fijada con las tarjetas: 2 renglones más bajos que el h2 general */
+  .servicios-bajada{grid-column:1 / 8;justify-self:start;max-width:24em}   /* r13: sale el h2 ("From the name…"), la bajada pasa a la izquierda */
+  .servicios{grid-template-columns:repeat(4,minmax(0,1fr));padding-inline:20px}   /* Neutomni: 20 px de margen y 12 entre tarjetas */
+  .servicio{min-height:min(72svh,660px)}
+}
+
+/* ================= S5 selected work (G6) ================= */
+.trabajos{position:relative;padding-top:var(--seccion)}
+.tr-pista{position:relative}
+.tr-escena{padding-inline:var(--gutter)}
+.tr-cabeza .enunciado{margin-top:clamp(14px,1.4vw,22px);max-width:15em}
+.tr-lista{list-style:none;margin:0;padding:0;display:none}
+.tr-titulo{font-size:clamp(3rem,7.2vw,8.5rem);line-height:.9}
+.tr-titulo .renglon{display:block}
+.tr-fila{display:grid;grid-template-columns:2.6em minmax(0,1fr);column-gap:.4em;width:100%;text-align:left;background:none;border:0;color:var(--tinta);padding:10px 0;cursor:pointer;opacity:.45;transition:opacity 280ms var(--salida)}
+.tr-fila>*{grid-column:2}
+.tr-fila>.tr-num{grid-column:1;grid-row:1;align-self:baseline;padding-top:.55em;font-size:var(--t-chico);letter-spacing:.04em}
+.tr-badge{display:none}
+.tr-fila:hover{opacity:1}   /* r17: hover sin media query (el panel de Efraín y las laptops táctiles dan hover:none) */
+.tr-fila.activa{opacity:1}
+.tr-nombre{display:block;font:italic 400 var(--t-h3)/1.08 var(--f-acento);letter-spacing:.01em;margin:0}
+.tr-rotulo{display:flex;flex-wrap:wrap;gap:.2em 1.3em;margin-top:8px;font-size:var(--t-chico);color:var(--tinta-suave)}
+.tr-linea{display:block;font:italic 400 1.25rem/1.3 var(--f-acento);margin-top:10px;max-width:24em}
+.tr-fila .tr-linea,.tr-fila .tr-rotulo{display:none}   /* inactivas: solo el nombre a 0,45 (texto grande, 4,4:1); los datos aparecen al activarse */
+.tr-fila.activa .tr-linea{display:block}
+.tr-fila.activa .tr-rotulo{display:flex}
+.tr-slide{position:relative;margin:0}
+.tr-marco{position:relative;overflow:hidden;background:var(--fondo);aspect-ratio:4 / 5;margin-inline:calc(-1 * var(--gutter))}
+.tr-marco img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform-origin:50% 50%}
+.tr-contener .tr-marco{aspect-ratio:1 / 1}            /* Trivento en 390: recorte cuadrado de la etiqueta, sin franjas */
+.tr-escenario{display:grid;gap:64px;margin-top:40px}
+.tr-slide figcaption{padding-top:18px}
+.caso-abrir{position:absolute;inset:0;display:block}
+.caso-abrir:focus-visible{outline-offset:-4px}
+@media (min-width:992px){
+  .tr-escenario{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px;row-gap:72px}
+  .tr-marco{aspect-ratio:4 / 3;margin-inline:0}
+  .tr-contener .tr-marco{aspect-ratio:4 / 3}
+}
+
+/* ================= S7b · el pedido (#start, ronda 9): centrado, una pregunta por vez ================= */
+.pedido{padding:72px var(--gutter) 64px;display:grid;justify-items:center;text-align:center}
+.pedido-h .renglon{display:block}
+.pedido-sub{margin-top:24px;font:italic 400 var(--t-lead)/1.22 var(--f-acento);letter-spacing:.01em;color:var(--tinta-suave);max-width:30em;text-wrap:balance}
+.form{width:100%;max-width:880px;margin-top:clamp(64px,8vw,128px)}
+.paso{margin:0;padding:0;border:0;min-width:0}
+.paso-num{display:flex;justify-content:center;align-items:center;gap:12px;min-height:44px;margin:12px 0 0;font-size:var(--t-chico);color:var(--tinta-suave);font-variant-numeric:tabular-nums}
+.pregunta-titulo{float:left;width:100%;margin:12px 0 0;padding:0;font:italic 400 var(--t-h3)/1.15 var(--f-acento);letter-spacing:.01em;color:var(--tinta)}   /* float: la legend sigue al "1 / 2" */
+.opciones{clear:both;display:flex;flex-wrap:wrap;justify-content:center;gap:12px clamp(28px,3.6vw,56px);padding-top:32px}
+.opcion{position:relative;display:inline-flex;cursor:pointer}
+.opcion input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}   /* la zona activa es la palabra entera (R15) */
+.opcion span{display:inline-block;padding:.04em .16em .1em;font:400 var(--t-opcion)/1 var(--f-display);letter-spacing:var(--track-display);color:var(--tinta-suave);
+  transition:color var(--rapido) var(--salida),transform var(--rapido) var(--salida)}
+.opcion:hover span{color:var(--tinta)}   /* r17: hover sin media query (el panel de Efraín y las laptops táctiles dan hover:none) */
+.opcion:active span{transform:scale(.98)}
+.opcion input:checked+span{background:var(--tinta);color:var(--fondo)}   /* elegida: bloque inline-block (R11), sin animación de tamaño */
+.opcion input:focus-visible+span{outline:2px solid var(--tinta);outline-offset:6px}
+.acciones{clear:both;display:grid;justify-items:center;padding-top:56px}
+.acciones .btn{min-height:56px;min-width:200px}
+.form-pie{margin:20px auto 0;max-width:min(100%,880px);text-wrap:balance;font-size:var(--t-chico);line-height:1.5;color:var(--tinta-suave)}
+.form-pie a{display:inline-flex;align-items:center;min-height:44px;color:var(--tinta)}
+.campos{clear:both;display:grid;grid-template-columns:minmax(0,1fr);gap:28px 32px;padding-top:36px;text-align:left}
+.campo{display:grid;gap:6px;align-content:start}
+.campo label{font-size:var(--t-chico);color:var(--tinta-suave)}
+.opcional{margin-left:.4em;opacity:.8}
+.campo input{width:100%;min-height:56px;padding:0;border:0;border-bottom:1px solid var(--tinta-suave);border-radius:0;background:transparent;color:var(--tinta);
+  font:400 1.0625rem/1.2 var(--f-texto);text-overflow:ellipsis}   /* sin caja: solo la línea de abajo (8,6:1, WCAG 1.4.11) */
+.campo input::placeholder{color:var(--tinta-suave);opacity:.8}
+.campo input:focus{outline:0;border-bottom:2px solid var(--tinta);margin-bottom:-1px}   /* el foco es la línea de 2 px */
+.campo input[aria-invalid=true]{border-bottom-color:var(--error)}
+.ayuda{font-size:var(--t-chico);color:var(--tinta-suave)}
+.error{font-size:var(--t-chico);color:var(--error)}
+.error a{display:inline-flex;align-items:center;min-height:44px;color:var(--tinta)}
+#e-envio{clear:both;margin-top:16px}
+.volver{min-height:44px;padding:0 .4em;border:0;background:none;color:var(--tinta);font:inherit;text-decoration:underline;text-underline-offset:.3em;cursor:pointer}
+.confirmacion{margin-top:clamp(64px,8vw,128px);display:grid;justify-items:center;gap:32px}
+.confirmacion p{font:italic 400 var(--t-h3)/1.15 var(--f-acento)}
+.firma-chica{display:block;width:220px;height:auto;fill:currentColor}
+.js .form[data-paso="1"] .paso-2,.js .form[data-paso="2"] .paso-1{display:none}   /* paso a paso solo con JS: sin JS se ve todo (R3) */
+@media (min-width:600px){.pedido-h .parte{display:inline}}
+@media (min-width:768px){.campos{grid-template-columns:repeat(2,minmax(0,1fr))}.campo input{font-size:1.375rem}}
+@media (min-width:992px){.pedido{min-height:88svh;align-content:center;padding:clamp(56px,5vw,80px) var(--gutter) clamp(56px,5vw,80px)}}   /* sin vacíos de más de media pantalla entre S7a, S7b y el pie (blank-gap) */
+
+.muestra[data-rotulo]::after{content:"· " attr(data-rotulo);position:static;margin-left:.5em;letter-spacing:0;font:400 10px/1 var(--f-texto);text-transform:none;color:var(--tinta-suave)}   /* r12: aviso de muestra chico y gris (solo existe en localhost: kit.js borra .muestra afuera) */   /* el rótulo va al lado del link */
+
+/* ================= S7c · pie (ronda 9): frase · retrato + nombres · rutas → firma gigante → renglón legal ================= */
+.pie{padding-top:clamp(96px,8vw,144px);font-size:var(--t-chico);color:var(--tinta-suave)}
+.pie-fila{display:grid;grid-template-columns:minmax(0,1fr);padding:0 var(--gutter)}
+.pie-frase{margin:0;font:italic 400 clamp(1.625rem,3vw,2.75rem)/1.12 var(--f-acento);letter-spacing:.01em;color:var(--tinta);max-width:14em}
+.pie-retrato{margin:40px 0 0;display:flex;align-items:flex-end;gap:20px}
+.pie-retrato img{display:block;width:96px;height:96px;object-fit:cover}
+.fundadores-nombres{list-style:none;margin:0;padding:0;display:grid;gap:4px;line-height:1.5}
+.fn-nombre{color:var(--tinta)}
+.fn-rol{color:var(--tinta-suave);margin-left:.4em}
+.rutas{margin:48px 0 0;display:grid;gap:20px}
+.ruta{display:grid;gap:2px}
+.ruta dt{font-size:var(--t-chico);color:var(--tinta-suave)}
+.ruta dd{margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:0 14px}
+.ruta dd>a:not(.btn-texto){display:inline-flex;align-items:center;min-height:44px;color:var(--tinta);text-decoration:none;font-size:1.125rem;overflow-wrap:anywhere}
+.ruta dd>a:not(.btn-texto):hover,.legal a:hover{text-decoration:underline;text-underline-offset:.3em}   /* r17: hover sin media query (el panel de Efraín y las laptops táctiles dan hover:none) */
+.firma-gigante{margin:clamp(96px,10vw,168px) 8px 0;color:var(--tinta)}   /* abre y cierra con el mismo ancho que el hero */
+.firma-gigante svg{display:block;width:100%;height:auto;fill:currentColor}
+.legal{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:20px var(--gutter) 28px}
+.legal p{margin:0}
+.legal a{color:var(--tinta)}
+.pie-legal a{display:inline-flex;align-items:center;min-height:44px}
+.redes{display:flex;gap:4px}
+.redes a{display:inline-grid;place-items:center;width:44px;height:44px;color:var(--tinta)}
+.redes svg{width:22px;height:22px}
+@media (min-width:768px){
+  .pie-fila{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px;align-items:start}
+  .pie-frase{grid-column:1 / 7}
+  .pie-retrato{grid-column:8 / -1;margin:0}
+  .pie-retrato img{width:140px;height:140px}
+  .rutas{grid-column:1 / -1;grid-template-columns:repeat(2,max-content);column-gap:72px;margin-top:56px}
+  .legal{flex-direction:row;flex-wrap:wrap;justify-content:space-between;align-items:center}
+}
+@media (min-width:1200px){
+  .pie-frase{grid-column:1 / 6}
+  .pie-retrato{grid-column:7 / 9;display:block}
+  .pie-retrato img{width:168px;height:168px}
+  .pie-retrato figcaption{margin-top:14px}
+  .fundadores-nombres{white-space:nowrap}
+  .rutas{grid-column:10 / -1;grid-template-columns:minmax(0,1fr);gap:22px;margin-top:0}
+}
+
+/* ================= consentimiento (C9) ================= */
+.consentimiento{position:fixed;left:var(--gutter);right:var(--gutter);bottom:16px;z-index:40;display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px;
+  max-width:760px;margin-inline:auto;padding:16px 20px;background:var(--superficie);color:var(--tinta);font-size:var(--t-chico)}
+.consentimiento p{flex:1 1 22em}
+.consentimiento-botones{display:flex;align-items:center;gap:8px}
+
+/* ================= encuesta de salida ================= */
+.encuesta{max-width:min(92vw,520px);padding:32px;border:0;background:var(--superficie);color:var(--tinta)}
+.encuesta::backdrop{background:rgb(0 0 0 / .6)}
+.chip-btn{min-height:48px;padding:.5em 1em;border:0;border-radius:0;background:var(--fondo);color:var(--tinta);cursor:pointer}
+
+/* ================= MOVIMIENTO: solo con html.motion (GSAP cargó y no hay reduced-motion) ================= */
+/* G4: el lienzo en una sola fila, fijado; el alto de la pista lo calcula motion.js (recorrido ≤ 3 pantallas) */
+html.motion .fr-escena{height:100svh;display:flex;align-items:center}   /* lo fija ScrollTrigger (pin) */
+html.motion .fr-lienzo{flex-wrap:nowrap;width:max-content;padding-inline:var(--gutter);font-size:var(--t-frase-fija);gap:0 .16em;-webkit-text-stroke-width:2.25px;will-change:transform}   /* trazo proporcional al cuerpo grande (ronda 4) */
+html.motion .fr-palabra{position:relative;z-index:1}
+html.motion .fr-foto{position:relative;z-index:0;width:1.2em;height:.86em;margin-inline:-.14em}   /* a la altura de la palabra y encimada en sus bordes */
+/* G3: la respuesta se ilumina letra por letra con el scroll (0,2 → 1) */
+html.motion [data-ilumina] .letra{opacity:.2}
+
+@media (min-width:992px){
+  /* G5 v2: la cabecera y las tarjetas fijadas (pista 500vh = 3.600 px de pin a 900 de alto, Neutomni); las tarjetas pegadas al piso */
+  html.motion .sv-pista{height:500svh}
+  html.motion .sv-escena{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;padding-top:calc(var(--alto-barra) + clamp(16px,2.4svh,28px));overflow:hidden}
+  html.motion .sv-tarjetas{flex:1;min-height:0;margin-top:clamp(20px,3svh,32px);padding-bottom:20px}
+  html.motion .servicios{height:100%}
+  html.motion .servicio{min-height:0;height:100%}
+  /* G6: escena fijada, 3 trabajos, una pantalla por trabajo (Neutomni: pista (n + 1) × 100svh = 2.700 px de pin a 900) */
+  html.motion .trabajos{padding-top:clamp(80px,8vw,140px)}
+  html.motion .tr-pista{height:400svh}
+  html.motion .tr-badge{display:grid;place-items:center;position:absolute;left:-60px;top:50%;z-index:4;width:120px;height:120px;margin-top:-60px;border-radius:50%;
+    background:var(--fondo);color:var(--tinta);text-decoration:none}
+  html.motion .tr-badge svg{position:absolute;inset:0;width:100%;height:100%;fill:currentColor;font:600 10.5px/1 var(--f-texto);letter-spacing:.28em;animation:badge-gira 12s linear infinite}
+  html.motion .tr-badge-flecha{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--tinta);color:var(--fondo);font-size:20px}
+  html.motion .tr-escena{position:sticky;top:0;height:100svh;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:auto auto 1fr;column-gap:24px;
+    padding-top:calc(var(--alto-barra) + 24px);padding-bottom:32px}
+  html.motion .tr-cabeza{grid-column:1 / 6;grid-row:1}
+  html.motion .tr-lista{display:block;grid-column:1 / 6;grid-row:2;margin-top:48px}
+  html.motion .tr-escenario{display:block;grid-column:6 / -1;grid-row:1 / 4;position:relative;margin:0}
+  html.motion .tr-slide{position:absolute;inset:0;background:var(--fondo)}
+  html.motion .tr-slide{clip-path:polygon(100% 100%,100% 100%,100% 100%,100% 100%)}   /* todas cerradas desde el primer cuadro (también la 1.ª: se revela con el pin) */
+  html.motion .tr-fila{transition:none}                                                     /* la opacidad de la fila va atada al scrub */
+  html.motion .tr-marco{height:100%;aspect-ratio:auto;margin:0}
+  html.motion .tr-slide figcaption{display:none}
+}
+/* G5 v2 en < 992: escena fijada de 3 pantallas y las tarjetas, ya llenas, en un carrusel atado al scroll (Neutomni a 390 y 820 px) */
+@media (max-width:991px){
+  html.motion .sv-pista{height:300svh}
+  html.motion .sv-escena{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;padding-top:calc(var(--alto-barra) + 20px);overflow:hidden}
+  html.motion .sv-tarjetas{flex:1;min-height:0;margin-top:24px;padding-bottom:20px}
+  html.motion .servicios{display:flex;gap:12px;height:100%;width:max-content}
+  html.motion .servicio{flex:none;width:calc(100vw - 2 * var(--gutter));height:100%;min-height:0}
+}
+html.motion .sv-lienzo{display:block;position:absolute;left:0;top:0;width:100%;height:calc(100% - 20px);z-index:2;pointer-events:none}
+
+/* ---- wireframe: también se rotulan los gestos (G1…G8) ---- */
+html.wire [data-gesto]{outline:1.5px dotted #777;outline-offset:2px}
+html.wire [data-gesto]::after{content:attr(data-gesto);position:absolute;z-index:6;background:#fff;color:#222;border:1px solid #222;font:700 10px/1 system-ui,sans-serif;padding:3px 5px}
+@keyframes badge-gira{to{transform:rotate(360deg)}}
+
+/* ================= RONDA 7 · corrección de Efraín (video 3, MONOLOG): S3b, S4b, S5b, S6b y S7a =================
+   Valores de referencia-madre.md → G9–G13. Lo quieto es el estado final (sin JS y con reduced-motion); lo que se mueve vive bajo
+   html.motion. Ninguna de estas secciones fija (MONOLOG no tiene pins acá): el largo de la página lo siguen dando G4–G7. */
+
+/* rótulo de sección (el "eyebrow" de MONOLOG): texto chico en sentence case con su cuadradito, siempre en la columna izquierda */
+.rotulo{display:flex;align-items:center;gap:10px;font:400 var(--t-chico)/1.3 var(--f-texto);letter-spacing:.01em;color:var(--tinta-suave)}
+.rotulo::before{content:"";flex:none;width:6px;height:6px;background:var(--tinta)}
+@media (max-width:991px){.rotulo{font-size:var(--t-cuerpo)}}   /* 390: el rótulo es el h2 de la sección y va arriba de la lista: a cuerpo de texto, no de antetítulo */
+
+/* ---- S3b · párrafo que se ilumina (G10) ---- */
+.ilumina-sec{padding-top:72px}                         /* 390: el piso de --seccion en celular (72–112) */
+@media (min-width:992px){.ilumina-sec{padding-top:var(--seccion)}}
+.il-grilla{display:grid;grid-template-columns:minmax(0,1fr);row-gap:48px}
+.il-texto{display:contents}                            /* 390: párrafo 1 · nota de los fundadores · párrafo 2 (una pausa entre los dos) */
+.il-p:first-child{order:1}
+.il-nota{order:2;max-width:26em}
+.il-p:last-child{order:3}
+.il-cita{margin-top:18px}
+.il-cita p{font:italic 400 1.25rem/1.32 var(--f-acento);letter-spacing:.01em}
+.il-pie{display:grid;gap:2px;margin-top:18px;font-size:var(--t-chico)}
+.il-quien{color:var(--tinta)}
+.il-estudio{color:var(--tinta-suave)}
+.il-p{font:400 clamp(1.55rem,6.6vw,2.4rem)/1.06 var(--f-display);letter-spacing:-.022em;color:var(--tinta);text-wrap:initial}
+.corte,.corte-m{display:block}                         /* renglones decididos a mano (textos.md): corte = siempre, -m = solo < 992, -d = solo ≥ 992 */
+.corte-d{display:none}
+@media (min-width:992px){
+  .il-grilla{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px}
+  .il-nota{order:0;grid-column:1 / 4;align-self:start;padding-top:.6em}
+  .il-texto{display:grid;gap:clamp(32px,4.2vw,64px);grid-column:5 / -1}
+  .il-p:first-child,.il-p:last-child{order:0}
+  .il-p{font-size:clamp(2rem,3.35vw,3.6rem);line-height:1.06}
+  .corte-m{display:none}
+  .corte-d{display:block}
+}
+
+/* ---- S4b · "What we can help with" (G11, ronda 9): título del costado fijo (LL22), cada renglón con su línea, fotos que pasan en tira (LL24) ---- */
+.ayuda-sec{padding-top:var(--seccion)}
+.ay-grilla{display:grid;grid-template-columns:minmax(0,1fr);row-gap:28px}
+.ay-titulo{display:block;font:400 var(--t-h3)/1.05 var(--f-display);letter-spacing:var(--track-display);color:var(--tinta);max-width:8em}
+.ay-cuerpo{position:relative}
+.ay-lista{position:relative;z-index:2;mix-blend-mode:difference;list-style:none;margin:0;padding:0}   /* MONOLOG: el texto se invierte donde lo cruza la imagen */
+.ay-item{padding:10px 0;color:var(--tinta)}
+.ay-nombre{display:inline-block;vertical-align:top;font:400 clamp(1.9rem,8.2vw,3rem)/1 var(--f-display);letter-spacing:-.03em;padding-right:4px}
+.ay-linea{display:block;margin-top:6px;font-size:var(--t-chico);line-height:1.4;color:var(--tinta-suave);max-width:22em}
+.ay-viaje{position:absolute;z-index:1;top:0;right:0;width:clamp(120px,34vw,140px)}
+.ay-marco{position:relative;aspect-ratio:4 / 5;overflow:hidden;background:var(--fondo)}
+.ay-tira{position:absolute;inset:0;display:flex;flex-direction:column;will-change:transform}   /* las fotos, una debajo de la otra: pasan, no se funden */
+.ay-foto{position:relative;flex:none;width:100%;height:100%;margin:0}
+.ay-foto img{display:block;width:100%;height:100%;object-fit:cover}
+.ay-pie{position:absolute;left:0;right:0;bottom:0;margin:0;padding:5px 6px 6px;display:grid;gap:1px;background:rgb(0 0 0 / .66);font-size:.8125rem;line-height:1.25;color:var(--tinta)}   /* C29: el rótulo viaja pegado a su foto */
+.ay-pie-r{color:var(--tinta-suave)}
+html.motion .ay-nombre,html.motion .ay-linea{opacity:.45;transition:opacity .2s cubic-bezier(.76,0,.24,1)}   /* activo 1 · inactivo 0,45 (4,7:1) */
+html.motion .ay-item.activa .ay-nombre,html.motion .ay-item.activa .ay-linea{opacity:1}
+@media (min-width:992px){
+  .ay-grilla{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px}
+  .ay-lado{grid-column:1 / 4}
+  .ay-titulo{position:sticky;top:42svh}                                /* un solo título, quieto mientras pasa la lista */
+  .ay-cuerpo{grid-column:5 / -1}
+  .ay-item{padding:0}
+  .ay-nombre{font-size:clamp(3rem,6.4vw,6rem);line-height:1.03}       /* ≈ 92 px a 1440 (MONOLOG 94 / 95) */
+  .ay-linea{margin:2px 0 16px;font-size:.9375rem}
+  .ay-viaje{width:clamp(180px,16.6vw,240px)}                           /* ≈ 239 × 299 a 1440 */
+  .ay-pie{padding:7px 8px 8px;font-size:.8125rem}
+}
+
+/* ---- S5b · "Behind the bottles" (G9, ronda 9): la foto pasa con el scroll y nada más (sin segunda capa ni fundidos, LL24) ---- */
+.historias-sec{padding-top:var(--seccion)}
+.hi-grilla{display:grid;grid-template-columns:minmax(0,1fr);row-gap:32px}
+.hi-lista{list-style:none;margin:0;padding:0;display:grid;gap:64px}
+.hi-item{display:grid;grid-template-columns:minmax(0,1fr);gap:22px}
+.hi-tapa{position:relative;overflow:clip;aspect-ratio:1 / 1;background:var(--superficie)}
+.hi-foto{position:absolute;inset:0}
+.hi-foto img{width:100%;height:100%;object-fit:cover}
+.hi-texto{display:flex;flex-direction:column;align-items:flex-start}
+.hi-linea{margin-top:14px;font-size:1.125rem;line-height:1.45;color:var(--tinta-suave);max-width:30em}
+.hi-linea+.hi-linea{margin-top:12px}
+.hi-dato{margin-top:28px;display:grid;justify-items:start;gap:10px}
+.hi-chip{display:inline-block;padding:.12em .4em .16em;background:var(--superficie);font:400 clamp(1.5rem,2.2vw,2.25rem)/1.1 var(--f-display);letter-spacing:-.02em}   /* donde MONOLOG pone la cifra de resultado: la categoría (no hay cifras de resultados) */
+.hi-leyenda{font-size:1rem;color:var(--tinta)}
+@media (min-width:992px){
+  .hi-grilla{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px}
+  .hi-rotulo{grid-column:1 / 3;align-self:start;padding-top:6px}
+  .hi-lista{grid-column:3 / -1;gap:64px}
+  .hi-item{grid-template-columns:repeat(10,minmax(0,1fr));column-gap:24px}
+  .hi-tapa{grid-column:1 / 7;aspect-ratio:3 / 2}                  /* las 7 col. de MONOLOG ≈ 667 × 444 a 1440 */
+  .hi-texto{grid-column:7 / -1}
+  html.motion .hi-foto{inset:-125px 0}                             /* la foto es 250 px más alta que su ventana: el parallax de ±125 px no deja bordes vacíos */
+}
+
+/* ---- S6b · preguntas (G12) ---- */
+.preguntas-sec{padding-top:var(--seccion)}
+.fq-grilla{display:grid;grid-template-columns:minmax(0,1fr);row-gap:32px}
+.fq-rotulo{display:none}                                           /* 390: sin rótulo (encima del titular sería un antetítulo) */
+.fq-lista{list-style:none;margin:0;padding:0}
+.fq-h{font:inherit}
+.fq-fila{position:relative;isolation:isolate;display:flex;align-items:center;justify-content:space-between;gap:18px;width:100%;min-height:56px;
+  padding:14px 12px;border:0;background:transparent;color:var(--tinta);text-align:left;cursor:pointer;font:400 1.1875rem/1.3 var(--f-texto);
+  transition:background-color .45s cubic-bezier(.25,.46,.45,.94)}       /* r13, medido en v4-ronda12.mp4 a 30 fps: al salir se apaga DESPACIO (51 % a 0,13 s,
+                                                                            88 % a 0,27 s, nada a ~0,5 s) pasando por grises: la estela */
+.fq-fila::before{content:none}
+.fq-q{transition:transform .65s cubic-bezier(.16,1,.35,1)}
+.fq-marca{flex:none;width:6px;height:6px;border:1px solid var(--tinta-suave);background:transparent;
+  transition:transform .65s cubic-bezier(.16,1,.35,1),background-color .65s cubic-bezier(.16,1,.35,1),border-color .65s cubic-bezier(.16,1,.35,1)}
+  .fq-fila:hover{background-color:var(--encendido);transition-duration:.12s;transition-timing-function:cubic-bezier(.22,1,.36,1);color:var(--sobre-encendido)}   /* r13: beige #E8E8E3 casi al instante (98 % en 4 cuadros = 0,13 s); el texto salta sin transición */
+  .fq-fila:hover .fq-q{transform:translateX(10px)}
+  .fq-fila:hover .fq-marca{transform:translateX(-10px);background-color:var(--sobre-encendido);border-color:var(--sobre-encendido)}   /* r17: hover sin media query (el panel de Efraín y las laptops táctiles dan hover:none) */
+.fq-fila:focus-visible{background-color:var(--encendido);transition-duration:.12s;color:var(--sobre-encendido);outline:2px solid var(--sobre-encendido);outline-offset:-4px}   /* foco de teclado = hover */
+.fq-fila:focus-visible .fq-q{transform:translateX(10px)}
+.fq-fila:focus-visible .fq-marca{transform:translateX(-10px);background-color:var(--sobre-encendido);border-color:var(--sobre-encendido)}
+.fq-fila[aria-expanded=true]{background-color:var(--encendido);color:var(--sobre-encendido)}   /* abierta = encendida (MONOLOG) */
+.fq-fila[aria-expanded=true] .fq-q{transform:translateX(10px)}
+.fq-fila[aria-expanded=true] .fq-marca{transform:translateX(-10px);background-color:var(--sobre-encendido);border-color:var(--sobre-encendido)}
+.fq-resp{display:grid;grid-template-rows:1fr;transition:grid-template-rows .6s cubic-bezier(.625,.05,0,1)}   /* sin JS: todas abiertas */
+.fq-resp-in{min-height:0;overflow:hidden}
+.fq-resp-in p{padding:18px 12px 24px;max-width:46ch;line-height:1.5}
+.js .fq-resp{grid-template-rows:0fr}
+.js .fq-resp-in{visibility:hidden;transition:visibility 0s .6s}
+.js .fq-item.abierta .fq-resp{grid-template-rows:1fr}
+.js .fq-item.abierta .fq-resp-in{visibility:visible;transition:none}
+.fq-encaje{display:grid;justify-items:start;gap:16px}
+.fq-retrato{width:clamp(120px,11vw,160px);height:auto;aspect-ratio:1 / 1;object-fit:cover}
+.fq-pregunta{font:italic 400 1.5rem/1.2 var(--f-acento);letter-spacing:.01em;max-width:9em}
+@media (min-width:992px){
+  .fq-grilla{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px;row-gap:48px}
+  .fq-rotulo{display:flex;grid-column:1 / 4;grid-row:1;align-self:start;padding-top:.8em}
+  .fq-titulo{grid-column:5 / -1;grid-row:1}
+  .fq-lista{grid-column:5 / -1;grid-row:2}
+  .fq-encaje{grid-column:1 / 4;grid-row:2;align-self:end}
+}
+
+/* ---- S7a · "→ PEOPLE" (G13): la primera de las tres pantallas del cierre (sin cambios en la ronda 9) ---- */
+.people{position:relative;overflow:clip;min-height:150svh;display:flex;align-items:center;justify-content:center;background:var(--fondo)}
+.pe-fondo{position:absolute;inset:0;z-index:0}
+.pe-foto{position:absolute;left:0;top:0;width:100%;height:105%;object-fit:cover;object-position:50% 35%}   /* foto en B/N (MONOLOG: monocromática, 105 % de alto) */
+.pe-velo{position:absolute;inset:0;background:rgb(0 0 0 / .4)}                                               /* velo negro del 40 % */
+.pe-contenido{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:clamp(48px,9svh,104px);padding:clamp(96px,14svh,180px) var(--gutter)}
+.pe-titulo{font:400 clamp(2.6rem,11vw,4.5rem)/.9 var(--f-display);letter-spacing:-.035em;text-transform:uppercase;color:var(--tinta)}
+.pe-fila{display:block;white-space:nowrap}
+.pe-f2{padding-left:24%}                                         /* el zigzag de MONOLOG es fijo (CSS), no animación */
+.pe-f3{margin-left:-3%}
+.pe-f4{padding-left:18%}                                         /* 390: menos sangría, para que la deriva no saque la palabra de la pantalla */
+.pe-deriva{display:inline-flex;align-items:center;gap:.14em}
+.pe-flecha{width:.72em;height:auto;flex:none;overflow:visible}
+.btn-grande{min-height:64px;padding:0 2em;font-size:1.125rem}
+@media (min-width:992px){
+  .pe-contenido{gap:clamp(64px,10svh,120px)}
+  .pe-titulo{font-size:min(8.6vw,9.5rem)}                         /* ≈ 124 px a 1440: renglones de ~111 px (MONOLOG 106) */
+  .pe-f4{padding-left:30%}
+}
+
+/* reduced-motion: S6b sin corrimientos ni acordeón animado; el color cambia al instante */
+@media (prefers-reduced-motion:reduce){
+  .fq-resp,.fq-q,.fq-marca,.fq-fila,.fq-fila::before{transition:none!important}
+  .fq-fila .fq-q,.fq-fila .fq-marca{transform:none!important}
+}
+
+/* ======================= RONDA 10 · corrección de Efraín (G4) ======================= */
+
+/* ---- política de privacidad (formulario y pie): sin el recuadro punteado de .muestra ("eso sacalo, está horrible");
+        el foco de teclado, solo con :focus-visible y un outline fino continuo ---- */
+.muestra[data-politica]{outline:0}
+.muestra[data-politica]:focus{outline:0}
+.muestra[data-politica]:focus-visible{outline:1px solid currentColor;outline-offset:4px}
+
+/* ---- S7c · la firma gigante se escribe atada al scroll (M08 v2): la máscara solo existe con motion; sin JS o con reduced-motion, entera ---- */
+html.motion .firma-gigante svg{clip-path:inset(-2% calc(100% - var(--firma-p,100%)) -2% 0)}
+
+/* ---- S4c · marcas (M14 v3, r13: "lo pondría como en una pantalla, que sea más importante"): pantalla entera, titular y dos cintas grandes
+        en sentidos opuestos. Nombres en Heros y Bodoni cursiva alternados; logos como máscara pintada (landing.js). Gris en reposo, el color
+        real de la marca al pasar el mouse (--mc-color; sin fuente, blanco). Sin JS o con reduced-motion: dos listas quietas ---- */
+.marcas-sec{position:relative;overflow:clip;min-height:100svh;display:flex;flex-direction:column;justify-content:center;gap:clamp(16px,2.4vw,40px);
+  padding:clamp(88px,9vw,144px) 0}
+.marcas-titulo{margin:0 var(--gutter) clamp(16px,2vw,40px)}
+.marcas-lista{list-style:none;margin:0;padding:0 var(--gutter);display:flex;flex-wrap:wrap;align-items:center;gap:.1em .5em;
+  font:400 clamp(3rem,8vw,8.5rem)/1.08 var(--f-display);letter-spacing:var(--track-display);color:var(--tinta)}
+.marcas-lista li{white-space:nowrap}
+.mc-b{font-family:var(--f-acento);font-style:italic;letter-spacing:0}
+.mc-nombre{color:var(--tinta-suave);transition:color .45s var(--salida)}
+.mc-logo{display:block;height:.62em;width:auto;background-color:var(--tinta-suave);
+  -webkit-mask:var(--logo) center / contain no-repeat;mask:var(--logo) center / contain no-repeat;transition:background-color .45s var(--salida)}
+.marcas-lista li:has(.mc-logo){display:flex;align-items:center;height:1.08em}
+  .marcas-lista li:hover .mc-nombre{color:var(--mc-color,#FAFAF9)}
+  .marcas-lista li:hover .mc-logo{background-color:var(--mc-color,#FAFAF9)}   /* r17: hover sin media query (el panel de Efraín y las laptops táctiles dan hover:none) */
+.marcas-copia{display:none}
+html.motion .marcas-ventana{overflow:hidden;margin-inline:var(--gutter);cursor:grab;touch-action:pan-y;-webkit-user-select:none;user-select:none}
+html.motion .marcas-ventana.arrastrando{cursor:grabbing}
+html.motion .marcas-pista{display:flex;width:max-content;will-change:transform}
+html.motion .marcas-lista{flex-wrap:nowrap;padding:0;gap:0}
+html.motion .marcas-lista li{padding-right:.5em}          /* el mismo hueco en el empalme de la copia */
+html.motion .marcas-copia{display:flex}
+.marcas-pausa{display:grid;place-items:center;width:44px;height:44px;margin:clamp(8px,1vw,16px) calc(var(--gutter) - 12px) 0 auto;padding:0;border:0;
+  background:none;color:var(--tinta);opacity:.72;cursor:pointer;transition:opacity var(--rapido) var(--salida)}
+.marcas-pausa[hidden]{display:none}
+.marcas-pausa svg{width:12px;height:14px;fill:currentColor}
+.marcas-pausa .ic-play,.marcas-pausa[aria-pressed=true] .ic-pausa{display:none}
+.marcas-pausa[aria-pressed=true] .ic-play{display:block}
+.marcas-pausa:hover{opacity:1}   /* r17: hover sin media query (el panel de Efraín y las laptops táctiles dan hover:none) */
+.marcas-pausa:focus-visible{opacity:1;outline:2px solid var(--tinta);outline-offset:3px}
+
+/* ---- M15 · "Start a project" con más motion: imán (JS), letras que ruedan, relleno negro que entra desde el cursor, rebote al apretar.
+        Todo existe solo con .iman (lo pone motion.js; con reduced-motion no corre) ---- */
+.btn.iman{position:relative;overflow:hidden;isolation:isolate;transition:opacity var(--rapido) var(--salida),color .25s var(--salida),background-color var(--rapido) var(--salida)}
+.btn.iman:hover,.btn.iman:active{transform:none}            /* el movimiento lo maneja GSAP (imán y rebote) */
+.btn-rueda{position:relative;display:inline-flex;overflow:hidden;line-height:1.3;white-space:nowrap;pointer-events:none}
+.btn-l{position:relative;display:inline-block;transition:transform .6s var(--salida);transition-delay:calc(var(--i) * 16ms)}
+.btn-l::after{content:attr(data-l);position:absolute;left:0;top:100%}
+.btn-tinta{position:absolute;z-index:-1;left:var(--mx,50%);top:var(--my,50%);width:var(--d,400px);height:var(--d,400px);
+  margin:calc(var(--d,400px) / -2) 0 0 calc(var(--d,400px) / -2);border-radius:50%;background:var(--fondo);transform:scale(0);
+  transition:transform .55s var(--salida);pointer-events:none}
+.btn.iman::after{content:"";position:absolute;inset:0;border-radius:inherit;border:1.5px solid var(--tinta);pointer-events:none}
+.btn.iman.tinta-on{color:var(--tinta)}
+.btn.iman.tinta-on .btn-tinta{transform:scale(1)}
+.btn.iman.tinta-on .btn-l,.btn.iman:focus-visible .btn-l{transform:translateY(-100%)}
+@media (prefers-reduced-motion:reduce){.btn-l,.btn-tinta{transition:none!important}}
+
+/* ======================= RONDA 11 · efectos de MONOLOG (investigacion/monolog-paleta.md → Efectos) ======================= */
+/* 1 · grano en toda la página: PNG propio en mosaico, fijo y del doble de la ventana, que tiembla 0,5 s en 6 saltos. No toca el puntero */
+body::after{content:"";position:fixed;z-index:90;top:-50%;left:-50%;width:200%;height:200%;pointer-events:none;background:url(img/grano.png) repeat;
+  animation:grano .5s steps(6) infinite}   /* un pseudo-elemento del body: no es una capa más del DOM (MONOLOG usa un div) */
+@keyframes grano{0%{transform:translate(0,0)}17%{transform:translate(-5%,-10%)}33%{transform:translate(3%,-15%)}50%{transform:translate(12%,9%)}
+  67%{transform:translate(-9%,4%)}83%{transform:translate(7%,-6%)}100%{transform:translate(0,0)}}
+@media (prefers-reduced-motion:reduce){body::after{animation:none}}
+html.wire body::after{display:none}
+
+/* 2 · sombra de un dibujo: la firma gigante tono sobre tono (beige apenas más oscuro) detrás del texto, cortada por los bordes */
+.tema-claro{--sombra:#DADAD2}
+.titular,.historias-sec{position:relative;isolation:isolate}
+.sombra-caja{position:absolute;inset:0;z-index:-1;overflow:clip;pointer-events:none}
+.sombra-firma{position:absolute;left:-12vw;top:50%;width:125vw;height:auto;fill:var(--sombra);transform:translateY(-50%) rotate(-7deg)}
+.sombra-firma-b{left:auto;right:-10vw;top:4%;width:95vw;transform:rotate(5deg)}
+@media (min-width:992px){   /* r12 (Efraín: "la M, que no tenga tanto zoom"): la mitad de la escala, casi entera: un dibujo detrás, no un recorte */
+  .sombra-firma{left:12vw;width:75vw;transform:translateY(-50%) rotate(-7deg)}
+  .sombra-firma-b{right:-6vw;top:2%;width:60vw;transform:rotate(5deg)}
+}
+
+/* 3 · medio tono de puntos detrás de la firma del final (efectos.js): puntos grises que ondulan lento sobre el casi negro */
+.pie{position:relative;isolation:isolate}
+.trama{position:absolute;z-index:-1;left:0;bottom:0;width:100%;height:min(70%,760px);pointer-events:none}
+
+/* r12 · Roy y Andy a todo el ancho, debajo del formulario y antes de la firma, como fondo de la fila del pie ("Deep conversations…").
+   < 992: la foto arriba, a sangre (en < 768 el recorte de las dos personas), y el texto debajo. ≥ 992: la foto entera (21:9) y la frase,
+   los nombres y las rutas a la izquierda, sobre el aire negro (las personas quedan entre el 43 y el 80 % del ancho) */
+.pie-foto{position:relative}
+.fu{position:relative;z-index:1;margin-bottom:40px}
+.fu-marco{position:relative}
+.fu-foto{display:block;width:100%;height:auto}
+.pie-nombres{margin-top:32px}
+@media (min-width:768px){.pie-nombres{grid-column:8 / -1;margin:0}}
+@media (min-width:992px){
+  .pie-foto{min-height:calc(100vw * 821 / 1916);display:flex;align-items:center}
+  .fu{position:absolute;inset:0 0 auto 0;margin:0}
+  .pie-foto .pie-fila{position:relative;z-index:2;display:block;max-width:min(38vw,580px)}
+  .pie-foto .pie-nombres{margin-top:32px}
+  .pie-foto .rutas{grid-template-columns:minmax(0,1fr);row-gap:16px;margin-top:40px}
+}
+/* r13 · la luz que recorre el contorno (M20 v2): el trazo del mismo <path> de la silueta, beige claro, tenue y desenfocado */
+.fu-trazo{fill:none;stroke:#FAFAF9;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;opacity:0;pointer-events:none;transition:opacity .3s var(--salida)}
+.fu-trazo.activo{opacity:.55}
+@media (prefers-reduced-motion:reduce){.fu-trazo{transition:none}.fu-trazo.activo{opacity:.35}}
+.fu-links{position:absolute;inset:0;width:100%;height:100%}
+.fu-links path{fill:transparent;pointer-events:all}
+.fu-links a:not(.sin-link) path{cursor:pointer}
+.fu-links-d{display:none}
+@media (min-width:768px){.fu-links-d{display:block}.fu-links-m{display:none}}
+
+/* r14 · sombra oscura (M19 en negro) como FONDO del formulario (#start), ya no en una pantalla propia (Efraín: "que esté literalmente de
+   fondo… entre el Privacy policy y el Next"): la firma en #181715 sobre #080807, 130 vw a −14° (200 vw a −62° en celular), centrada en el
+   ancla, que queda entre el botón y "Privacy policy". La sección la recorta y el texto va encima (z-index −1 dentro de isolation) */
+.pie{--sombra-oscura:#181715;padding-top:0}
+.pedido{position:relative;isolation:isolate;overflow:clip}
+.sombra-ancla{position:absolute;left:0;right:0;height:0;z-index:-1;pointer-events:none}
+.sombra-firma-c{position:absolute;left:50%;top:0;width:200vw;height:auto;fill:#181715;transform:translate(-50%,-50%) rotate(-62deg)}
+@media (min-width:768px){.sombra-firma-c{width:130vw;transform:translate(-50%,-50%) rotate(-14deg)}}
+.pie-foto .pie-fila{position:relative;z-index:2}
+
+/* r13 · S4b fiel a MONOLOG ("What we can help with"): la lista son solo los nombres grandes, con el mismo paso; la línea de cada renglón queda
+   para lectores y se muestra debajo de la foto cuando ese renglón está activo. Una sola ventana 4:5 con las fotos fundidas (sin tira) */
+.ay-linea{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.ay-item{padding:4px 0}
+.ay-foto{position:absolute;inset:0;margin:0;opacity:0;transition:opacity .2s cubic-bezier(.76,0,.24,1)}
+.ay-foto.activa{opacity:1}
+.ay-leyenda{display:none;margin:20px 0 0;font-size:.875rem;line-height:1.4;color:var(--tinta);max-width:16em}
+.ay-pie-m{position:absolute;left:0;right:0;bottom:0;margin:0;padding:5px 6px 6px;background:rgb(8 8 7 / .74);font-size:.75rem;line-height:1.3;color:var(--tinta-suave)}
+.ay-leyenda .ay-pie-r{display:block;margin-top:4px;color:var(--tinta-suave)}
+@media (min-width:992px){
+  .ay-item{padding:0}
+  .ay-nombre{line-height:1.08}
+  .ay-leyenda{font-size:.875rem}
+}
+.g8-renglon{display:block}   /* r13: renglón real mientras entra con G8 (después el párrafo vuelve a su HTML) */
+.fu-links .fu-trazo{fill:none;pointer-events:none}   /* el trazo nunca toma el puntero: el link es la silueta de abajo */
+/* r13 · M15 en casi todos los botones (Efraín): Next, Back, el envío, Accept. Back es el botón fantasma (sin relleno, borde fino): su relleno
+   desde el cursor es la tinta clara y el texto pasa al fondo */
+.btn.btn-fantasma{background:transparent;color:var(--tinta);border:1.5px solid var(--tinta-suave);min-height:48px;padding:.8em 1.3em;text-decoration:none}
+.btn.btn-fantasma .btn-tinta{background:var(--tinta)}
+.btn.btn-fantasma.iman{border-color:transparent}
+.btn.btn-fantasma.iman::after{border-color:var(--tinta-suave)}
+.btn.btn-fantasma.iman.tinta-on::after{border-color:var(--tinta)}
+.btn.btn-fantasma.iman.tinta-on{color:var(--fondo)}
+/* r13 · S4b ≥ 992: el rótulo fijo y, debajo, la línea del renglón activo y de qué proyecto es la foto; en < 992 el crédito va al pie de la foto */
+@media (min-width:992px){
+  .ay-titulo{position:static}
+  .ay-lado-in{position:sticky;top:42svh}
+  .ay-leyenda{display:block}
+  .ay-pie-m{display:none}
+}
+/* r13 · S4b en < 992 (MONOLOG a 390: renglones chicos y la foto a la derecha): cada renglón mide lo que su nombre y nunca pasa por debajo de
+   la columna de la foto, así el crédito de la foto queda al costado de los nombres y no encima de ninguno */
+@media (max-width:991px){
+  .ay-item{width:fit-content;max-width:calc(100% - clamp(120px,34vw,140px) - 16px)}
+  .ay-nombre{font-size:clamp(1.25rem,5.6vw,2rem);line-height:1.1}
+}
+
+/* r14 · S5b, el "reel" de MONOLOG (G9 #2, M11 v3; medido en v3-animaciones.mp4 a 30 fps): al activarse la tarjeta (centro de la pantalla o
+   mouse encima) la foto se vela (negro 80 % en 0,2 s + blur 2 px en 0,85 s) y sube una ventana 3:2 al 77 % del ancho, de
+   scale(.95) translateY(75%) rotateX(18deg) con perspectiva a plano: opacidad 0,15 s, transform 0,85 s expo (en el video: el 80 % del
+   recorrido en 0,27 s). Adentro, 2 detalles de la misma toma que se reemplazan cada 1,2 s (fundido 0,65 s). Simétrico al salir */
+.hi-velo{position:absolute;inset:0;z-index:1;background:rgba(8,8,7,.8);opacity:0;pointer-events:none;
+  transition:opacity .2s cubic-bezier(.76,0,.24,1),backdrop-filter .85s cubic-bezier(.2,1,.36,1),-webkit-backdrop-filter .85s cubic-bezier(.2,1,.36,1)}
+.hi-capa{position:absolute;z-index:2;left:11.5%;width:77%;top:50%;margin-top:calc(77% * -1 / 3);aspect-ratio:3 / 2;overflow:clip;background:#080807;pointer-events:none;
+  opacity:0;transform:scale(.95) perspective(600px) translateY(75%) perspective(500px) rotateX(18deg);
+  transition:opacity .15s cubic-bezier(.25,0,.25,1),transform .85s cubic-bezier(.2,1,.36,1)}
+.hi-capa-foto{position:absolute;inset:0;opacity:0;transition:opacity .65s cubic-bezier(.76,0,.24,1)}
+.hi-capa-foto.activa{opacity:1}
+.hi-capa-foto img{display:block;width:100%;height:100%;object-fit:cover}
+.hi-item.activa .hi-velo{opacity:1;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+.hi-item.activa .hi-capa{opacity:1;transform:none}
+  .hi-item:hover .hi-velo{opacity:1;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+  .hi-item:hover .hi-capa{opacity:1;transform:none}   /* r17: hover sin media query (el panel de Efraín y las laptops táctiles dan hover:none) */
+@media (prefers-reduced-motion:reduce){.hi-capa{transform:none;transition:opacity .15s linear}.hi-capa-foto{transition:none}}
+html.wire .hi-velo,html.wire .hi-capa{display:none}
+
+/* ================= r15 · toques finales (solo de las referencias medidas) ================= */
+/* M21 · rótulo de MONOLOG: "● Label" con el punto redondo que entra de scale .4 → 1 (G3 #2); "(…)" para la nota del costado, como el
+   "(Design partner for B2B brands)" del hero de MONOLOG (investigacion/mono-hero.jpg) */
+.rotulo::before{border-radius:50%;transform:scale(var(--marca,1))}
+.rotulo-nota{gap:0}
+.rotulo-nota::before{content:"(";width:auto;height:auto;border-radius:0;background:none;transform:none}
+.rotulo-nota::after{content:")"}
+/* M22 · renglones con máscara (G3 #1): un poco de aire abajo para que la máscara no corte los descendentes */
+.m-linea{display:block;overflow:clip;padding-bottom:.08em;margin-bottom:-.08em}
+.m-in{display:block}
+/* M24 · tarjetas apiladas (G3 #6, ≥ 992): las preguntas bajan a mitad de velocidad bajo el cierre y un velo negro las tapa */
+@media (min-width:992px){
+  .preguntas-sec{position:relative}
+  .preguntas-sec::after{content:"";position:absolute;inset:0;z-index:5;background:#080807;opacity:var(--apila-velo,0);pointer-events:none}
+  .cierre-sec{position:relative;z-index:2;background:var(--fondo)}
+}
+
+/* r16 · cada marca es un link a su sitio (o a su ficha en jacomymayne.com): hereda el color, mano en hover, mano cerrada al arrastrar */
+.mc-link{display:inline-flex;align-items:center;height:100%;color:inherit;text-decoration:none;-webkit-user-drag:none}
+.mc-link:focus-visible{outline:2px solid var(--tinta);outline-offset:4px}
+.marcas-lista .mc-link{cursor:pointer}.marcas-lista .mc-link:hover .mc-nombre{color:var(--mc-color,#FAFAF9)}.marcas-lista .mc-link:hover .mc-logo{background-color:var(--mc-color,#FAFAF9)}   /* r17: hover sin media query (el panel de Efraín y las laptops táctiles dan hover:none) */
+html.motion .marcas-ventana.arrastrando .mc-link{cursor:grabbing}
+.mc-link:focus-visible .mc-nombre{color:var(--mc-color,#FAFAF9)}
+.mc-link:focus-visible .mc-logo{background-color:var(--mc-color,#FAFAF9)}
+
+/* r17 · fundadores: sin anillo ni cuadrado al hacer clic; el indicador de foco (teclado) es la luz que recorre la silueta (landing.js la prende en focus) */
+.fu-links a{outline:none}

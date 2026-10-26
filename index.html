@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="en" data-scroll="G3">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Packaging Design for Spirits, Wine &amp; Beer | Jacomy &amp; Mayne</title>
+<meta name="description" content="A packaging studio for spirits, wine and beer, with a LATAM office in Mendoza, since 2015. From the name to the finished bottle design. Start a project.">
+<meta property="og:title" content="Most bottles get walked past. Yours should get picked up.">
+<meta property="og:description" content="A packaging studio for spirits, wine and beer, from the name to the finished bottle design. Since 2015.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Jacomy &amp; Mayne">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://efrainbelinsky-dot.github.io/jacomy-mayne/">
+<meta property="og:url" content="https://efrainbelinsky-dot.github.io/jacomy-mayne/">
+<meta property="og:image" content="https://efrainbelinsky-dot.github.io/jacomy-mayne/img/hero-anansi-r9-1200.jpg">
+<meta name="twitter:image" content="https://efrainbelinsky-dot.github.io/jacomy-mayne/img/hero-anansi-r9-1200.jpg">
+<link rel="icon" type="image/png" href="img/favicon-192.png">
+<!-- F7 build (ronda 4, 2026-10-23; ronda 9, 2026-10-24: hero limpio + S1b, S4 G5 v2, S6 fuera, cierre en 3 pantallas). Orden = contrato.json. data-rol / data-afirmacion en cada sección (?wire=1).
+     data-gesto="G1…G8" = ficha del mismo número en referencia-madre.md / DESIGN.md → Motion; las recreaciones están en landings/_motion/M01…M08.
+     Nada depende del JS para verse: los estados iniciales ocultos los pone motion.js solo si GSAP cargó y no hay prefers-reduced-motion.
+     Publicación 2026-10-26: GitHub Pages (https://efrainbelinsky-dot.github.io/jacomy-mayne/); cuando el cliente agregue el CNAME, cambiar canonical/og a https://start.jacomymayne.com/. -->
+<link rel="preload" href="fonts/texgyreheros-regular.otf" as="font" type="font/otf" crossorigin>
+<link rel="preload" href="fonts/librebodoni-italic-400.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" as="image" type="image/webp" media="(min-width: 992px)" imagesrcset="img/hero-anansi-r9-800.webp 800w, img/hero-anansi-r9-1200.webp 1200w, img/hero-anansi-r9-1600.webp 1600w, img/hero-anansi-r9-1930.webp 1930w" imagesizes="100vw">
+<link rel="preload" as="image" type="image/webp" media="(max-width: 991px)" imagesrcset="img/hero-anansi-r9-mob-600.webp 600w, img/hero-anansi-r9-mob-780.webp 780w" imagesizes="100vw">
+<script>window.__introT = performance.now(); document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="landing.css">
+<script>/* después de las hojas de estilo: el parser espera al CSS antes de seguir con el body (la firma nunca se ve sin estilos) */
+  /* G1 · la intro se decide acá, antes del primer pintado: el velo blanco y la firma centrada salen del CSS (html.intro), así no hay
+     salto aunque el script del hero corra tarde. En cada carga y recarga; ?intro=1 la fuerza, ?intro=0 la apaga; con reduced-motion no existe.
+     Seguro: si a los 3,5 s no terminó (JS caído), se saca sola. */
+  (function () { var q = new URLSearchParams(location.search).get('intro'), r = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (q === '0' || (r && q !== '1') || !Element.prototype.animate) return;
+    document.documentElement.classList.add('intro'); window.__huboIntro = true;
+    setTimeout(function () { if (!window.__introFin) { document.documentElement.classList.remove('intro'); window.__introFin = true; window.dispatchEvent(new CustomEvent('jm:intro-fin')); } }, 3500); })();
+</script>
+<script src="marca.js" defer></script>
+<script src="kit.js" defer></script>
+<script src="analytics.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.27/dist/lenis.min.js" defer></script>
+<script src="landing.js" defer></script>
+<script src="motion.js" defer></script>
+<script src="efectos.js" defer></script>
+</head>
+<body>
+<!-- firma de la marca (img/firma.svg) como símbolo: se usa con currentColor en la barra, el hero, S3, S7 y la confirmación -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="firma" viewBox="0 0 394.4 83.8"><path d="M359.4,63.9c-.2,0-.4,0-.6,0-1.6-.2-3.2-.2-4.8-.2-1.6,0-3.3,0-4.9-.2-1.8-.3-3.5-.3-5.3-.3h-.3c-2.1,0-4.3-.1-6.4-.2-2.6-.1-5-.2-7.5-.2s-.8,0-1.2,0h-.1c-.7,0-1.3,0-2,0-.6,0-1.3,0-2,0s-2,0-3,0c-.9,0-1.9,0-2.9,0-.7,0-1.4,0-2.2,0s-2,0-2.9,0h-.3c-.3,0-.6,0-.8,0-1.6,0-3.2,0-4.7,0-.4,0-.9,0-1.3,0-.3,0-.6,0-.9,0h0s-.1,0-.1,0c-.4,0-.8,0-1.1-.3h0s0,0,0,0c-.5-.6,0-1.3.3-1.6,0,0,.1-.1.2-.2h0s0,0,0,0c.4-.5.7-.8.9-1.2.3-.3.5-.7.9-1.2,2-2.7,4.4-5.8,7-8.9h0s0,0,0,0c.5-.6.9-1.1,1.3-1.5.9-1.3,2.4-3.1,3.5-4.3,1-1.5,2.4-3,3.7-4.6.7-.8,1.4-1.6,2-2.4h0s0,0,0,0c1.7-1.9,3.1-3.3,4.5-4.7.8-.8,1.7-1.7,2.7-2.7,1.6-1.6,2.8-2.9,3.8-4.1.4-.8.9-2,.9-3.2,0-.2,0-.4,0-.5-.3-.7-1.2-1.1-2-1.1-1.9.2-3.3,1.7-4.6,3.2-.3.3-.6.6-.9,1-1.6,1.6-2.9,3-4,4.4h0s0,0,0,0c-.3.4-.7.8-1.1,1.1-.7.7-1.3,1.4-1.8,2.1h0s0,0,0,0c-.5.6-.9,1.1-1.4,1.7-2.1,2.5-4.2,5.1-6.8,7.3-.7.7-1.6,1.2-2.4,1.2s-1-.2-1.4-.5h0s0,0,0,0c-.6-.7-.7-1.8-.2-3.2.2-.5.4-1,.7-1.5,1-1.6,2-3.2,3.1-4.7.7-1.1,1.5-2.1,2.2-3.3.7-1,1.4-1.9,2.1-2.7.9-1.1,1.7-2.1,1.8-2.8.1-1-.5-1.9-1.4-2.1-.1,0-.3,0-.4,0-2,0-3.9,2.5-5.5,4.6-.4.5-.8,1.1-1.2,1.5-1.4,1.8-3.1,4.6-4.2,6.7-.7,1.3-1.3,2.1-1.9,2.9-.2.2-.4.5-.6.8h0s0,0,0,0c-1.1,1.3-4.7,5.7-6.7,5.7s-.8-.2-1-.5c-.4-.6-.7-1.9,1.2-6.7h0c.7-1.9,1.4-3.6,2.4-5.2.4-.6.7-1.3,1-1.9,0-.1.1-.3.2-.4h0s0,0,0,0c.9-1.6,1.5-3.3,1.4-4.5,0-.8-.9-1.8-1.8-1.8s0,0-.1,0c-.5,0-1.1.3-1.6.7-.8.8-1.4,2-1.9,3.1-.3.6-.6,1.1-.9,1.7,0,0,0,.1-.1.2-.4.7-1,1.7-1.9,1.7s-.8-.2-1.1-.6h0s0,0,0,0c-.7-1.1-2-2.3-3.6-2.3s-.7,0-1,.2c-.8.3-1.4.5-2,.9-.8.6-1.6,1.2-2.2,1.8-.4.4-.7.8-1,1.1-.5.5-.9,1-1.4,1.5-.3.3-.5.7-.8,1-.8,1-1.6,1.9-2.2,3.1-.2.3-.3.7-.5,1-.4.8-.9,1.7-1.5,2.5h0s0,0,0,0c-1.1,1.2-2.2,2.2-3.3,3-1,.8-2.6,1.8-4.3,1.8s-.5,0-.7,0c-.3,0-.5-.2-.6-.4-.3-.5-.1-1.4,0-2,.2-.6.5-1.2.7-1.8.1-.3.2-.5.3-.7h0s0,0,0,0l5.1-9.9h0s0,0,0,0v-.2c1.2-1.9,2.2-3.7,3.1-5.6h0s0,0,0,0c.8-1.3,1.7-2.6,2.3-4h0s0,0,0,0c1.2-2,1.9-3.5,2.6-5,.6-1.5.6-3,0-3.8-.3-.5-.9-.7-1.6-.7s-.7,0-1,.1c-1,.3-2,1-2.9,1.6-.1,0-.2.2-.4.3-1.4,1.1-2.7,2.5-3.9,3.8-.3.4-.7.7-1,1.1h0s0,0,0,0c-.3.3-.6.6-1,.9-.6.6-1.3,1.2-1.8,1.8h0s0,0,0,0c-.4.4-.8.8-1.2,1.2-.6.6-1.1,1.3-1.8,1.7h0s0,0,0,0c-.4.2-.7.4-1,.4s-.5-.1-.7-.3c-.4-.5-.3-1.5,0-2.2.1-.6.4-1.1.6-1.6.1-.3.2-.5.3-.8h0s0,0,0,0c1-2.3,1.7-4.2,2.1-6,0-1-.5-2.3-1.2-2.6-.3-.1-.6-.2-.9-.2-1.1,0-2.2.5-3.1,1-1.2.8-2.3,1.8-3.3,2.8-.8.7-1.5,1.4-2.4,2.1-.7.6-1.4,1.3-2.1,1.9-2,1.8-4.1,3.6-5.9,5.6h0s0,0,0,0c-.4.3-.6.4-.9.4s-.5-.1-.7-.4c-.4-.6.1-1.8.3-2.2.3-.6.6-1.1.9-1.6.8-1.5,1.6-2.9,2.3-4.4h0s0,0,0,0c1.3-2.5,2.3-4.8,3-7.3h0s0,0,0,0c.7-2.2,1.4-4.9-.4-6.4-.6-.5-1.2-.7-1.9-.7s-.7,0-1.1.1h0s0,0,0,0c-1.1,0-2,.4-3,1h0s0,0,0,0c-2.1,1.1-4.3,2.5-6.6,4.3-1.2.9-2.3,2-3.4,3.2-4.5,4.8-8.6,9.1-12.3,13.8-.6.8-1.3,1.5-1.9,2.2-.9,1.1-1.9,2.2-2.8,3.3-1.6,2.1-3.4,4.3-5.6,6.9-.9,1.2-1.9,2.4-2.8,3.5-1.6,1.9-3.2,3.9-4.7,5.9-.6.9-1.2,1.8-1.8,2.7-.4.7-.8,1.3-1.3,2,0,.1-.2.3-.3.4-.5.8-1,1.6-1.3,2.4h0s0,0,0,0c-.3.6-.3,1.3,0,1.6.1.2.3.3.6.3.4,0,.8-.2,1.2-.6.5-.5,1-1.2,1.4-1.8h0c1.4-2.4,3.1-4.6,4.7-6.7l.4-.5h0s0,0,0,0c2-2.5,4.1-4.9,6.2-7.3,1.8-2.1,3.7-4.3,5.5-6.5h0s0,0,0,0c1.3-1.4,2.6-2.9,3.9-4.4,1.3-1.5,2.7-3.1,4.1-4.6,1.9-2.2,3.9-4.3,5.9-6.2.3-.3.6-.7.9-1,1-1.1,2.1-2.3,3.2-3.3.4-.4.8-.8,1.1-1.1,1-1.1,2.1-2.2,3.4-3,1.7-1.2,3-1.8,3.8-1.8.5,0,.7.2.9.4.3.3.3.8.1,1.6-.6,2.3-1.6,4.7-3,7.4-.3.5-.6,1.1-.8,1.6-.5,1.1-1.1,2.1-1.8,3.2-.3.5-.5.9-.8,1.4-.3.6-.7,1.1-1,1.7-.5.9-1.1,1.9-1.7,3-.4.7-.8,1.4-1.2,1.9-.5.9-1.1,1.8-1.6,2.6-.4.7-.9,1.4-1.3,2-.7,1.1-1.3,2.3-2,3.3-.4.6-.8,1.3-1.2,2-.3.5-.7,1.2-1.1,1.8-.4.7-.9,1.4-1.2,1.9h0s0,0,0,0c-.5.8-1,1.6-1.4,2.3-1.4,2.2-2.5,4-3.8,6.7h0s0,0,0,0c-.5.9-.9,2.3-.5,3.3.2.4.4.8.9,1,.2,0,.4.1.6.1.9,0,2-.7,3.1-2.1,1.5-1.8,2.9-3.8,4.2-5.6.7-.9,1.3-1.9,2-2.8,1.6-2.2,3.3-4.2,4.9-6.2.4-.4.7-.9,1.1-1.3,1.1-1.3,2.1-2.7,3.2-4,.8-1,1.5-1.9,2.3-2.9,1.5-1.9,3.2-3.8,5-5.4.3-.3.6-.6.9-.9.5-.5,1.1-1,1.6-1.5h0s0,0,0,0c.1,0,.2-.2.4-.3,1.6-1.3,2.9-2.4,3.7-2.4.3,0,.5.1.7.4.3.4.2,1.1-.7,3-.3.5-.5,1.1-.8,1.8-.3.7-.6,1.5-.9,2.1-1.2,2.5-2.5,4.6-3.8,6.8-.8,1.4-1.7,2.8-2.6,4.3-1.4,2.4-2.9,4.8-4.5,7.1-1.3,2-2.7,4.1-3.9,6.2-.2.3-.3.7-.5,1-.4.8-.8,1.5-.9,2.3h0s0,0,0,0c-.1.8,0,1.4.4,1.9.3.4.9.6,1.5.6s.5,0,.8-.1c.8-.3,1.4-1,2-1.8h.1c1.2-1.5,2.1-3,3.2-4.5.6-.9,1.2-1.7,1.8-2.6.6-.8,1.2-1.6,1.8-2.4.5-.6,1-1.3,1.5-1.9h0s0,0,0,0c1-1.4,2.1-2.8,3.1-4.2.7-1,1.4-1.9,2.1-2.9,1-1.3,2.2-2.9,3.3-4.1.9-1.1,1.7-2,2.7-2.9h0s0,0,0,0c1-1,2-2,2.9-3,1.1-1.2,2.3-2.5,3.6-3.7h0s0,0,0,0c.3-.2.5-.3.8-.3s.5.1.6.3c.4.7-.4,2.6-1.2,4.1-.8,1.9-1.8,4-3.2,6.5-.3.6-.6,1.2-.9,1.9-.2.5-.5,1-.7,1.5-.3.6-.5,1.1-.8,1.7-.2.4-.3.8-.5,1.3-.9,2.2-1.9,4.6-2.1,6.9-.1,1.3,0,2.2.6,2.8.4.4,1,.7,1.9.7,1.9,0,4.4-1.1,6.1-2.1h0s0,0,0,0c.7-.3,1.3-.7,2-1.2.6-.4,1.2-.8,1.9-1.1h0s0,0,0,0c.1,0,.2,0,.3,0,.4,0,.7.2.9.3.5.3,1,.6,1.4.7.2,0,.4.1.6.1s.2,0,.3,0c.3,0,.5,0,.7,0,.7,0,1.4-.1,2-.5h0s0,0,0,0c.4-.2.7-.4,1.1-.5,1.3-.6,2.5-1.2,3.7-2.1h0s0,0,0,0c.4-.3.9-.6,1.3-.9.2-.2.4-.3.7-.5.3-.3.6-.4.9-.4s1,.2,1.2,1.4c0,.4.1.7.2,1.1.1,1,.3,2,.7,2.9.7,1.2,1.7,1.9,3,1.9s.7,0,1.1-.1c1.3-.3,2.5-1.1,3.7-2.3.1,0,.2-.2.4-.4.7-.7,1.6-1.6,2.5-1.6.3,0,.6.1.9.3h0s0,0,0,0c.3.4.5.8.6,1.1.2.5.3.9,1.2,1.2.9.3,1.4.4,1.9.4.4,0,.8,0,1.3.3.4.3.6.6.6.9.2.9-.6,1.9-1.3,2.8-.3.4-.6.7-.7.9h0s0,0,0,0c-1.3,1.8-6.8,8.6-8.1,10.1h-.1c0,.1-.2.2-.2.2-.8.1-1.7.2-2.7.2s-1.8,0-2.6,0c-.8,0-1.6,0-2.3,0h0s0,0,0,0c-1,0-2.1,0-3.2,0s-2.9,0-4.6,0h0s0,0,0,0h-.2c-.5,0-1,0-1.6,0-.5,0-1,0-1.5,0s-.5,0-.8,0c-3.4.2-6.6.2-9.3.2s-2.4,0-3.6,0c-.8,0-1.6,0-2.5,0-.9,0-1.8,0-2.9,0s-1.4,0-2.1,0c-2,0-4,0-5.8,0s-1,0-1.5,0c-.5,0-1,0-1.5,0s-1.3,0-2,0c-5.5.2-11,.3-16.8.3h-.5c-.8,0-1.7,0-2.5,0-13.4,0-27,.4-40.1.7h-1.9c-.8.1-1.7.2-2.7.2s-1.2,0-1.7,0c-.6,0-1.2,0-1.8,0s-.4,0-.6,0c0,0-.2,0-.3,0-.2,0-.4,0-.6,0-.8,0-1.4,0-1.6-.5,0-.1-.2-.5,0-.8.5-.7,1-1.3,1.4-1.9.5-.6,1-1.2,1.4-1.8.5-.8,1-1.7,1.5-2.5.6-1.1,1.3-2.2,2-3.2,1.8-3.2,3.8-6,5.7-8.6h0s0,0,0,0c1.7-2,4.1-4.7,6.7-7.3.4-.4.9-.9,1.3-1.3.7-.6,1.3-1.2,1.9-1.9.4-.4.8-.8,1.2-1.2,1-.9,2-1.9,2.6-3.2.2-.9.2-1.6-.1-2-.3-.4-.7-.5-1-.5-.6,0-1.3.3-1.9.8-1.6,1.2-3,2.7-4.5,4.1l-.3.3h0s0,0,0,0c-1,.9-2,1.9-2.9,2.8-.4.4-.8.9-1.3,1.3-.8.8-1.4,1.4-2,2-.6.6-1.2,1.1-1.9,1.9-.8.9-1.9,1.8-2.6,2.5-.2.1-.3.3-.4.4-.7.7-1.3,1.1-2,1.6-.2.1-.4.3-.6.5-1,.8-2.1,1.7-3.5,2.4h0s0,0,0,0c-.2,0-.4.2-.6.3-.5.3-1,.6-1.5.6h0c-.2,0-.4-.1-.5-.3-.2-.3,0-.8,0-1.2h0s0,0,0,0c.8-1.8,1.8-3.5,2.7-5.1.2-.4.4-.7.6-1.1.6-1.1,1.2-2.3,2-3.4,1.3-2.5,2.8-4.6,4.6-6.4.3-.3.5-.5.7-.8.3-.4.7-.7,1-1.1.3-.3.6-.6.9-.9.6-.5,1.1-1.1,1.4-1.6.1-.4.2-.9,0-1.3-.2-.3-.7-.5-1.3-.5s-.4,0-.6,0c-.8.3-1.4.8-2,1.4-.3.2-.6.5-.8.7-.4.3-.7.7-1,1.2-.2.3-.4.5-.6.8h0s0,0,0,0l-.3.3c-1.2,1.3-2.2,2.3-4.5,4.2-.2.2-.4.4-.6.6-.5.5-1,.9-1.6,1.3-.3.3-.7.6-1.1.9-.4.3-.8.7-1.1,1-.3.2-.5.5-.8.7-.4.4-.9.9-1.4,1.2h0s0,0,0,0c-.3.2-.5.2-.7.2s-.5-.1-.6-.3c-.2-.4,0-.9.4-1.6.9-1.4,1.4-2.7,1.9-4.2h0s0,0,0,0c.3-.8.5-1.8.5-2.1-.2-2-1.2-3.1-2.8-3.1s-2,.4-3,1.1h0s0,0,0,0c-.8.5-1.6,1.2-2.3,1.9-.8.7-1.6,1.4-2.6,2h0s0,0,0,0c0,0-.3.2-.5.4-.8.6-1.4,1.1-2,1.1s-.6-.2-.8-.5h0c0,0,0-.1,0-.1,0-.7.3-1.2.6-1.7.1-.2.3-.4.4-.6.5-1.1,1.3-2.8,1.4-4.6,0-1-.2-2-.7-2.5-.4-.4-.9-.7-1.6-.7s-.4,0-.6,0c-.7.1-1.3.6-1.9,1-.2.2-.5.3-.7.5-.8.8-1.8,1.5-2.7,2.2-.8.6-1.6,1.1-2.3,1.8-.8.7-1.6,1.3-2.4,1.9-.5.4-1.1.8-1.6,1.2-.3.2-.6.4-.8.7-1.5,1.2-3.1,2.4-4.5,3.8h0s0,0,0,0c-.4.3-.7.7-1,1-.7.7-1.3,1.4-2.2,1.8h0s0,0,0,0h0s0,0,0,0c-.2,0-.4,0-.5-.2-.2-.3,0-.6,0-.9,0-.2.2-.4.2-.5,0-.2.2-.3.3-.5h0s0,0,0,0c.3-.6.6-1.3.9-2,.4-.8.8-1.6,1.2-2.4h0s0,0,0,0c.2-.3.4-.6.6-.9.8-1.3,1.7-2.7,1.9-4.2,0-.4,0-.7-.3-1-.2-.2-.6-.4-1-.4s-.9.1-1.2.4h0s0,0,0,0c-.4.2-.8.6-1.2,1-.3.3-.6.6-1,.8h0s0,0,0,0c-.5.3-1.1.7-1.6,1-.3.2-.6.3-.9.5h0s0,0,0,0c-.1,0-.3.2-.4.2-1,.5-2,1.1-3.2,1.2-.4,0-.8,0-1.1,0-.4,0-.8,0-1,0s-.8,0-1.1-.5c-.3-.5,0-1.1.5-2.1.3-.7.3-1.3,0-1.8-.3-.5-1.1-.9-1.9-.9s0,0,0,0c-.6,0-1.5.4-2.2.7h0c-.3.2-.8.6-1.2.9-.6.5-1.1.9-1.5,1.1h0s0,0,0,0c-.7.2-1.2.3-1.7.4-.7,0-1.2.1-1.9.6-.3.2-.6.6-.9.9-.4.5-.5,1.1-.7,1.6,0,.2-.1.4-.2.6h0s0,0,0,0c-.4.8-.9,1.5-1.4,2.2-.4.5-.9,1.1-1.3,1.6-.5.5-.9,1.1-1.4,1.6-1,1.5-2.2,3.2-3.5,4.8h0s0,0,0,0c-.2.2-.3.3-.5.5-1.5,1.4-3.1,2.9-5,3.8-.3.2-.6.3-.9.5-.9.5-1.7,1-2.8,1.2-.4,0-.8.1-1.1.1-.9,0-1.3-.4-1.5-.7-.8-1.4,1.1-4.4,2.9-7.1.1-.2.2-.3.3-.4.6-1.1,1.4-2.1,2.2-3.1.2-.3.4-.5.6-.8.7-1,1.5-1.8,2.2-2.6.3-.4.7-.7,1-1,.8-.9,1.7-1.7,2.7-2.6h0c.7-.7,1.7-1.2,2.7-1.2.3,0,.7,0,1,.2.2,0,.4.1.6.1s.2,0,.3-.1h0s0,0,0,0c.7-.6,1.2-1.9.9-2.7,0-.2-.3-.3-.5-.5,0,0-.2-.1-.3-.2-.6-.5-1.2-.9-1.9-1h0s0,0,0,0c-.1,0-.3,0-.4,0-1,0-2.1.7-2.9,1.4-.7.6-6.4,6.5-8.5,8.8-1,1.1-2,2.2-2.9,3.2-.9.9-1.8,1.9-2.7,2.9h0s0,0,0,0c-.4.4-1.1,1.3-1.8,2.2-2,2.5-3.4,4.2-4.4,4.3h0s0,0,0,0c-.2,0-.4-.1-.5-.3-.2-.2-.2-.5-.2-.8,0-.2.1-.5.2-.6,1-3.6,2.6-6.8,4.2-9.9.4-1,1-1.9,1.6-2.8.8-1.2,1.5-2.3,1.8-3.6.1-.8,0-1.6-.4-2-.2-.3-.5-.4-.9-.4s-.4,0-.7.1c-.3.2-.6.3-.9.5-.6.3-1,.6-1.7.6s-1-.2-1.7-.5c-.7-.3-1.5-.5-2.4-.5s-.8,0-1.2.1c-.8.2-1.5.7-2.2,1.2-.2.2-.4.3-.7.5l-.4.2c-1.1.8-2.2,1.5-3.1,2.4h0s0,0,0,0c-.6.5-1.2,1.2-1.7,1.8-.4.4-.7.8-1.1,1.2h0s0,0,0,0c-1.1,1-2.2,2.2-3.4,3.9h0s0,0,0,0c-.3.4-.6.8-1,1.1-1.5,1.8-3.1,3.6-3.5,5.9h0s0,0,0,0c-.1.6,0,1.3.4,1.9.4.6,1,1.1,1.7,1.3h0s0,0,0,0c.1,0,.2,0,.4,0,.4,0,.9-.2,1.4-.4.2,0,.4-.1.6-.2,1.9-.6,3.8-1.6,6-3.1,1.6-1.4,3.3-2.5,5.1-3.2h0s0,0,0,0c.1,0,.2,0,.3,0,.2,0,.4,0,.6.2.2.2.2.4.2.7h0s0,0,0,0c-.2,1.6-.9,3.4-1.9,5.3-.2.4-.3.8-.5,1.2-.6,1.4-1.2,2.8-1.6,4,0,.4-.2.8-.4,1.2-.3.7-.5,1.4-.4,2,.4,1.2,1,1.8,1.7,1.8s1.5-.5,2.5-1.5h0s0,0,0,0c.4-.4.7-.9,1.1-1.4.3-.5.6-.9,1-1.3.6-.7,1.3-1.4,2-2,1-1,2-2,2.9-3.1h0s0,0,0,0c0,0,.2-.2.3-.4.5-.7.9-1.2,1.4-1.2.2,0,.6.1.8.9h0s0,0,0,0c.3,2.3,2.4,3.3,4.4,3.3s.5,0,.8,0c.8-.1,1.5-.4,2.3-.7.3-.1.7-.2,1-.4.1,0,.3-.1.4-.2.7-.3,1.3-.5,1.9-.9.1,0,.2-.2.3-.2.8-.5,1.6-1.1,2.5-1.2,0,0,.2,0,.3,0,.7,0,1.2.4,1.7.7.2.2.4.3.6.4.6.3,1.3.4,1.9.4,2.4,0,4.7-1.9,6.5-3.3.9-.7,2.3-2.2,3.3-3.4.3-.3.5-.6.8-.9.8-1,1.5-1.9,2.4-2.8h0c.6-.8,1.4-1.8,1.9-2.6,0-.1.1-.2.2-.4.2-.4.5-1,1.1-1.5.4-.3.8-.6,1.3-.7h0s0,0,0,0c.5-.1,1.1-.2,1.6-.3.9-.2,1.8-.3,2.6-.7h0s0,0,0,0c.2,0,.3,0,.5,0,0,0,0,0,0,0,.2,0,.4,0,.5.2.2.3.2.6.1.8h0s0,0,0,0c-.4,1.5-.8,2.4-1.6,3.8-.1.2-.4.6-.6,1.1-.4.6-.8,1.3-.9,1.6-.4.8-.7,1.1-1,1.6-.2.2-.3.4-.6.8-.1.2-.3.4-.4.6-1.3,1.9-4.1,5.7-3.4,7.8.2.6.6,1,1.4,1.3,1.9-.2,3.3-1.7,4.8-3.4.3-.4.7-.7,1.1-1.1.2-.2.5-.4.7-.7.4-.5.8-.9,1.2-1.4.5-.6,1-1.2,1.5-1.8.2-.3.5-.6.8-.8.1-.1.3-.2.4-.3.2-.2.4-.4.6-.6.3-.3.6-.6,1-.9,1-1,2.1-2,3-2.9,1.2-1.2,2.4-2.4,3.7-3.5.9-.7,1.8-1.4,2.7-2.1.5-.4,1-.7,1.4-1.1,2.3-1.9,3-1.9,3.3-1.9s.6.1.7.4c.2.4.3,1.1-1,3.3h0s0,0,0,0c-.3.5-.6,1-.9,1.5-.7,1.2-1.5,2.4-2.3,3.5-.2.3-.5.6-.8.9-.4.5-.9,1-1.3,1.6h0s0,0,0,0c-.2.3-.5.7-.7,1-1.1,1.5-2.2,3-2.7,4.7h0s0,0,0,0c-.3.8-.3,1.6.1,2.2.3.5.9.8,1.5.8s.6,0,.9-.2c.9-.3,1.6-1.1,2.2-1.8.2-.2.4-.5.6-.7h0s0,0,0,0c.4-.4.8-.8,1.2-1.2.3-.3.5-.6.8-.9.3-.3.5-.6.8-.9.5-.5,1-1.1,1.5-1.5.5-.4,1.2-1,1.6-1.5.8-1,1.9-1.9,2.9-2.7.5-.4,1.1-.8,1.6-1.3,1.1-1.1,2.2-2,3.3-2.8,0,0,.2-.1.3-.2.4-.4.9-.8,1.4-.8,0,0,0,0,0,0h.1s.1,0,.1,0c.2.2.3.4.4.7.2,1.1-1.3,3.2-3.4,5.9-.7.9-1.4,1.8-1.5,2.1h0s0,0,0,0c-.2.4-.5.8-.7,1.2-.6,1-1.2,2-1.5,3.1h0s0,0,0,0c-.3,1-.2,2,.1,2.8.2.5.6.8,1.1.9.2,0,.3,0,.5,0,1.7,0,3-1.4,4.3-2.7.3-.3.6-.7.9-1,.7-.8,1.5-1.5,2.2-2.2.5-.5,1-1,1.5-1.5h0c0,0,0,0,0,0,0,0,.4-.3.7-.5,1.7-1.3,2.5-1.9,3.1-1.9s.4.1.5.3c.2.3,0,.7-.1,1.1h0s0,0,0,0c-.3.4-.6.9-.9,1.5-1.5,2.4-3.3,5.4-1.9,7.5.9.8,1.7,1.2,2.4,1.2s1.9-.6,2.9-1.3c.6-.4,1.2-.8,2-1.1.3-.2.6-.2.8-.2s.5.1.7.3c.1.1.3.4.2.8,0,.5-.4.9-.6,1.3,0,0-.1.2-.2.3-.4.7-.8,1.3-1.3,2-.9,1.4-1.8,2.9-2.8,4.2-.2.2-.4.6-.6.9-.3.5-.7,1.1-1,1.4-.1.1-.3.3-.4.5-.5.6-1,1.2-1.6,1.2-.3,0-.6,0-.8,0-.6,0-1.2,0-1.7,0h0s0,0,0,0c-1.3,0-2.5.1-3.7.2-.7,0-1.5.1-2.3.1-.3,0-.6,0-.9,0-.7,0-1.3,0-2,0-.6,0-1.3,0-1.9,0s-.7,0-1,0h0s0,0,0,0c-2,0-4.1.1-6.1.2-2.4.1-4.8.2-7.3.2h-.2c-3.7.2-8.2.4-12.7.6-.6,0-1.2,0-1.8,0-2.3,0-4.6.2-6.8.5h0s0,0,0,0c-2.2.2-4.4.2-6.6.3-1.3,0-2.6.1-3.9.2-1.2.2-2.5.3-3.7.3-.6,0-1.2,0-1.8.1-.8,0-1.5,0-2.3.1-.9,0-1.9,0-2.9.2-.2,0-.4,0-.7,0-.8,0-1.6.1-2.3.5-1.1.6-1.2.8-1.2.9,0,0,0,.2.7.8.9.5,1.9.5,3.1.5h.2s.2,0,.2,0c.2,0,.4,0,.5,0h0c.6,0,1.3,0,2-.1.5,0,.9,0,1.4-.1.3,0,.6,0,1,0s.4,0,.6,0c.2,0,.4,0,.6,0,.4,0,.9,0,1.4,0,1.6-.2,3.2-.3,4.8-.4,1.3,0,2.7-.2,4.1-.3h0s0,0,0,0c.5,0,1.1-.1,1.7-.2,1.1-.1,2.3-.3,3.3-.3s.2,0,.3,0h0s0,0,0,0c.5,0,1.1,0,1.8,0s1.8,0,2.7,0c.4,0,.8,0,1.2,0,4.4-.2,9.3-.4,14.9-.5,1.8-.2,3.7-.2,5.5-.2,1,0,2,0,2.9,0,1.7-.2,3.7-.2,6-.2s.5,0,.7,0c1.2,0,2.6,0,3.9-.1.7,0,1.5,0,2.1,0h0s0,0,0,0c0,0,0,0,.2,0,.4,0,1,0,1.6,0,.6,0,1.3,0,1.8,0s0,0,.1,0c.3,0,.5.1.6.4.2.5-.2,1-1,2-.1.2-.3.3-.3.4h0s0,0,0,0c-1.7,2.1-3.1,3.9-4.2,5.5-.2.4-.6.8-1.1,1.4-1.3,1.6-3.5,4.3-3.1,5.7.1.4.4.7.9.9,0,0,.1,0,.2,0,1.2,0,2-1.2,2.8-2.4.3-.4.5-.8.8-1.1.5-.7,1-1.4,1.6-2.1.9-1.2,1.8-2.5,2.6-3.7h0s0,0,0,0c.8-1.1,1.8-2.3,2.8-3.5.4-.4.7-.9,1.1-1.3,1.5-2.1,1.9-2.2,3.4-2.3.4,0,.9,0,1.6-.1h0s0,0,0,0h.1c1.6,0,3.2,0,4.7-.2,1.5,0,3.1-.2,4.7-.2.9,0,1.8,0,2.6,0,6.6-.2,13.4-.3,19.9-.4,1.4,0,2.7,0,4.1,0,14-.6,28.3-.9,40.5-1h0s0,0,0,0c1.2,0,2.6,0,4.1,0s3.7,0,5.5,0c.8,0,1.5,0,2.3,0h0s0,0,0,0c.4,0,.9,0,1.4,0,1.2,0,2.5,0,3.7-.2.2,0,.5,0,.7,0h0s0,0,0,0c1.2,0,2.4,0,3.7,0,3.2,0,6.4,0,9.4,0h.2c1.2,0,2.4,0,3.5-.1.6,0,1.1,0,1.7,0,.5,0,1.1,0,1.6,0,1,0,2,0,3,0h0s0,0,0,0c.1,0,.3,0,.4,0,.2,0,.5,0,.7,0s.9,0,1.2.5c.3.5,0,1.1-.2,1.4-.9,1.7-2.5,3.9-4,5.9-.6.8-1.2,1.6-1.6,2.2-1.1,1.4-2,3-3,4.5-.3.4-.5.8-.8,1.2-.8,1.2-1.2,2.2-1.2,3,0,.2,0,.4.5.4s.7-.1.9-.3h0s0,0,0,0c.8-.5,1.5-1.2,2.2-2,.5-.6,1-1.3,1.5-1.9.6-.8,1.1-1.6,1.8-2.3.5-.8,1.1-1.6,1.7-2.5,2.1-3,4.4-6.4,6.3-8.9.8-1,2-1.1,2.8-1.1s.7,0,1.1,0h.2c1,0,1.9,0,2.9,0,.4,0,.7,0,1.1,0,.8,0,1.5,0,2.3,0,1.7,0,3.4-.1,5.2-.1s.2,0,.4,0c1.2,0,2.4,0,3.5.1,1.3,0,2.5.1,3.8.1,2.8,0,5.6,0,8.4.2,1.5,0,3.1,0,4.6,0,1.7,0,3.5,0,5.3,0h.3s0,0,0,0h0s.2,0,.2,0c2.2,0,4.4.2,6.6.2s.7,0,1,0h0s0,0,0,0c1.3,0,2.6,0,4.1,0s3.2,0,4.5,0c.2,0,.5,0,.8,0,.6,0,1.4,0,2.1-.1.5,0,.8-.2.9-.3-.4-.5-2.5-.8-3.2-.9ZM291.1,34.3c-.1.1-.2.2-.3.3-1.7,1.9-3.8,3.7-6.7,5.7h0c-.8.6-1.7,1-2.4,1s-1-.3-1.1-.5c-.3-.5-.3-1.2,0-2.1.9-2.2,2.4-4.1,4.1-5.9h0s0,0,0,0c.2-.2.3-.3.5-.5.9-.9,1.8-1.9,3-2.5.5-.3,1.1-.4,1.8-.4,1,0,1.8.3,2.4.9h0s0,0,0,0c1.3,1.5-.2,3.2-1.2,4.2ZM85.9,36.4c-.5.5-1,1-1.4,1.5-1.5,1.7-3.6,3.8-6.2,5.3-.4.2-.7.4-1.1.6-.4.3-.9.5-1.3.8h0c-.6.4-1.2.6-1.6.6s-.7-.2-.9-.5c-.2-.5,0-1.1.6-2,1.2-1.7,2.5-3.5,4.1-5.1.3-.3.7-.7,1-1,1.3-1.4,2.7-2.9,4.5-3.9.4-.3,1-.6,1.7-.8.2,0,.5,0,.7,0,.6,0,1.2.2,1.5.6.2.2.4.7.3,1.3,0,.6-.4,1.2-1.1,1.9-.3.3-.5.5-.8.8ZM123.3,36.7c0,.7-.4,1.3-.7,1.8-.8,1.2-1.8,2.4-3.2,3.8l-.2.2c-1.4,1.4-2.8,2.8-4.3,4h0s0,0,0,0h0c-.5.4-1,.6-1.4.6s-.7-.2-.9-.4c-.2-.3-.3-.7,0-1.5h0s0,0,0,0c.4-.9,1.1-1.8,1.8-2.5.3-.3.5-.6.7-.9h0s0,0,0,0c.4-.5.8-1,1.1-1.5,1.2-1.6,2.4-3.2,4.1-4.2.4-.3,1.2-.6,1.8-.6s1.3.5,1.3,1.3h0s0,0,0,0Z"></path><path d="M394.3,30.3c-.4-.4-.7-.5-1.2-.5-1.3,0-2.9,1.4-4.2,2.5-.7.6-1.3,1.1-1.9,1.5h-.1c-.2.2-.4.4-.7.5-1.8,1.3-3.7,2.5-5.6,3.6-.8.5-1.6,1-2.4,1.4-.5.3-1,.6-1.6.8-1.3.5-2.7.9-4,1h0s0,0,0,0c-.8,0-1.1-.5-1.2-.8-.4-1.2,1.7-3.1,2.2-3.5,1.1-.9,2.3-1.7,3.2-2.2.6-.3,1.1-.6,1.7-.9,1.3-.8,2.7-1.5,4.1-2.3.5-.3,1-.7,1.5-1,.7-.5,1.4-1,2.2-1.4,1-.6,1.8-1.3,2.7-2.1.3-.2.6-.5.9-.7h0s0,0,0,0c1.7-1.3,2.6-3.1,2.4-4.8,0-.9-.5-1.6-1-2-.5-.3-1.2-.5-1.8-.5s-.6,0-.8.1c-.5.2-1.1.4-1.5.7-1.1.6-2.2,1.4-3.2,2.2-.2.1-.3.2-.5.4-.3.2-.5.4-.8.5-.6.4-1.2.8-1.7,1.2-1.1,1.1-2.4,2.2-3.6,3.2-.9.8-1.9,1.6-2.8,2.4-.4.3-.8.7-1.1,1-.8.8-1.6,1.5-2.5,2.2h0s0,0,0,0c-2.3,1.5-4.9,2.7-7.4,3.8-.5.2-1.1.5-1.6.7-.4.2-.9.5-1.3.7-.6.3-1.2.7-1.8.9h0s0,0,0,0c-.3.1-.6.3-.9.5-.3.2-.6.3-1,.5h0s0,0,0,0c-.1,0-.2,0-.4,0-.5,0-.7-.3-.8-.4-.2-.3-.2-.9.8-2.3,1-1.6,2.2-3.2,3.4-4.6,1.2-1.5,2.3-3,3.3-4.6,1-1.7,1.4-3.3,1.1-4.7-.3-1.2-1.6-1.8-2.7-1.8s-.6,0-.9.1c-3.9,1.3-7.2,3.9-10.4,6.4-1.2,1-2.5,2-3.8,2.9h0s0,0,0,0c0,0-.2.2-.4.3-1,.7-2,1.4-2.7,1.4s-.5-.1-.6-.2c-.2-.2-.2-.4-.2-.7h0c0,0,0,0,0,0,.4-1.3,1.1-2.5,1.8-3.6.5-.9,1.1-1.8,1.5-2.7.7-1.8.7-3.4,0-4.3-.4-.6-1.2-.9-2.2-.9s-.6,0-.9,0h0s0,0,0,0c-.8,0-2.1.6-2.4,1.2,0,.2-.2.4.1.8.2.3.5.5.8.7.4.3.9.7,1.1,1.3h0s0,0,0,0c.3,1.2-.4,2.1-1,2.9-.2.2-.4.5-.5.7h0s0,0,0,0c-.4.5-.7,1-1.1,1.5-.7,1-1.4,2-2.1,2.9h0s0,0,0,0c-.3.4-.6.8-.9,1.1-.2.3-.5.5-.7.8-.2.3-.4.6-.6.8-.3.4-.6.8-.9,1.2-.3.4-.6.8-.9,1.2-.3.4-.6.8-.9,1.2h0s0,0,0,0c-.1.1-.2.3-.3.4-.6.7-1.2,1.4-1.6,2.2h0s0,0,0,0c-.1.2-.2.4-.4.5-.8,1.1-1.5,2.1-2.1,3.3h0s0,0,0,0c-.6.9-.8,1.9-.6,2.6.1.5.4.9.9,1.1.2.1.5.2.7.2.9,0,2-.8,2.9-1.5.4-.3.8-.6,1.2-.8.5-.4.9-.8,1.4-1.2.5-.4,1-.9,1.5-1.3,1.4-1.4,2.9-2.8,4.3-3.9,1.1-1.1,3.3-3.1,5.4-4.7.6-.5,1.2-.9,1.7-1.4,1.2-1,2.3-1.9,3.7-2.7h0s0,0,0,0h0c0,0,.4-.3.7-.5,2-1.4,3.2-2.2,3.9-2.2s.6.2.6.3c.2.4,0,.8,0,1.2h0s0,0,0,0c-1.1,2.1-2.4,4-3.7,5.8-.4.6-.9,1.2-1.3,1.8h0s0,0,0,0c-.4.5-.7,1-1.1,1.4-.8,1.1-1.7,2.2-2.4,3.3-.7,1.3-1.4,2.7-1.9,4.2-.2.7,0,1.3.3,1.8.4.5,1.1.9,1.9.9s.4,0,.5,0c1.1-.2,2-.9,3-1.7.4-.3.8-.7,1.3-1,1.9-1.5,5-3.6,8.3-5.5h0s0,0,0,0c.2,0,.4-.2.7-.4.8-.5,1.8-1,2.7-1s.8.1,1,.3c.4.3.6.9.8,1.3h0c.8,2.4,2,3.2,4.3,3.2s.3,0,.5,0h0s0,0,0,0c0,0,0,0,.1,0,.8,0,1.6-.3,2.4-.5.2,0,.4-.1.6-.2,2.3-.7,4.4-1.9,6.5-3h0s0,0,0,0c1.6-.8,3.1-1.7,4.6-2.8h0s0,0,0,0c1.7-1.1,3.2-2.2,4.9-3.6h0s0,0,0,0c.2-.1.4-.3.6-.4.4-.3.9-.6,1.2-1,.2-.2.4-.4.7-.7.4-.4.8-.7,1.1-1.2.3-.5.5-1.1.3-1.4Z"></path><path d="M69.7,31.6c.6-.9,1.2-1.8,1.8-2.7.7-1.1,1.5-2.3,2.3-3.3.6-.7,1.2-1.6,1.8-2.4l.3-.4c0-.1.2-.2.2-.3.5-.7.9-1.2,1.2-1.9h0s0,0,0,0c.3-.8.3-1.6,0-2.2-.2-.4-.6-.9-1.5-1-.2,0-.4,0-.6,0-1.4,0-2.7.5-4,.9-.6.2-1.2.4-1.8.6-.8.3-1.8.5-2.6.9h0s0,0,0,0c-.8.3-1.7.6-2.5.9-.9.3-1.9.6-2.9,1h0s0,0,0,0c-.7.2-1.4.3-2.1.4-.9.2-1.7.3-2.6.6h0s0,0,0,0c-1.6.4-2.9.5-4.1.5s-1.7,0-2.5-.3c-.2,0-.5,0-.7,0-.7,0-1.6.2-1.8.9,0,.3,0,.6.1.8.4.6,1.5,1.1,2.4,1.3h0s0,0,0,0c.9.2,1.8.3,2.8.3s2.3-.1,3.8-.4h0s0,0,0,0c.5,0,1-.1,1.5-.2.5,0,1,0,1.5-.2,1-.1,2-.4,3-.8.2,0,.4-.1.6-.2,1-.3,1.9-.5,2.8-.8h.4c.4-.2,1-.4,1.6-.4s1.1.2,1.3.6c.2.4.2.9-.1,1.6h0s0,0,0,0c-.4.7-.9,1.3-1.3,1.9-.5.7-1,1.3-1.4,2.1h0s0,0,0,0c-1.1,1.7-2,3.3-2.9,4.8h0s0,0,0,0c-.4.6-.8,1.2-1.2,1.8-.4.5-.8,1.1-1.2,1.6-1.5,2.6-3,5.3-4.5,7.9-.3.6-.6,1.2-1,1.8-1,2-2.2,4-4,6.6-.9,1.5-2,2.8-3,4-.2.2-.4.4-.6.7-.3.4-.5.7-.8,1.1-.6.9-1.3,1.7-2,2.5-.3.4-.7.7-1,1.1-.6.7-1.3,1.4-1.9,2-.9.9-1.8,1.7-2.7,2.4-.7.6-1.4,1.2-2.1,1.8-2.3,2.3-5.2,3.8-8.1,5.2l-.5.2c-2,1.2-3.9,2.2-5.9,2.7-.5.1-1.1.3-1.6.4-1.3.3-2.6.7-4,.7-.2,0-.5,0-.7,0-.9,0-1.9-.1-2.8-.4-1.8-.4-3.3-1-4.5-1.7h0c-2.9-1.5-4.9-4.5-5.6-8.2-.1-.8-.2-1.5-.3-2.3,0-.3,0-.6-.1-.9h0s0,0,0,0c-.1-1.1-.5-3.1-1.8-3.1s-.2,0-.3,0c-1.1.2-1.3,1.7-1.3,2.6h0s0,0,0,0c-.3,4.3.9,8.5,3.3,11.7h0s0,0,0,0c.6.9,1.4,1.6,2.3,2.3h0s0,0,0,0c1.6,1.1,3,1.9,4.6,2.4h0s0,0,0,0c.3,0,.5.2.8.2,1.8.6,3.6,1.2,5.5,1.2s.3,0,.5,0h0s0,0,0,0c.9,0,1.8-.2,2.7-.4.5,0,1.1-.2,1.6-.3,1.2-.2,2.3-.5,3.4-.9.5-.2,1-.4,1.5-.6.9-.3,1.7-.6,2.4-1,2.1-1.2,4.4-2.4,6.5-3.8.3-.2.6-.3.8-.5,1.8-1.1,3.7-2.3,5.4-3.6,4.3-3.9,7.7-7.6,10.4-11.4.4-.6.8-1.1,1.3-1.6.3-.4.7-.9,1-1.3,1.1-1.6,2.2-3.3,3.3-5,.7-1.1,1.4-2.4,2-3.6.1-.2.2-.4.3-.6h0s0,0,0,0c.2-.3.3-.6.5-.9.4-.7.8-1.3,1.1-2.1.6-1.2,1.3-2.3,1.9-3.4.7-1.1,1.4-2.3,2-3.5.9-1.9,2.2-3.6,3.4-5.3.3-.5.7-.9,1-1.4Z"></path></symbol></svg>
+<a class="sr saltar" href="#principal">Skip to content</a>
+
+<header class="barra sobre-hero" data-rol="barra" data-afirmacion="firma + Work · Studio + botón fijo Start a project (sin más salidas)" data-intro-fade>
+  <a class="barra-firma" href="#principal" aria-label="Jacomy &amp; Mayne"><svg viewBox="0 0 394.4 83.8" aria-hidden="true" focusable="false"><use href="#firma"/></svg></a>
+  <nav class="barra-nav" aria-label="Main">
+    <a href="#selected-work">Work</a>
+    <a href="#frase-horizontal">Studio</a>
+  </nav>
+  <a class="btn btn-pastilla" data-iman href="#start" data-cta="start" data-ubicacion="barra">Start a project</a>
+</header>
+
+<main id="principal">
+
+  <!-- S1 · hero como Holy Studio (ronda 9, ronda-9-diseno.md): foto a sangre que cambia sola, la firma = h1 al pie y UNA sola línea
+       arriba a la izquierda (en el lugar de la firma chica de la barra, que se apaga en el hero). Nada más fuera de la barra (R43).
+       La intro (G1, M01) no cambia: la firma de lado a lado, negra sobre blanco, ~1 s; la foto aparece detrás y la firma baja y se vuelve blanca -->
+  <section class="hero" id="hero" data-rol="hero" data-afirmacion="Holy Studio: un trabajo a pantalla completa que cambia solo, el nombre gigante abajo (h1) y una línea: qué es, para qué bebidas, desde cuándo">
+    <div class="velo" aria-hidden="true"></div>
+    <div class="hero-mueve" data-hero-mueve>
+      <div class="hero-slides" data-slides data-intro-fade role="group" aria-roledescription="slideshow" aria-label="Packaging by Jacomy &amp; Mayne">
+        <figure class="hero-slide activa"><picture><source media="(max-width: 991px)" type="image/webp" srcset="img/hero-anansi-r9-mob-600.webp 600w, img/hero-anansi-r9-mob-780.webp 780w" sizes="100vw" width="780" height="1444"><source media="(max-width: 991px)" srcset="img/hero-anansi-r9-mob-600.jpg 600w, img/hero-anansi-r9-mob-780.jpg 780w" sizes="100vw" width="780" height="1444"><source type="image/webp" srcset="img/hero-anansi-r9-800.webp 800w, img/hero-anansi-r9-1200.webp 1200w, img/hero-anansi-r9-1600.webp 1600w, img/hero-anansi-r9-1930.webp 1930w" sizes="100vw"><img src="img/hero-anansi-r9-1200.jpg" srcset="img/hero-anansi-r9-800.jpg 800w, img/hero-anansi-r9-1200.jpg 1200w, img/hero-anansi-r9-1600.jpg 1600w, img/hero-anansi-r9-1930.jpg 1930w" sizes="100vw" width="1930" height="1000" alt="Anansi Rum bottle, label and packaging by Jacomy &amp; Mayne" fetchpriority="high" decoding="async"></picture></figure>
+        <figure class="hero-slide hero-censurado"><picture><source media="(max-width: 991px)" type="image/webp" srcset="img/hero-censurado-mob-600.webp" width="600" height="700"><source media="(max-width: 991px)" srcset="img/hero-censurado-mob-600.jpg" width="600" height="700"><source type="image/webp" srcset="img/hero-censurado-r9-800.webp 800w, img/hero-censurado-r9-1200.webp 1200w, img/hero-censurado-r9-1600.webp 1600w, img/hero-censurado-r9-1930.webp 1930w" sizes="100vw"><img src="img/hero-censurado-r9-1200.jpg" srcset="img/hero-censurado-r9-800.jpg 800w, img/hero-censurado-r9-1200.jpg 1200w, img/hero-censurado-r9-1600.jpg 1600w, img/hero-censurado-r9-1930.jpg 1930w" sizes="100vw" width="1930" height="1285" alt="Censurado Sparkling Wine bottles, packaging by Jacomy &amp; Mayne" loading="lazy" fetchpriority="low" decoding="async"></picture></figure>
+      </div>
+      <p class="hero-bajada" data-intro-fade><span class="renglon">A packaging studio for spirits,</span> <span class="renglon">wine and beer. Since 2015.</span></p>
+      <button class="hero-pausa" type="button" data-pausa data-intro-fade aria-label="Pause slideshow" aria-pressed="false" hidden><svg class="ic-pausa" viewBox="0 0 12 14" aria-hidden="true" focusable="false"><rect width="4" height="14"/><rect x="8" width="4" height="14"/></svg><svg class="ic-play" viewBox="0 0 12 14" aria-hidden="true" focusable="false"><path d="M0 0l12 7-12 7z"/></svg></button>
+      <h1 class="hero-firma" data-intro-firma data-gesto="G1"><span class="sr">Jacomy &amp; Mayne</span><svg viewBox="0 0 394.4 83.8" aria-hidden="true" focusable="false"><use href="#firma"/></svg></h1>
+    </div>
+    <!-- Bajada por anuncio: ?utm_content=remembered (A1) y ?utm_content=generic (A2), con la frase del anuncio (2 renglones) -->
+    <template id="bajada-remembered"><span class="renglon">Some spirits are tasted. Others are remembered.</span> <span class="renglon">A packaging studio for spirits, wine and beer since&nbsp;2015.</span></template>
+    <template id="bajada-generic"><span class="renglon">Great spirits deserve more than generic packaging.</span> <span class="renglon">A packaging studio for spirits, wine and beer since&nbsp;2015.</span></template>
+  </section>
+  <script>
+  /* G1 · intro como Holy Studio (corrección de Efraín 2026-10-24), en línea para que no dependa de que carguen GSAP ni los CDN:
+     la firma de lado a lado, centrada, negra sobre blanco; espera 1,0 s; la foto aparece detrás (1,0 s power2.inOut) mientras la firma
+     baja al pie y se vuelve blanca (0,8 s power3.inOut). En cada carga y recarga; ?intro=1 la fuerza, ?intro=0 la apaga; con reduced-motion
+     no existe. Toque o tecla la saltean. Si algo falla, a los 3 s la página queda visible igual. */
+  (function () {
+    var root = document.documentElement;
+    if (!root.classList.contains('intro') || window.__introFin) return;      // la decisión la tomó el <head>
+    var f = document.querySelector('[data-intro-firma]');
+    var desde = getComputedStyle(f).transform;                               // la firma centrada que dejó el CSS
+    var ini = getComputedStyle(root).getPropertyValue('--firma-ini').trim(), fin = getComputedStyle(root).getPropertyValue('--firma-fin').trim();
+    var espera = Math.max(0, 1000 - (performance.now() - (window.__introT || 0)));   // 1,0 s desde el primer script de la página (Holy Studio)
+    var suave = 'cubic-bezier(.45,.03,.51,.95)';
+    var anims = [f.animate([{ transform: desde, color: ini }, { transform: 'none', color: fin }], { duration: 800, delay: espera, easing: 'cubic-bezier(.65,0,.35,1)', fill: 'both' }),
+                 document.querySelector('.velo').animate([{ clipPath: 'inset(0% 0% 0% 0%)' }, { clipPath: 'inset(100% 0% 0% 0%)' }], { duration: 1000, delay: espera, easing: suave, fill: 'both' })];   // r17: el velo se corre hacia abajo con la firma (antes se fundía y dejaba la página gris)
+    document.querySelectorAll('[data-intro-fade]').forEach(function (el) { anims.push(el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 1000, delay: espera, easing: suave, fill: 'both' })); });
+    var listo = false;
+    function terminar() { if (listo) return; listo = true; root.classList.remove('intro'); anims.forEach(function (a) { a.cancel(); }); window.__introFin = true; window.dispatchEvent(new CustomEvent('jm:intro-fin')); }
+    function saltar() { if (listo) return; window.dispatchEvent(new CustomEvent('lp:evento', { detail: { evento: 'intro_skip' } })); anims.forEach(function (a) { a.finish(); }); }
+    addEventListener('pointerdown', saltar, { once: true }); addEventListener('keydown', saltar, { once: true });
+    // anclada al reloj del documento: arranca a 1,0 s del primer script aunque el hilo principal esté ocupado decodificando fotos
+    if (document.timeline && typeof document.timeline.currentTime === 'number') anims.forEach(function (a) { var t = a.effect.getTiming(); a.effect.updateTiming({ delay: 0 }); a.startTime = (window.__introT || 0) + 1000; });
+    Promise.all(anims.map(function (a) { return a.finished; })).then(terminar, terminar);
+  })();
+  </script>
+
+  <!-- S1b · titular (ronda 9): el dolor solo, en su propia pantalla, a todo el ancho (MONOLOG: una idea por pantalla). G3 por renglón -->
+  <section data-tema="claro" data-panel class="tema-claro titular" id="titular" data-rol="titular" data-afirmacion="dolor: a la mayoría de las botellas la pasan de largo; la tuya tiene que ser la que levantan (banco #43 + #41) + clientes en texto">
+    <div class="sombra-caja" aria-hidden="true"><svg class="sombra-firma" viewBox="0 0 394.4 83.8" aria-hidden="true" focusable="false"><use href="#firma"/></svg></div>
+    <h2 class="display titular-h" data-lineas data-gesto="G3">
+      <span class="renglon"><span class="renglon-in"><span class="parte">Most bottles</span> <span class="parte">get walked past.</span></span></span>
+      <span class="renglon"><span class="renglon-in"><span class="parte">Yours should</span> <span class="parte">get picked up.</span></span></span>
+    </h2>
+    <p class="clientes" data-clientes>Worked with Concha y Toro, Trivento and Kaiken.</p>
+    <!-- Variante del titular solo con ?utm_content=bottle-says (textos.md) -->
+    <template id="titular-bottle-says"><span class="renglon"><span class="renglon-in"><span class="parte">What does</span> <span class="parte">your bottle say</span></span></span> <span class="renglon"><span class="renglon-in"><span class="parte">before anyone</span> <span class="parte">tastes it?</span></span></span></template>
+  </section>
+
+  <!-- S3 · frase horizontal (G4, M04): el lienzo se fija y se corre a la izquierda al bajar; la cinta tapa los *** y la firma contesta -->
+  <section class="frase-sec" id="frase-horizontal" data-rol="frase-horizontal" data-afirmacion="la pregunta firma se corre con el scroll, trabajos entre palabras, cinta sobre F***, y la firma contesta">
+    <div class="fr-pista" data-frase>
+      <div class="fr-escena">
+        <div class="fr-ventana">
+        <h2 class="sr" data-seguro="frase_horizontal:false">Who the f*** is Jacomy &amp; Mayne?</h2>
+        <div class="fr-lienzo" data-lienzo data-gesto="G4" data-seguro="frase_horizontal:false" aria-hidden="true">
+          <span class="fr-palabra">Who</span>
+          <span class="fr-foto"><img src="img/s3-trivento-420.jpg" srcset="img/s3-trivento-420.webp 420w, img/s3-trivento-840.webp 840w" sizes="42svh" width="840" height="600" alt="" loading="lazy" decoding="async"></span>
+          <span class="fr-palabra">the</span>
+          <span class="fr-palabra">F<span class="fr-tapado">***<span class="cinta" data-cinta></span></span></span>
+          <span class="fr-foto"><img src="img/s3-frankly-420.jpg" srcset="img/s3-frankly-420.webp 420w, img/s3-frankly-840.webp 840w" sizes="42svh" width="840" height="600" alt="" loading="lazy" decoding="async"></span>
+          <span class="fr-palabra">is</span>
+          <span class="fr-foto"><img src="img/s3-anansi-420.jpg" srcset="img/s3-anansi-420.webp 420w, img/s3-anansi-840.webp 840w" sizes="42svh" width="840" height="600" alt="" loading="lazy" decoding="async"></span>
+          <span class="fr-firma"><svg viewBox="0 0 394.4 83.8" focusable="false"><use href="#firma"/></svg></span>
+        </div>
+        <h2 class="sr" data-seguro="frase_horizontal:true" hidden>Who is Jacomy &amp; Mayne?</h2>
+        <div class="fr-lienzo" data-lienzo data-gesto="G4" data-seguro="frase_horizontal:true" aria-hidden="true" hidden>
+          <span class="fr-palabra">Who</span>
+          <span class="fr-foto"><img src="img/s3-trivento-420.jpg" srcset="img/s3-trivento-420.webp 420w, img/s3-trivento-840.webp 840w" sizes="42svh" width="840" height="600" alt="" loading="lazy" decoding="async"></span>
+          <span class="fr-palabra">is</span>
+          <span class="fr-foto"><img src="img/s3-frankly-420.jpg" srcset="img/s3-frankly-420.webp 420w, img/s3-frankly-840.webp 840w" sizes="42svh" width="840" height="600" alt="" loading="lazy" decoding="async"></span>
+          <span class="fr-firma"><svg viewBox="0 0 394.4 83.8" focusable="false"><use href="#firma"/></svg></span>
+        </div>
+        </div>
+        <!-- la respuesta, quieta debajo de la pregunta: se ilumina mientras llega la firma (G3) -->
+        <div class="respuesta">
+          <p class="respuesta-texto" data-ilumina data-gesto="G3">Roy and Andy, from a Mendoza studio. Friends first, designers second. 20 projects in our portfolio. No two look alike.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S3b · párrafo que se ilumina (G10, M09 · MONOLOG problems_home): cada letra pasa de 0,2 a 1 atada al scroll (top 100 % → center 40 %),
+       cada renglón 3 letras detrás del anterior (una ola en diagonal); a la izquierda, la nota de los fundadores (sin testimonios verificados) -->
+  <section class="ilumina-sec" id="por-que" data-rol="parrafo-ilumina" data-afirmacion="el dolor en grande: un buen líquido merece una botella que la gente levante; cada vez que la pasan de largo se pierde el momento; nota de Roy y Andy (cita literal de /studio)">
+    <div class="contenedor il-grilla">
+      <figure class="il-nota">
+        <p class="rotulo rotulo-nota" data-rotulo-entra>From the founders</p>
+        <blockquote class="il-cita"><p>&ldquo;Every brand has its own story, its own feeling, its own energy, and our job is to bring that to life in a way that&rsquo;s impossible to ignore.&rdquo;</p></blockquote>
+        <figcaption class="il-pie"><span class="il-quien">Roy &amp; Andy</span> <span class="il-estudio">Jacomy &amp; Mayne Studio, since 2015</span></figcaption>
+      </figure>
+      <div class="il-texto" data-gesto="G10">
+        <h2 class="il-p" data-ilumina-p>A great liquid<span class="corte-m"></span> deserves a bottle<span class="corte"></span> people pick up.<span class="corte-m"></span> You already have<span class="corte"></span> something good<span class="corte-m"></span> in the glass.<span class="corte"></span> On the shelf,<span class="corte-m"></span> nobody can tell yet.</h2>
+        <p class="il-p" data-ilumina-p>Every time<span class="corte-m"></span> they walk past,<span class="corte-m"></span> you lose<span class="corte-d"></span> the moment<span class="corte-m"></span> that matters:<span class="corte-m"></span> someone<span class="corte-d"></span> stopping,<span class="corte-m"></span> picking up the bottle<span class="corte"></span> and asking what&rsquo;s inside.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- S4 · servicios (G5 v2, M05 · Neutomni "process", ronda 9: "que sea igual" al video). La cabecera y las 4 tarjetas quedan fijadas en
+       una escena sticky (pista 500vh = 3.600 px de pin a 900 de alto). El texto es del color del fondo de la sección (negro sobre negro) y
+       está siempre en su lugar: lo descubre la luz (--luz) que sube desde el piso en escalera, lineal, con fines al 30 / 45 / 60 / 75 % de un
+       recorrido que arranca cuando la pista toca el 25 % de la pantalla (≈ 224 px antes del pin) y termina cuando la pista sale por arriba
+       (≈ 281 px de quietud al final). Encima, un lienzo: un polígono que rueda por un camino de arcos de cadena y pasa de 4 lados a círculo
+       mientras el camino se aplana. Sin mix-blend-mode. En < 992: escena fijada de 3 pantallas, tarjetas ya llenas en carrusel horizontal -->
+  <section class="servicios-sec" id="servicios" data-rol="servicios" data-afirmacion="mecanismo: un solo estudio del nombre a la botella; 4 tarjetas en el orden del producto, una frase por fase (las 15 capacidades, en S4b)">
+    <div class="sv-pista" data-servicios>
+      <div class="sv-escena">
+        <div class="servicios-cabeza">
+          <p class="lead servicios-bajada">One studio from the first spark of an idea to the final design, and we're in it with you.</p>
+        </div>
+        <div class="sv-tarjetas">
+        <ol class="servicios" role="list" data-gesto="G5">
+          <li class="servicio">
+            <div class="relleno"><span class="num">01</span><div class="servicio-pie"><h3 class="h3 servicio-nombre">Story &amp; strategy</h3><p class="servicio-linea">Who you are and what you're called.</p></div></div>
+          </li>
+          <li class="servicio">
+            <div class="relleno"><span class="num">02</span><div class="servicio-pie"><h3 class="h3 servicio-nombre">Label &amp; packaging</h3><p class="servicio-linea">What people see before anyone tastes it.</p></div></div>
+          </li>
+          <li class="servicio">
+            <div class="relleno"><span class="num">03</span><div class="servicio-pie"><h3 class="h3 servicio-nombre">Structure</h3><p class="servicio-linea">The glass, the closure, the shape.</p></div></div>
+          </li>
+          <li class="servicio">
+            <div class="relleno"><span class="num">04</span><div class="servicio-pie"><h3 class="h3 servicio-nombre">To the shelf</h3><p class="servicio-linea">Everything that travels with the bottle.</p></div></div>
+          </li>
+        </ol>
+        <canvas class="sv-lienzo" data-sv-lienzo aria-hidden="true"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S4b · "What we can help with" (G11, M10 v2 · MONOLOG services_home, ronda 9): lista grande sin pin; el renglón activo es el que queda
+       bajo el cursor mientras se scrollea (sin cursor encima o en táctil, el que pasa por el centro de la pantalla). El título del costado es UNO
+       y queda fijo (LL22: no cambia con el scroll); cada renglón lleva su línea adentro. Una sola ventana 4:5 viaja al renglón activo y adentro
+       las fotos pasan como una tira (una cada 4 renglones), sin fundidos ni capas encima (LL24); cada foto lleva su rótulo pegado -->
+  <section class="ayuda-sec" id="ayuda" data-rol="ayuda-lista" data-afirmacion="mecanismo en detalle: las 15 capacidades de Datos verificados en 12 renglones, en el orden del camino de la botella">
+    <div class="contenedor ay-grilla">
+      <div class="ay-lado">
+        <div class="ay-lado-in">
+        <h2 class="ay-titulo" data-rotulo-entra>What we can help with</h2>
+          <p class="ay-leyenda" aria-hidden="true"><span data-ay-leyenda></span> <span class="ay-pie-r" data-ay-credito>From the portfolio · Frankly by Kaiken</span></p>
+        </div>
+      </div>
+      <div class="ay-cuerpo" data-gesto="G11">
+        <ol class="ay-lista" role="list" data-ay-lista>
+          <li class="ay-item" data-ay-item><span class="ay-nombre">Brand strategy</span> <span class="ay-linea">Where the brand stands and who it&rsquo;s for.</span></li>
+          <li class="ay-item" data-ay-item><span class="ay-nombre">Naming</span> <span class="ay-linea">A name for the brand, the line or the bottle.</span></li>
+          <li class="ay-item" data-ay-item><span class="ay-nombre">Brand story</span> <span class="ay-linea">What&rsquo;s behind the liquid, put into words.</span></li>
+          <li class="ay-item" data-ay-item><span class="ay-nombre">Branding</span> <span class="ay-linea">The look that ties every bottle together.</span></li>
+          <li class="ay-item" data-ay-item><span class="ay-nombre">Label design</span> <span class="ay-linea">Front and back, with your story up front.</span></li>
+          <li class="ay-item" data-ay-item><span class="ay-nombre">Packaging</span> <span class="ay-linea">The whole pack, not just the label.</span></li>
+          <li class="ay-item" data-ay-item><span class="ay-nombre">Bottle shape</span> <span class="ay-linea">A bottle shape designed for your brand.</span></li>
+          <li class="ay-item" data-ay-item><span class="ay-nombre">Closures</span> <span class="ay-linea">The cap, cork or stopper, designed to match.</span></li>
+          <li class="ay-item" data-ay-item><span class="ay-nombre">Structural design</span> <span class="ay-linea">How the pack is built, folds and holds.</span></li>
+          <li class="ay-item" data-ay-item><span class="ay-nombre">3D</span> <span class="ay-linea">See the bottle before it exists.</span></li>
+          <li class="ay-item" data-ay-item><span class="ay-nombre">Boxes &amp; shippers</span> <span class="ay-linea">The box it&rsquo;s given in and the one it travels in.</span></li>
+          <li class="ay-item" data-ay-item><span class="ay-nombre">Merch &amp; stationery</span> <span class="ay-linea">Everything around the bottle that carries the brand.</span></li>
+        </ol>
+        <!-- r13 (Efraín: "las imágenes medio desordenado, se ve mal"): fiel a MONOLOG services_home. UNA ventana 4:5, siempre del mismo tamaño
+             y en la misma columna, que viaja al renglón activo (0,95 s, salida); adentro las 3 tomas con el mismo encuadre se funden (0,2 s,
+             fade), sin tira ni collage. Debajo, la línea del renglón activo y de qué proyecto es la foto (C29) -->
+        <div class="ay-viaje" data-ay-viaje aria-hidden="true">
+          <div class="ay-marco" data-ay-marco>
+            <figure class="ay-foto activa" data-ay-foto data-credito="Frankly by Kaiken"><picture><source type="image/webp" srcset="img/ay-r13-1-240.webp 240w, img/ay-r13-1-480.webp 480w" sizes="(min-width: 992px) 240px, 120px"><img src="img/ay-r13-1-480.jpg" srcset="img/ay-r13-1-240.jpg 240w, img/ay-r13-1-480.jpg 480w" sizes="(min-width: 992px) 240px, 120px" width="480" height="600" alt="" loading="lazy" decoding="async"></picture></figure>
+            <figure class="ay-foto" data-ay-foto data-credito="Trivento Wine Gin"><picture><source type="image/webp" srcset="img/ay-r13-2-240.webp 240w, img/ay-r13-2-480.webp 480w" sizes="(min-width: 992px) 240px, 120px"><img src="img/ay-r13-2-480.jpg" srcset="img/ay-r13-2-240.jpg 240w, img/ay-r13-2-480.jpg 480w" sizes="(min-width: 992px) 240px, 120px" width="480" height="600" alt="" loading="lazy" decoding="async"></picture></figure>
+            <figure class="ay-foto" data-ay-foto data-credito="Anansi Rum"><picture><source type="image/webp" srcset="img/ay-r13-3-240.webp 240w, img/ay-r13-3-480.webp 480w" sizes="(min-width: 992px) 240px, 120px"><img src="img/ay-r13-3-480.jpg" srcset="img/ay-r13-3-240.jpg 240w, img/ay-r13-3-480.jpg 480w" sizes="(min-width: 992px) 240px, 120px" width="480" height="600" alt="" loading="lazy" decoding="async"></picture></figure>
+          </div>
+          <p class="ay-pie-m"><span data-ay-credito>From the portfolio · Frankly by Kaiken</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S4c · marcas (ronda 10; ronda 11: "sumalas pero con los logos… que las puedas mover y que corran solas si no… cuando pongo el mouse
+       arriba de un logo se pone en color"). 21 marcas: Datos verificados + la grilla Works pública del sitio del cliente (sin Theory11 /
+       Peaky Blinders, R4). Cada una toma img/logos/<slug>.svg|png si figura en marca.js → marcas (hoy ninguna: nombre como wordmark).
+       M14 v2: cinta que corre sola, se arrastra con mouse o dedo con inercia y vuelve a correr sola 2,5 s después de soltarla; en gris en
+       reposo y en color al pasar el mouse. Tramo oscuro (coordinador r11: los logos de las marcas son claros). Sin JS o con reduced-motion: lista quieta -->
+  <section class="marcas-sec" id="marcas" data-rol="marcas" data-afirmacion="prueba: las marcas con las que trabajó el estudio, en una pantalla propia: dos cintas grandes que corren en sentidos opuestos">
+    <!-- r13 (Efraín: "lo pondría como en una pantalla, que sea más importante, porque se ve muy chico"): pantalla entera, titular "Worked with"
+         (textos.md) y dos cintas en sentidos opuestos con los logos grandes; se arrastran y responden al pad. Al pasar el mouse, el color real
+         de la marca (marca.js → marcas.color, con su fuente en img/logos/FUENTES.md); sin fuente, blanco -->
+    <h2 class="h2 marcas-titulo" data-mascara>Worked with</h2>
+    <div class="marcas-ventana" data-marcas data-dir="1">
+      <div class="marcas-pista" data-marcas-pista>
+        <ul class="marcas-lista" role="list"><li class="mc-a" data-slug="concha-y-toro" data-logo="svg" style="--mc-color:#C8A284"><a class="mc-link" href="https://jacomymayne.com/marques-de-casa-concha/" target="_blank" rel="noopener" draggable="false"><span class="mc-nombre">Concha&nbsp;y&nbsp;Toro</span></a></li><li class="mc-b" data-slug="anansi-rum" style="--mc-color:#AA3622"><a class="mc-link" href="https://jacomymayne.com/anansi-rum/" target="_blank" rel="noopener" draggable="false"><span class="mc-nombre">Anansi&nbsp;Rum</span></a></li><li class="mc-a" data-slug="trivento" data-logo="svg" style="--mc-color:#B4984B"><a class="mc-link" href="https://trivento.com/" target="_blank" rel="noopener" draggable="false"><span class="mc-nombre">Trivento</span></a></li><li class="mc-b" data-slug="censurado" style="--mc-color:#93453A"><a class="mc-link" href="https://jacomymayne.com/censurado-sparkling-wine/" target="_blank" rel="noopener" draggable="false"><span class="mc-nombre">Censurado</span></a></li><li class="mc-a" data-slug="kaiken" data-logo="png" style="--mc-color:#A66548"><a class="mc-link" href="https://jacomymayne.com/frankly-by-kaiken/" target="_blank" rel="noopener" draggable="false"><span class="mc-nombre">Kaiken</span></a></li><li class="mc-b" data-slug="marques-de-casa-concha" data-logo="png" style="--mc-color:#765E2D"><a class="mc-link" href="https://marquesdecasaconcha.com/" target="_blank" rel="noopener" draggable="false"><span class="mc-nombre">Marques&nbsp;de&nbsp;Casa&nbsp;Concha</span></a></li><li class="mc-a" data-slug="bonaventure-rum" data-logo="png" style="--mc-color:#89495A"><a class="mc-link" href="https://jacomymayne.com/bonaventure-rum/" target="_blank" rel="noopener" draggable="false"><span class="mc-nombre">Bonaventure&nbsp;Rum</span></a></li><li class="mc-b" data-slug="brass-monkey-gin" data-logo="png" style="--mc-color:#C4883D"><a class="mc-link" href="https://jacomymayne.com/brass-monkey-gin/" target="_blank" rel="noopener" draggable="false"><span class="mc-nombre">Brass&nbsp;Monkey&nbsp;Gin</span></a></li><li class="mc-a" data-slug="william-scott" data-logo="png" style="--mc-color:#B77957"><a class="mc-link" href="https://jacomymayne.com/william-scott-whisky/" target="_blank" rel="noopener" draggable="false"><span class="mc-nombre">William&nbsp;Scott</span></a></li><li class="mc-b" data-slug="perico-verde" style="--mc-color:#4CC738"><a class="mc-link" href="https://jacomymayne.com/perico-verde/" target="_blank" rel="noopener" draggable="false"><span class="mc-nombre">Perico&nbsp;Verde</span></a></li><li class="mc-a" data-slug="grizzly-whisky" style="--mc-color:#CF751B"><a class="mc-link" href="https://jacomymayne.com/grizzly-whisky/" target="_blank" rel="noopener" draggable="false"><span class="mc-nombre">Grizzly&nbsp;Whisky</span></a></li></ul>
+        <ul class="marcas-lista marcas-copia" role="list" aria-hidden="true"><li class="mc-a" data-slug="concha-y-toro" data-logo="svg" style="--mc-color:#C8A284"><a class="mc-link" href="https://jacomymayne.com/marques-de-casa-concha/" target="_blank" rel="noopener" draggable="false" tabindex="-1"><span class="mc-nombre">Concha&nbsp;y&nbsp;Toro</span></a></li><li class="mc-b" data-slug="anansi-rum" style="--mc-color:#AA3622"><a class="mc-link" href="https://jacomymayne.com/anansi-rum/" target="_blank" rel="noopener" draggable="false" tabindex="-1"><span class="mc-nombre">Anansi&nbsp;Rum</span></a></li><li class="mc-a" data-slug="trivento" data-logo="svg" style="--mc-color:#B4984B"><a class="mc-link" href="https://trivento.com/" target="_blank" rel="noopener" draggable="false" tabindex="-1"><span class="mc-nombre">Trivento</span></a></li><li class="mc-b" data-slug="censurado" style="--mc-color:#93453A"><a class="mc-link" href="https://jacomymayne.com/censurado-sparkling-wine/" target="_blank" rel="noopener" draggable="false" tabindex="-1"><span class="mc-nombre">Censurado</span></a></li><li class="mc-a" data-slug="kaiken" data-logo="png" style="--mc-color:#A66548"><a class="mc-link" href="https://jacomymayne.com/frankly-by-kaiken/" target="_blank" rel="noopener" draggable="false" tabindex="-1"><span class="mc-nombre">Kaiken</span></a></li><li class="mc-b" data-slug="marques-de-casa-concha" data-logo="png" style="--mc-color:#765E2D"><a class="mc-link" href="https://marquesdecasaconcha.com/" target="_blank" rel="noopener" draggable="false" tabindex="-1"><span class="mc-nombre">Marques&nbsp;de&nbsp;Casa&nbsp;Concha</span></a></li><li class="mc-a" data-slug="bonaventure-rum" data-logo="png" style="--mc-color:#89495A"><a class="mc-link" href="https://jacomymayne.com/bonaventure-rum/" target="_blank" rel="noopener" draggable="false" tabindex="-1"><span class="mc-nombre">Bonaventure&nbsp;Rum</span></a></li><li class="mc-b" data-slug="brass-monkey-gin" data-logo="png" style="--mc-color:#C4883D"><a class="mc-link" href="https://jacomymayne.com/brass-monkey-gin/" target="_blank" rel="noopener" draggable="false" tabindex="-1"><span class="mc-nombre">Brass&nbsp;Monkey&nbsp;Gin</span></a></li><li class="mc-a" data-slug="william-scott" data-logo="png" style="--mc-color:#B77957"><a class="mc-link" href="https://jacomymayne.com/william-scott-whisky/" target="_blank" rel="noopener" draggable="false" tabindex="-1"><span class="mc-nombre">William&nbsp;Scott</span></a></li><li class="mc-b" data-slug="perico-verde" style="--mc-color:#4CC738"><a class="mc-link" href="https://jacomymayne.com/perico-verde/" target="_blank" rel="noopener" draggable="false" tabindex="-1"><span class="mc-nombre">Perico&nbsp;Verde</span></a></li><li class="mc-a" data-slug="grizzly-whisky" style="--mc-color:#CF751B"><a class="mc-link" href="https://jacomymayne.com/grizzly-whisky/" target="_blank" rel="noopener" draggable="false" tabindex="-1"><span class="mc-nombre">Grizzly&nbsp;Whisky</span></a></li></ul>
+      </div>
+    </div>
+    <div class="marcas-ventana" data-marcas data-dir="-1">
+      <div class="marcas-pista" data-marcas-pista>
+        <ul class="marcas-lista" role="list"><li class="mc-b" data-slug="frankly" style="--mc-color:#2D637B"><a class="mc-link" href="https://jacomymayne.com/frankly-by-kaiken/" target="_blank" rel="noopener" draggable="false"><span class="mc-nombre">Frankly</span></a></li><li class="mc-a" data-slug="paipo-gin" data-logo="png" style="--mc-color:#4FBEA6"><a class="mc-link" href="https://paipogin.com/" target="_blank" rel="noopener" draggable="false"><span class="mc-nombre">Paipo&nbsp;Gin</span></a></li><li class="mc-b" data-slug="catador-itinerante" data-logo="png" style="--mc-color:#C95E01"><a class="mc-link" href="https://catadoritinerante.com/" target="_blank" rel="noopener" draggable="false"><span class="mc-nombre">Catador&nbsp;Itinerante</span></a></li><li class="mc-a" data-slug="becker" data-logo="png" style="--mc-color:#2F54BF"><a class="mc-link" href="https://jacomymayne.com/becker/" target="_blank" rel="noopener" draggable="false"><span class="mc-nombre">Becker</span></a></li><li class="mc-b" data-slug="entrometido" data-logo="png" style="--mc-color:#735278"><a class="mc-link" href="https://entrometidowines.com/" target="_blank" rel="noopener" draggable="false"><span class="mc-nombre">Entrometido</span></a></li><li class="mc-a" data-slug="malbec-plural" style="--mc-color:#CF9C2F"><a class="mc-link" href="https://jacomymayne.com/malbec-plural/" target="_blank" rel="noopener" draggable="false"><span class="mc-nombre">Malbec&nbsp;Plural</span></a></li><li class="mc-b" data-slug="casual-wines" data-logo="png" style="--mc-color:#A7544D"><a class="mc-link" href="https://jacomymayne.com/casual-wines/" target="_blank" rel="noopener" draggable="false"><span class="mc-nombre">Casual&nbsp;Wines</span></a></li><li class="mc-a" data-slug="richard-chancellor" style="--mc-color:#D59B63"><a class="mc-link" href="https://jacomymayne.com/richard-chancellor-whisky/" target="_blank" rel="noopener" draggable="false"><span class="mc-nombre">Richard&nbsp;Chancellor</span></a></li><li class="mc-b" data-slug="mark-mayne" style="--mc-color:#FAFAF9"><a class="mc-link" href="https://jacomymayne.com/mark-mayne-whisky/" target="_blank" rel="noopener" draggable="false"><span class="mc-nombre">Mark&nbsp;Mayne</span></a></li><li class="mc-a" data-slug="dilema-wines" style="--mc-color:#B357CE"><a class="mc-link" href="https://jacomymayne.com/dilema-wines/" target="_blank" rel="noopener" draggable="false"><span class="mc-nombre">Dilema&nbsp;Wines</span></a></li></ul>
+        <ul class="marcas-lista marcas-copia" role="list" aria-hidden="true"><li class="mc-b" data-slug="frankly" style="--mc-color:#2D637B"><a class="mc-link" href="https://jacomymayne.com/frankly-by-kaiken/" target="_blank" rel="noopener" draggable="false" tabindex="-1"><span class="mc-nombre">Frankly</span></a></li><li class="mc-a" data-slug="paipo-gin" data-logo="png" style="--mc-color:#4FBEA6"><a class="mc-link" href="https://paipogin.com/" target="_blank" rel="noopener" draggable="false" tabindex="-1"><span class="mc-nombre">Paipo&nbsp;Gin</span></a></li><li class="mc-b" data-slug="catador-itinerante" data-logo="png" style="--mc-color:#C95E01"><a class="mc-link" href="https://catadoritinerante.com/" target="_blank" rel="noopener" draggable="false" tabindex="-1"><span class="mc-nombre">Catador&nbsp;Itinerante</span></a></li><li class="mc-a" data-slug="becker" data-logo="png" style="--mc-color:#2F54BF"><a class="mc-link" href="https://jacomymayne.com/becker/" target="_blank" rel="noopener" draggable="false" tabindex="-1"><span class="mc-nombre">Becker</span></a></li><li class="mc-b" data-slug="entrometido" data-logo="png" style="--mc-color:#735278"><a class="mc-link" href="https://entrometidowines.com/" target="_blank" rel="noopener" draggable="false" tabindex="-1"><span class="mc-nombre">Entrometido</span></a></li><li class="mc-a" data-slug="malbec-plural" style="--mc-color:#CF9C2F"><a class="mc-link" href="https://jacomymayne.com/malbec-plural/" target="_blank" rel="noopener" draggable="false" tabindex="-1"><span class="mc-nombre">Malbec&nbsp;Plural</span></a></li><li class="mc-b" data-slug="casual-wines" data-logo="png" style="--mc-color:#A7544D"><a class="mc-link" href="https://jacomymayne.com/casual-wines/" target="_blank" rel="noopener" draggable="false" tabindex="-1"><span class="mc-nombre">Casual&nbsp;Wines</span></a></li><li class="mc-a" data-slug="richard-chancellor" style="--mc-color:#D59B63"><a class="mc-link" href="https://jacomymayne.com/richard-chancellor-whisky/" target="_blank" rel="noopener" draggable="false" tabindex="-1"><span class="mc-nombre">Richard&nbsp;Chancellor</span></a></li><li class="mc-b" data-slug="mark-mayne" style="--mc-color:#FAFAF9"><a class="mc-link" href="https://jacomymayne.com/mark-mayne-whisky/" target="_blank" rel="noopener" draggable="false" tabindex="-1"><span class="mc-nombre">Mark&nbsp;Mayne</span></a></li><li class="mc-a" data-slug="dilema-wines" style="--mc-color:#B357CE"><a class="mc-link" href="https://jacomymayne.com/dilema-wines/" target="_blank" rel="noopener" draggable="false" tabindex="-1"><span class="mc-nombre">Dilema&nbsp;Wines</span></a></li></ul>
+      </div>
+    </div>
+    <button class="marcas-pausa" type="button" data-marcas-pausa aria-label="Pause brand names" aria-pressed="false" hidden><svg class="ic-pausa" viewBox="0 0 12 14" aria-hidden="true" focusable="false"><rect width="4" height="14"/><rect x="8" width="4" height="14"/></svg><svg class="ic-play" viewBox="0 0 12 14" aria-hidden="true" focusable="false"><path d="M0 0l12 7-12 7z"/></svg></button>
+  </section>
+
+  <!-- S5 · selected work (G6, M06): pin ≥ 992, lista a la izquierda, un trabajo por tramo con revelado diagonal; en 390, lista a sangre -->
+  <section data-tema="claro" data-panel class="tema-claro trabajos" id="selected-work" data-trabajos data-rol="selected-work" data-afirmacion="prueba: 4 casos con marca, país y categoría siempre visibles; abre Marques de Casa Concha con sus 2 cifras">
+    <div class="tr-pista">
+      <div class="tr-escena">
+        <div class="tr-cabeza">
+          <h2 class="h2 tr-titulo" data-partir data-gesto="G2"><span class="renglon">Selected</span> <span class="renglon">work</span></h2>
+          <p class="enunciado">Nothing here looks like the bottle next to&nbsp;it.</p>
+        </div>
+
+        <ul class="tr-lista" role="list" aria-label="Projects">
+          <li><button class="tr-fila activa" type="button" data-fila aria-current="true"><span class="tr-num">01</span><span class="tr-nombre">Marques de Casa Concha</span><span class="tr-rotulo"><span>Concha y Toro</span><span>Chile</span><span>Wine</span></span><span class="tr-linea">Complete rebranding. 11 varietals. Younger, without losing its elegance and heritage.</span></button></li>
+          <li><button class="tr-fila" type="button" data-fila><span class="tr-num">02</span><span class="tr-nombre">Trivento Wine Gin</span><span class="tr-rotulo"><span>Trivento</span><span>Argentina</span><span>Gin</span></span><span class="tr-linea">The elegance of wine, reinvented as a gin.</span></button></li>
+          <li><button class="tr-fila" type="button" data-fila><span class="tr-num">03</span><span class="tr-nombre">Frankly by Kaiken</span><span class="tr-rotulo"><span>Kaiken</span><span>Argentina</span><span>Wine</span></span><span class="tr-linea">Frankly, we'll let you discover it yourself.</span></button></li>
+        </ul>
+
+        <div class="tr-escenario" data-gesto="G6">
+          <span class="tr-badge" data-badge aria-hidden="true">
+            <svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><defs><path id="badge-circulo" d="M60 60 m-46 0 a46 46 0 1 1 92 0 a46 46 0 1 1 -92 0"/></defs>
+              <text><textPath href="#badge-circulo">JACOMY &amp; MAYNE · SELECTED WORK ·</textPath></text></svg>
+          </span>
+          <figure class="tr-slide" data-slide data-caso="marques-de-casa-concha">
+            <div class="tr-marco"><picture><source type="image/webp" srcset="img/caso-marques-900.webp 900w, img/caso-marques-1800.webp 1800w" sizes="(min-width: 992px) 58vw, 100vw"><img src="img/caso-marques-1800.jpg" srcset="img/caso-marques-900.jpg 900w, img/caso-marques-1800.jpg 1800w" sizes="(min-width: 992px) 58vw, 100vw" width="1800" height="1136" alt="Marques de Casa Concha bottles, packaging by Jacomy &amp; Mayne" loading="lazy" decoding="async" style="object-position:50% 70%"></picture></div>
+            <figcaption><h3 class="h3 tr-nombre">Marques de Casa Concha</h3><span class="tr-rotulo"><span>Concha y Toro</span><span>Chile</span><span>Wine</span></span>
+              <span class="tr-linea">Complete rebranding. 11 varietals. Younger, without losing its elegance and heritage.</span></figcaption>
+          </figure>
+          <figure class="tr-slide" data-slide data-caso="trivento-wine-gin">
+            <div class="tr-marco"><picture><source type="image/webp" srcset="img/caso-trivento-800.webp 800w, img/caso-trivento-1200.webp 1200w, img/caso-trivento-1930.webp 1930w" sizes="(min-width: 992px) 58vw, 100vw"><img src="img/caso-trivento-1200.jpg" srcset="img/caso-trivento-800.jpg 800w, img/caso-trivento-1200.jpg 1200w, img/caso-trivento-1930.jpg 1930w" sizes="(min-width: 992px) 58vw, 100vw" width="1930" height="1274" alt="Trivento Wine Gin bottle, packaging by Jacomy &amp; Mayne" loading="lazy" decoding="async" style="object-position:55% 40%"></picture></div>
+            <figcaption><h3 class="h3 tr-nombre">Trivento Wine Gin</h3><span class="tr-rotulo"><span>Trivento</span><span>Argentina</span><span>Gin</span></span>
+              <span class="tr-linea">The elegance of wine, reinvented as a gin.</span></figcaption>
+          </figure>
+          <figure class="tr-slide" data-slide data-caso="frankly-by-kaiken">
+            <div class="tr-marco"><picture><source type="image/webp" srcset="img/caso-frankly-800.webp 800w, img/caso-frankly-1200.webp 1200w, img/caso-frankly-1930.webp 1930w" sizes="(min-width: 992px) 58vw, 100vw"><img src="img/caso-frankly-1200.jpg" srcset="img/caso-frankly-800.jpg 800w, img/caso-frankly-1200.jpg 1200w, img/caso-frankly-1930.jpg 1930w" sizes="(min-width: 992px) 58vw, 100vw" width="1930" height="1274" alt="Frankly by Kaiken bottle, packaging by Jacomy &amp; Mayne" loading="lazy" decoding="async" style="object-position:60% 35%"></picture></div>
+            <figcaption><h3 class="h3 tr-nombre">Frankly by Kaiken</h3><span class="tr-rotulo"><span>Kaiken</span><span>Argentina</span><span>Wine</span></span>
+              <span class="tr-linea">Frankly, we'll let you discover it yourself.</span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S5b · "Behind the bottles" (G9, M11 v3 · MONOLOG works_home): tarjetas de dos columnas; la foto pasa con el scroll (parallax dentro
+       de su ventana, y −125 → +125 px, escala 1,15, ≥ 992) y, r14 (Efraín: "que tenga realmente esa animación que te pasé"), al pasar por el
+       centro de la pantalla (o con el mouse encima) la foto se vela y sube girando el "reel" de MONOLOG (rotateX 18° → 0, 0,85 s) con 2
+       detalles de la misma toma que se reemplazan cada 1,2 s (hi-*-a/b, originales/generar-r14.py) -->
+  <section data-tema="claro" class="tema-claro historias-sec" id="historias" data-rol="historias" data-afirmacion="prueba con historia: 4 proyectos de Datos verificados con la idea detrás de cada etiqueta, sin cifras de resultados">
+    <div class="sombra-caja" aria-hidden="true"><svg class="sombra-firma sombra-firma-b" viewBox="0 0 394.4 83.8" aria-hidden="true" focusable="false"><use href="#firma"/></svg></div>
+    <div class="contenedor hi-grilla">
+      <h2 class="rotulo hi-rotulo" data-rotulo-entra>Behind the bottles</h2>
+      <ol class="hi-lista" role="list" data-gesto="G9">
+        <li class="hi-item" data-historia>
+          <div class="hi-tapa">
+            <div class="hi-foto" data-hi-foto><picture><source type="image/webp" srcset="img/hi-censurado-700.webp 700w, img/hi-censurado-1100.webp 1100w" sizes="(min-width: 992px) 47vw, 100vw"><img src="img/hi-censurado-1100.jpg" srcset="img/hi-censurado-700.jpg 700w, img/hi-censurado-1100.jpg 1100w" sizes="(min-width: 992px) 47vw, 100vw" width="1100" height="1100" alt="Censurado Sparkling Wine label, packaging by Jacomy &amp; Mayne" loading="lazy" decoding="async"></picture></div>
+            <div class="hi-velo"></div><div class="hi-capa" aria-hidden="true"><picture class="hi-capa-foto activa"><source type="image/webp" srcset="img/hi-censurado-a-520.webp"><img src="img/hi-censurado-a-520.jpg" width="520" height="347" alt="" loading="lazy" decoding="async"></picture><picture class="hi-capa-foto"><source type="image/webp" srcset="img/hi-censurado-b-520.webp"><img src="img/hi-censurado-b-520.jpg" width="520" height="347" alt="" loading="lazy" decoding="async"></picture></div>
+          </div>
+          <div class="hi-texto">
+            <h3 class="h3 hi-nombre">Censurado Sparkling Wine</h3>
+            <p class="hi-linea">A sparkling wine named Censurado.</p>
+            <p class="hi-linea">On the label, a collage: a brave, censored figure, a snake wrapped around her, and flowers that give her hope.</p>
+            <p class="hi-dato"><span class="hi-chip">Sparkling wine</span> <span class="hi-leyenda">Argentina</span></p>
+          </div>
+        </li>
+        <li class="hi-item" data-historia>
+          <div class="hi-tapa">
+            <div class="hi-foto" data-hi-foto><picture><source type="image/webp" srcset="img/hi-anansi-700.webp 700w, img/hi-anansi-1100.webp 1100w" sizes="(min-width: 992px) 47vw, 100vw"><img src="img/hi-anansi-1100.jpg" srcset="img/hi-anansi-700.jpg 700w, img/hi-anansi-1100.jpg 1100w" sizes="(min-width: 992px) 47vw, 100vw" width="1100" height="1100" alt="Anansi Rum bottle, packaging by Jacomy &amp; Mayne" loading="lazy" decoding="async"></picture></div>
+            <div class="hi-velo"></div><div class="hi-capa" aria-hidden="true"><picture class="hi-capa-foto activa"><source type="image/webp" srcset="img/hi-anansi-a-520.webp"><img src="img/hi-anansi-a-520.jpg" width="520" height="347" alt="" loading="lazy" decoding="async"></picture><picture class="hi-capa-foto"><source type="image/webp" srcset="img/hi-anansi-b-520.webp"><img src="img/hi-anansi-b-520.jpg" width="520" height="347" alt="" loading="lazy" decoding="async"></picture></div>
+          </div>
+          <div class="hi-texto">
+            <h3 class="h3 hi-nombre">Anansi Rum</h3>
+            <p class="hi-linea">Anansi is the spider of West African and Caribbean folklore, a trickster said to own every story in the world.</p>
+            <p class="hi-linea">The rum carries his spirit: defiance and freedom.</p>
+            <p class="hi-dato"><span class="hi-chip">Rum</span> <span class="hi-leyenda">Guyana</span></p>
+          </div>
+        </li>
+        <li class="hi-item" data-historia>
+          <div class="hi-tapa">
+            <div class="hi-foto" data-hi-foto><picture><source type="image/webp" srcset="img/hi-trivento-580.webp 580w" sizes="(min-width: 992px) 47vw, 100vw"><img src="img/hi-trivento-580.jpg" srcset="img/hi-trivento-580.jpg 580w" sizes="(min-width: 992px) 47vw, 100vw" width="580" height="579" alt="Trivento Wine Gin bottle, packaging by Jacomy &amp; Mayne" loading="lazy" decoding="async"></picture></div>
+            <div class="hi-velo"></div><div class="hi-capa" aria-hidden="true"><picture class="hi-capa-foto activa"><source type="image/webp" srcset="img/hi-trivento-a-520.webp"><img src="img/hi-trivento-a-520.jpg" width="520" height="347" alt="" loading="lazy" decoding="async"></picture><picture class="hi-capa-foto"><source type="image/webp" srcset="img/hi-trivento-b-520.webp"><img src="img/hi-trivento-b-520.jpg" width="520" height="347" alt="" loading="lazy" decoding="async"></picture></div>
+          </div>
+          <div class="hi-texto">
+            <h3 class="h3 hi-nombre">Trivento Wine Gin</h3>
+            <p class="hi-linea">A wine house, a new spirit: a gin inspired by the wild charm of Trivento&rsquo;s Garden.</p>
+            <p class="hi-dato"><span class="hi-chip">Gin</span> <span class="hi-leyenda">Trivento, Argentina</span></p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- S6b · preguntas (G12, M12 v2 · MONOLOG faq_home, ronda 9: "que se pongan en color como el video"): al pasar el mouse (o con foco de
+       teclado) la fila se prende con un destello --destello en 0,3 s que se asienta en el beige --encendido en 0,65 s; el texto salta a
+       --sobre-encendido y corre +10 px, el cuadradito se rellena y corre −10 px; el acordeón abre con grid-template-rows 0fr → 1fr en 0,6 s -->
+  <section data-tema="gris" data-panel class="tema-gris preguntas-sec" id="preguntas" data-rol="preguntas" data-afirmacion="objeciones del banco contestadas antes de pedir nada (quién trabaja, categoría, rediseño sin perder a los de siempre, solo un nombre, la botella entera, plazos y precio sin dato, qué pasa después)">
+    <div class="contenedor fq-grilla">
+      <p class="rotulo fq-rotulo" data-rotulo-entra>Questions</p>
+      <h2 class="h2 fq-titulo" data-partir data-gesto="G2"><span class="renglon">What to know</span> <span class="renglon"><span class="parte">before</span> <span class="parte">we start.</span></span></h2>
+      <ul class="fq-lista" role="list" data-gesto="G12">
+          <li class="fq-item" data-fq>
+            <h3 class="fq-h"><button class="fq-fila" type="button" id="fq-b1" aria-expanded="false" aria-controls="fq-r1" data-fq-boton data-n="1"><span class="fq-q">Who will actually work on our brand?</span><span class="fq-marca" aria-hidden="true"></span></button></h3>
+            <div class="fq-resp" id="fq-r1" role="region" aria-labelledby="fq-b1"><div class="fq-resp-in"><p data-seguro="faq_equipo:true">Jacomy &amp; Mayne is Roy and Andy&rsquo;s studio, founded in 2015.</p><p data-seguro="faq_equipo:false" hidden>Roy and Andy. &ldquo;From the first spark of an idea to the final design, we&rsquo;re in it with you.&rdquo;</p></div></div>
+          </li>
+          <li class="fq-item" data-fq>
+            <h3 class="fq-h"><button class="fq-fila" type="button" id="fq-b2" aria-expanded="false" aria-controls="fq-r2" data-fq-boton data-n="2"><span class="fq-q">Do you know our category?</span><span class="fq-marca" aria-hidden="true"></span></button></h3>
+            <div class="fq-resp" id="fq-r2" role="region" aria-labelledby="fq-b2"><div class="fq-resp-in"><p>Spirits, wine and beer are what we do. Our portfolio includes rum, gin, whisky, wine and sparkling wine.</p></div></div>
+          </li>
+          <li class="fq-item" data-fq>
+            <h3 class="fq-h"><button class="fq-fila" type="button" id="fq-b3" aria-expanded="false" aria-controls="fq-r3" data-fq-boton data-n="3"><span class="fq-q">Can you change our label without losing the people who already buy it?</span><span class="fq-marca" aria-hidden="true"></span></button></h3>
+            <div class="fq-resp" id="fq-r3" role="region" aria-labelledby="fq-b3"><div class="fq-resp-in"><p>That was the brief for Marques de Casa Concha: feel younger without losing the elegance and heritage that defined it. We simplified the look and gave more room to its history.</p></div></div>
+          </li>
+          <li class="fq-item" data-fq>
+            <h3 class="fq-h"><button class="fq-fila" type="button" id="fq-b4" aria-expanded="false" aria-controls="fq-r4" data-fq-boton data-n="4"><span class="fq-q">We only have a name. Is that enough?</span><span class="fq-marca" aria-hidden="true"></span></button></h3>
+            <div class="fq-resp" id="fq-r4" role="region" aria-labelledby="fq-b4"><div class="fq-resp-in"><p>Yes. You don&rsquo;t need to know what you want yet.</p></div></div>
+          </li>
+          <li class="fq-item" data-fq>
+            <h3 class="fq-h"><button class="fq-fila" type="button" id="fq-b5" aria-expanded="false" aria-controls="fq-r5" data-fq-boton data-n="5"><span class="fq-q">Can you design the bottle itself, not just the label?</span><span class="fq-marca" aria-hidden="true"></span></button></h3>
+            <div class="fq-resp" id="fq-r5" role="region" aria-labelledby="fq-b5"><div class="fq-resp-in"><p>Yes. Bottle shape, closures, structural design and 3D are part of what we do, along with secondary boxes and shippers.</p></div></div>
+          </li>
+          <li class="fq-item" data-fq>
+            <h3 class="fq-h"><button class="fq-fila" type="button" id="fq-b6" aria-expanded="false" aria-controls="fq-r6" data-fq-boton data-n="6"><span class="fq-q">How long does a project take?</span><span class="fq-marca" aria-hidden="true"></span></button></h3>
+            <div class="fq-resp" id="fq-r6" role="region" aria-labelledby="fq-b6"><div class="fq-resp-in"><p>It depends on the project.</p></div></div>
+          </li>
+          <li class="fq-item" data-fq>
+            <h3 class="fq-h"><button class="fq-fila" type="button" id="fq-b7" aria-expanded="false" aria-controls="fq-r7" data-fq-boton data-n="7"><span class="fq-q">What does it cost?</span><span class="fq-marca" aria-hidden="true"></span></button></h3>
+            <div class="fq-resp" id="fq-r7" role="region" aria-labelledby="fq-b7"><div class="fq-resp-in"><p>It depends on the scope. Tell us where you&rsquo;re starting from and we&rsquo;ll reply by email. Sending the form costs nothing and doesn&rsquo;t commit you to anything.</p></div></div>
+          </li>
+          <li class="fq-item" data-fq>
+            <h3 class="fq-h"><button class="fq-fila" type="button" id="fq-b8" aria-expanded="false" aria-controls="fq-r8" data-fq-boton data-n="8"><span class="fq-q">What happens after we send the form?</span><span class="fq-marca" aria-hidden="true"></span></button></h3>
+            <div class="fq-resp" id="fq-r8" role="region" aria-labelledby="fq-b8"><div class="fq-resp-in"><p data-seguro="quien_lee:true">We&rsquo;ll reply by email.</p><p data-seguro="quien_lee:false" hidden>Roy or Andy reads it and replies by email.</p></div></div>
+          </li>
+      </ul>
+      <div class="fq-encaje">
+        <p class="fq-pregunta">Not sure we&rsquo;re a fit?</p>
+        <a class="btn" data-iman href="#start" data-cta="start" data-ubicacion="preguntas">Start a project</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- S7 · cierre en tres pantallas, una idea cada una (ronda 9, ronda-9-diseno.md, R50/LL27): S7a "→ PEOPLE" (sin cambios) · S7b #start el
+       pedido centrado con una pregunta por vez · S7c el pie con quién lo lee, las rutas directas y la firma gigante que se escribe -->
+  <section class="cierre-sec" id="cierre" data-rol="cierre" data-afirmacion="diseñemos una botella que frene a la gente (banco #41) + el CTA único">
+    <!-- S7a · "→ PEOPLE" (G13, M13 · MONOLOG cta_home): foto en blanco y negro con velo del 40 % y parallax del fondo (−150 → +150 px en todo
+         el paso de la sección); la fila "→ PEOPLE" deriva a la derecha (+50 % de su ancho); al salir, el bloque se cierra con un clip-path -->
+    <div class="people" data-people data-rol="people" data-afirmacion="cierre: diseñemos una botella que frene a la gente (banco #41) + el CTA único">
+      <div class="pe-fondo" aria-hidden="true"><picture><source media="(max-width: 991px)" type="image/webp" srcset="img/people-trivento-m-720.webp 720w, img/people-trivento-m-891.webp 891w" sizes="100vw"><source media="(max-width: 991px)" srcset="img/people-trivento-m-720.jpg 720w, img/people-trivento-m-891.jpg 891w" sizes="100vw"><source type="image/webp" srcset="img/people-trivento-d-720.webp 720w, img/people-trivento-d-1274.webp 1274w" sizes="100vw"><img class="pe-foto" src="img/people-trivento-d-1274.jpg" srcset="img/people-trivento-d-720.jpg 720w, img/people-trivento-d-1274.jpg 1274w" sizes="100vw" width="1274" height="1274" alt="" loading="lazy" decoding="async"></picture><span class="pe-velo"></span></div>
+      <div class="pe-contenido">
+        <h2 class="pe-titulo" data-gesto="G13" aria-label="Let&rsquo;s design a bottle that stops people">
+          <span class="pe-fila" aria-hidden="true">Let&rsquo;s design</span>
+          <span class="pe-fila pe-f2" aria-hidden="true">a bottle</span>
+          <span class="pe-fila pe-f3" aria-hidden="true">that stops</span>
+          <span class="pe-fila pe-f4" aria-hidden="true"><span class="pe-deriva" data-pe-deriva><svg class="pe-flecha" viewBox="0 0 100 64" focusable="false"><path d="M2 32H90M62 6l30 26-30 26" fill="none" stroke="currentColor" stroke-width="7"/></svg>people</span></span>
+        </h2>
+        <a class="btn btn-grande" data-iman href="#start" data-cta="start" data-ubicacion="people">Start a project</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- S7b · el pedido (G8: blur por renglón de Neutomni + cascada de M08): "somos pocos: contanos". Patrones contact-single-field y
+       cta-blank-in-the-sentence: una pregunta por vez, las respuestas como palabras grandes, campos sin caja -->
+  <section class="pedido" id="start" data-rol="pedido" data-afirmacion="escasez (anuncio de 84 días + DV) y el formulario de 2 pasos, una pregunta por vez">
+    <h2 class="h2 pedido-h" data-blur><span class="renglon"><span class="parte">We&rsquo;re not</span> <span class="parte">for everyone.</span></span> <span class="renglon"><span class="parte">Neither is</span> <span class="parte">your brand.</span></span></h2>
+    <p class="pedido-sub" data-blur-sub>We take on a limited number of projects each year.</p>
+
+    <form class="form" id="form-proyecto" data-paso="1" data-clarity-mask="true" novalidate>
+            <!-- campos ocultos: UTMs y origen (landing.js los completa) · honeypot anti-bot -->
+            <input type="hidden" name="utm_source"><input type="hidden" name="utm_medium"><input type="hidden" name="utm_campaign">
+            <input type="hidden" name="utm_content"><input type="hidden" name="utm_term"><input type="hidden" name="origen">
+            <div class="sr trampa" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+
+            <fieldset class="paso paso-1">
+              <legend class="pregunta-titulo">What goes in the bottle?</legend>
+              <div class="opciones" data-opciones><label class="opcion"><input type="radio" name="categoria" value="spirits"><span>Spirits</span></label><label class="opcion"><input type="radio" name="categoria" value="wine"><span>Wine</span></label><label class="opcion"><input type="radio" name="categoria" value="beer"><span>Beer</span></label><label class="opcion"><input type="radio" name="categoria" value="other"><span>Other</span></label></div>
+              <div class="acciones"><button class="btn" data-iman type="button" data-accion="siguiente">Next</button><p class="paso-num" aria-hidden="true">1 / 2</p></div>
+            </fieldset>
+
+            <fieldset class="paso paso-2">
+              <legend class="pregunta-titulo">Awesome. Who do we write back to?</legend>
+              <div class="campos">
+                <div class="campo">
+                  <label for="f-nombre">Your name</label>
+                  <input id="f-nombre" name="nombre" type="text" autocomplete="name" required aria-describedby="e-nombre">
+                  <p class="error" id="e-nombre" hidden>We need a name to write back to.</p>
+                </div>
+                <div class="campo">
+                  <label for="f-email">Email</label>
+                  <input id="f-email" name="email" type="email" inputmode="email" autocomplete="email" required aria-describedby="e-email">
+                  <p class="error" id="e-email" hidden>That email doesn't look right.</p>
+                </div>
+                <div class="campo">
+                  <label for="f-marca">Brand or company <span class="opcional">optional</span></label>
+                  <input id="f-marca" name="marca" type="text" autocomplete="organization">
+                </div>
+                <div class="campo">
+                  <label for="f-linea">Tell us in a line <span class="opcional">optional</span></label>
+                  <input id="f-linea" name="linea" type="text" placeholder="What's the bottle, and what's in the way?">
+                </div>
+                <div class="campo">
+                  <label for="f-tel">Phone <span class="opcional">optional</span></label>
+                  <input id="f-tel" name="telefono" type="tel" inputmode="tel" autocomplete="tel" aria-describedby="a-tel">
+                  <p class="ayuda" id="a-tel">Only if you'd rather we call.</p>
+                </div>
+              </div>
+              <div class="acciones"><button class="btn" data-iman type="submit" data-ubicacion="formulario">Start a project</button><div class="paso-num"><span aria-hidden="true">2 / 2</span> <button class="volver btn btn-fantasma" data-iman type="button" data-accion="volver">Back</button></div></div>
+              <p class="error" id="e-envio" role="alert" hidden>Something went wrong. Write to <a href="mailto:studio@jacomymayne.com" data-ruta="mailto">studio@jacomymayne.com</a> and we'll pick it up from there.</p>
+            </fieldset>
+
+            <!-- debajo del botón, en los dos pasos y en un solo párrafo: qué pasa después (sin plazo: sin dato) y el aviso de finalidad (C1).
+                 C1: cuando exista la política, poner la URL en marca.js y SACAR la clase "muestra" (y data-rotulo) de este link y del del pie -->
+            <!-- r14 (Efraín: "el logo de fondo, que esté literalmente de fondo… entre el Privacy policy y el Next"): la firma gigante en sombra tono
+                 sobre tono (#181715 sobre #080807) como FONDO del bloque del formulario. El ancla es absoluta sin top: queda en su lugar del flujo
+                 (entre el botón y este párrafo) y la firma se centra ahí; la sección la recorta. No suma altura -->
+            <div class="sombra-ancla" aria-hidden="true"><svg class="sombra-firma-c" viewBox="0 0 394.4 83.8" aria-hidden="true" focusable="false"><use href="#firma"/></svg></div>
+            <p class="form-pie"><span data-seguro="quien_lee:true">We'll reply by email.</span><span data-seguro="quien_lee:false" hidden>Roy or Andy reads it and replies by email.</span> We use these details to reply to your enquiry. <a href="privacy.html" data-politica="privacidad">Privacy policy</a></p>
+    </form>
+
+    <div class="confirmacion" role="status" aria-live="polite" data-clarity-mask="true" hidden></div>
+    <template id="confirmacion-segura"><p>Got it, <span data-nombre></span>. We'll reply by email.</p><svg class="firma-chica" viewBox="0 0 394.4 83.8" aria-hidden="true" focusable="false"><use href="#firma"/></svg></template>
+    <template id="confirmacion-directa"><p>Got it, <span data-nombre></span>. Roy or Andy will read it and reply by email.</p><svg class="firma-chica" viewBox="0 0 394.4 83.8" aria-hidden="true" focusable="false"><use href="#firma"/></svg></template>
+  </section>
+</main>
+
+<!-- S7c · pie (Butterfly Cannon "GET IN TOUCH" + contact-sentence-portrait-links): la frase de los fundadores, el retrato chico con sus nombres,
+     las rutas directas (el mail y el teléfono aparecen UNA sola vez en la página), la firma gigante que se escribe (M08) y el renglón legal -->
+<footer class="pie" data-rol="pie" data-afirmacion="quién lo lee y cómo más llegar: Roy y Andy, mail con Copy, teléfono; la firma cierra la página">
+  <!-- r12 (Efraín: "la imagen la tenías que poner como la habías puesto antes, abajo de Privacy Policy, y al costado, a la izquierda, todo lo
+       de Deep Conversations"): Roy y Andy a todo el ancho, debajo del formulario y antes de la firma, como fondo de la fila del pie. ≥ 992: la foto
+       entera (21:9) y, a la izquierda sobre el aire negro, la frase, los nombres y las rutas. < 992: la foto arriba (en < 768 el recorte de las dos
+       personas) y el texto debajo. Halo y LinkedIn por persona (M20): capas de originales/generar-r12.py entre los marcadores fu-capas -->
+  <div class="pie-foto">
+    <div class="fu" data-fundadores>
+        <div class="fu-marco">
+          <picture><source media="(max-width: 767px)" type="image/webp" srcset="img/fundadores-ancho-m-739.webp" width="739" height="821"><source media="(max-width: 767px)" srcset="img/fundadores-ancho-m-739.jpg" width="739" height="821"><source type="image/webp" srcset="img/fundadores-ancho-960.webp 960w, img/fundadores-ancho-1916.webp 1916w" sizes="100vw"><img class="fu-foto" src="img/fundadores-ancho-1916.jpg" srcset="img/fundadores-ancho-960.jpg 960w, img/fundadores-ancho-1916.jpg 1916w" sizes="100vw" width="1916" height="821" alt="Roy Mayne and Andy Jacomy, founders of Jacomy &amp; Mayne" loading="lazy" decoding="async"></picture>
+          <!-- fu-capas -->
+        <svg class="fu-links fu-links-d" viewBox="0 0 1916 821" focusable="false"><defs><filter id="fu-blur-d" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="3"/></filter></defs><a data-fu-link="izquierda" href="https://www.linkedin.com/in/andy-jacomy-b86265147/" target="_blank" rel="noopener"><path d="M1054 129 L1049 132 L1045 130 L1043 137 L1040 134 L1038 137 L1013 142 L1000 148 L999 145 L994 153 L998 148 L996 161 L982 171 L975 172 L981 173 L976 180 L966 185 L967 188 L972 187 L971 195 L975 196 L972 205 L974 209 L977 207 L979 235 L973 243 L975 260 L981 275 L991 278 L990 314 L975 327 L969 327 L923 350 L908 353 L884 366 L858 408 L820 513 L844 526 L834 585 L835 605 L853 662 L883 723 L884 749 L891 778 L895 782 L886 820 L1136 820 L1138 772 L1144 759 L1165 734 L1172 717 L1171 700 L1179 650 L1180 616 L1169 559 L1166 521 L1190 510 L1183 495 L1157 487 L1173 454 L1161 415 L1148 389 L1113 363 L1069 339 L1072 309 L1081 299 L1086 282 L1090 280 L1090 232 L1094 209 L1089 192 L1093 187 L1091 181 L1096 182 L1084 172 L1083 164 L1087 159 L1083 155 L1077 160 L1075 151 L1069 153 L1066 145 L1070 141 L1063 141 Z"/></a><a data-fu-link="derecha" href="https://www.linkedin.com/in/roy-mayne/" target="_blank" rel="noopener"><path d="M1317 83 L1294 90 L1274 101 L1262 113 L1258 122 L1258 133 L1266 148 L1280 164 L1281 185 L1289 204 L1283 208 L1284 215 L1295 239 L1303 240 L1318 261 L1324 289 L1291 307 L1249 320 L1223 337 L1193 413 L1158 486 L1194 498 L1193 529 L1200 548 L1257 586 L1233 632 L1204 727 L1193 754 L1224 767 L1215 820 L1476 820 L1470 792 L1477 787 L1467 741 L1469 729 L1454 663 L1457 634 L1448 607 L1477 575 L1488 552 L1512 556 L1531 553 L1540 429 L1537 383 L1528 349 L1513 329 L1482 310 L1430 292 L1411 276 L1404 248 L1404 212 L1415 206 L1418 187 L1411 170 L1403 174 L1401 154 L1390 134 L1378 101 L1367 90 L1355 84 L1337 81 Z"/></a><path class="fu-trazo" data-fu-trazo="izquierda" d="M1054 129 L1049 132 L1045 130 L1043 137 L1040 134 L1038 137 L1013 142 L1000 148 L999 145 L994 153 L998 148 L996 161 L982 171 L975 172 L981 173 L976 180 L966 185 L967 188 L972 187 L971 195 L975 196 L972 205 L974 209 L977 207 L979 235 L973 243 L975 260 L981 275 L991 278 L990 314 L975 327 L969 327 L923 350 L908 353 L884 366 L858 408 L820 513 L844 526 L834 585 L835 605 L853 662 L883 723 L884 749 L891 778 L895 782 L886 820 L1136 820 L1138 772 L1144 759 L1165 734 L1172 717 L1171 700 L1179 650 L1180 616 L1169 559 L1166 521 L1190 510 L1183 495 L1157 487 L1173 454 L1161 415 L1148 389 L1113 363 L1069 339 L1072 309 L1081 299 L1086 282 L1090 280 L1090 232 L1094 209 L1089 192 L1093 187 L1091 181 L1096 182 L1084 172 L1083 164 L1087 159 L1083 155 L1077 160 L1075 151 L1069 153 L1066 145 L1070 141 L1063 141 Z" filter="url(#fu-blur-d)"/><path class="fu-trazo" data-fu-trazo="derecha" d="M1317 83 L1294 90 L1274 101 L1262 113 L1258 122 L1258 133 L1266 148 L1280 164 L1281 185 L1289 204 L1283 208 L1284 215 L1295 239 L1303 240 L1318 261 L1324 289 L1291 307 L1249 320 L1223 337 L1193 413 L1158 486 L1194 498 L1193 529 L1200 548 L1257 586 L1233 632 L1204 727 L1193 754 L1224 767 L1215 820 L1476 820 L1470 792 L1477 787 L1467 741 L1469 729 L1454 663 L1457 634 L1448 607 L1477 575 L1488 552 L1512 556 L1531 553 L1540 429 L1537 383 L1528 349 L1513 329 L1482 310 L1430 292 L1411 276 L1404 248 L1404 212 L1415 206 L1418 187 L1411 170 L1403 174 L1401 154 L1390 134 L1378 101 L1367 90 L1355 84 L1337 81 Z" filter="url(#fu-blur-d)"/></svg>
+        <svg class="fu-links fu-links-m" viewBox="0 0 739 821" focusable="false"><defs><filter id="fu-blur-m" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="3"/></filter></defs><a data-fu-link="izquierda" href="https://www.linkedin.com/in/andy-jacomy-b86265147/" target="_blank" rel="noopener"><path d="M243 129 L238 132 L234 130 L232 137 L229 134 L227 137 L202 142 L189 148 L188 145 L183 153 L187 148 L185 161 L171 171 L164 172 L170 173 L165 180 L155 185 L156 188 L161 187 L160 195 L164 196 L161 205 L163 209 L166 207 L168 235 L162 243 L164 260 L170 275 L180 278 L179 314 L164 327 L158 327 L112 350 L97 353 L73 366 L47 408 L9 513 L33 526 L23 585 L24 605 L42 662 L72 723 L73 749 L80 778 L84 782 L75 820 L325 820 L327 772 L333 759 L354 734 L361 717 L360 700 L368 650 L369 616 L358 559 L355 521 L379 510 L372 495 L346 487 L362 454 L350 415 L337 389 L302 363 L258 339 L261 309 L270 299 L275 282 L279 280 L279 232 L283 209 L278 192 L282 187 L280 181 L285 182 L273 172 L272 164 L276 159 L272 155 L266 160 L264 151 L258 153 L255 145 L259 141 L252 141 Z"/></a><a data-fu-link="derecha" href="https://www.linkedin.com/in/roy-mayne/" target="_blank" rel="noopener"><path d="M506 83 L483 90 L463 101 L451 113 L447 122 L447 133 L455 148 L469 164 L470 185 L478 204 L472 208 L473 215 L484 239 L492 240 L507 261 L513 289 L480 307 L438 320 L412 337 L382 413 L347 486 L383 498 L382 529 L389 548 L446 586 L422 632 L393 727 L382 754 L413 767 L404 820 L665 820 L659 792 L666 787 L656 741 L658 729 L643 663 L646 634 L637 607 L666 575 L677 552 L701 556 L720 553 L729 429 L726 383 L717 349 L702 329 L671 310 L619 292 L600 276 L593 248 L593 212 L604 206 L607 187 L600 170 L592 174 L590 154 L579 134 L567 101 L556 90 L544 84 L526 81 Z"/></a><path class="fu-trazo" data-fu-trazo="izquierda" d="M243 129 L238 132 L234 130 L232 137 L229 134 L227 137 L202 142 L189 148 L188 145 L183 153 L187 148 L185 161 L171 171 L164 172 L170 173 L165 180 L155 185 L156 188 L161 187 L160 195 L164 196 L161 205 L163 209 L166 207 L168 235 L162 243 L164 260 L170 275 L180 278 L179 314 L164 327 L158 327 L112 350 L97 353 L73 366 L47 408 L9 513 L33 526 L23 585 L24 605 L42 662 L72 723 L73 749 L80 778 L84 782 L75 820 L325 820 L327 772 L333 759 L354 734 L361 717 L360 700 L368 650 L369 616 L358 559 L355 521 L379 510 L372 495 L346 487 L362 454 L350 415 L337 389 L302 363 L258 339 L261 309 L270 299 L275 282 L279 280 L279 232 L283 209 L278 192 L282 187 L280 181 L285 182 L273 172 L272 164 L276 159 L272 155 L266 160 L264 151 L258 153 L255 145 L259 141 L252 141 Z" filter="url(#fu-blur-m)"/><path class="fu-trazo" data-fu-trazo="derecha" d="M506 83 L483 90 L463 101 L451 113 L447 122 L447 133 L455 148 L469 164 L470 185 L478 204 L472 208 L473 215 L484 239 L492 240 L507 261 L513 289 L480 307 L438 320 L412 337 L382 413 L347 486 L383 498 L382 529 L389 548 L446 586 L422 632 L393 727 L382 754 L413 767 L404 820 L665 820 L659 792 L666 787 L656 741 L658 729 L643 663 L646 634 L637 607 L666 575 L677 552 L701 556 L720 553 L729 429 L726 383 L717 349 L702 329 L671 310 L619 292 L600 276 L593 248 L593 212 L604 206 L607 187 L600 170 L592 174 L590 154 L579 134 L567 101 L556 90 L544 84 L526 81 Z" filter="url(#fu-blur-m)"/></svg>
+        <!-- /fu-capas -->
+        </div>
+      </div>
+    <div class="pie-fila" data-pie-fila>
+      <p class="pie-frase" data-ilumina-p>Deep conversations, bold decisions, no cutting corners.</p>
+      <div class="pie-nombres"><ul class="fundadores-nombres" role="list">
+            <li><span class="fn-nombre">Roy Mayne</span> <span class="fn-rol">Creative direction</span></li>
+            <li><span class="fn-nombre">Andy Jacomy</span> <span class="fn-rol">Accounts</span></li>
+          </ul></div>
+      <dl class="rutas" data-rutas>
+        <div class="ruta">
+          <dt>Rather write?</dt>
+          <dd><a href="mailto:studio@jacomymayne.com" data-ruta="mailto">studio@jacomymayne.com</a> <button class="btn-texto" type="button" data-copiar="studio@jacomymayne.com">Copy</button></dd>
+        </div>
+        <div class="ruta">
+          <dt>Rather talk?</dt>
+          <dd><a href="tel:+5492616641653" data-ruta="tel">+54 9 261 664 1653</a> <a class="btn-texto" href="tel:+5492616641653" data-ruta="tel">Call</a> <a class="btn-texto" href="https://wa.me/5492616641653" data-ruta="whatsapp" data-whatsapp hidden>WhatsApp</a></dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <canvas class="trama" data-trama aria-hidden="true"></canvas>
+  <div class="firma-gigante" data-escribe data-gesto="G8" role="img" aria-label="Jacomy &amp; Mayne">
+    <svg viewBox="0 0 394.4 83.8" aria-hidden="true" focusable="false"><use href="#firma"/></svg>
+  </div>
+
+  <div class="legal">
+    <p class="legal-oficina">LATAM office, Mendoza, Argentina</p>
+    <p class="redes">
+      <a href="https://www.instagram.com/jacomymayne/" aria-label="Instagram" rel="noopener" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor"/></svg></a>
+      <a href="https://linkedin.com/company/jacomymayne/" aria-label="LinkedIn" rel="noopener" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 10.2v6.6M7.5 7.4v.2M11 16.8v-6.6m0 2.7c0-1.6 1.1-2.9 2.7-2.9s2.6 1.1 2.6 2.9v3.9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg></a>
+      <a href="https://www.behance.net/jacomymayne" aria-label="Behance" rel="noopener" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6.5h4.6c1.8 0 2.9.9 2.9 2.4 0 1-.6 1.7-1.5 2 1.2.3 1.9 1.2 1.9 2.4 0 1.8-1.3 2.9-3.4 2.9H3zm2 1.7v2.7h2.4c.9 0 1.3-.5 1.3-1.3s-.5-1.4-1.3-1.4zm0 4.3v3h2.6c1 0 1.6-.6 1.6-1.5s-.6-1.5-1.6-1.5zM14 7.6h5M12.9 13.2c0-2.2 1.4-3.7 3.4-3.7s3.3 1.5 3.3 3.9v.4h-5c.1 1.2.8 1.9 1.9 1.9.8 0 1.4-.4 1.6-1h1.4c-.4 1.5-1.6 2.4-3.1 2.4-2 0-3.5-1.5-3.5-3.9z" fill="currentColor"/></svg></a>
+    </p>
+    <!-- C1: sacar la clase "muestra" de este link cuando exista la política -->
+    <p class="pie-legal">© <span data-anio>2026</span> Jacomy Mayne Studio. All rights reserved. <a href="privacy.html" data-politica="privacidad">Privacy policy</a></p>
+  </div>
+</footer>
+
+<!-- C9 · consentimiento: nada de Pixel, GA4, GTM ni Clarity hasta "Accept". Sin IDs configurados no se muestra (no hay nada que aceptar). -->
+<div class="consentimiento" id="consentimiento" role="region" aria-label="Cookie consent" hidden>
+  <p>We'd like to measure visits and ads with cookies. Nothing loads unless you accept.</p>
+  <div class="consentimiento-botones">
+    <button class="btn" data-iman type="button" data-consent="granted">Accept</button>
+    <button class="btn-texto" type="button" data-consent="denied">Decline</button>
+  </div>
+</div>
+
+<!-- Encuesta de salida (estrategia §8): solo desktop, una vez por sesión, al intentar salir sin enviar -->
+<dialog class="encuesta" id="encuesta-salida" aria-labelledby="encuesta-titulo">
+  <p class="h3" id="encuesta-titulo">What's stopping you today?</p>
+  <div class="chips">
+    <button class="chip-btn" type="button" data-respuesta="price">Price</button>
+    <button class="chip-btn" type="button" data-respuesta="timing">Timing</button>
+    <button class="chip-btn" type="button" data-respuesta="not-sure">Not sure what I need</button>
+    <button class="chip-btn" type="button" data-respuesta="just-looking">Just looking</button>
+  </div>
+  <button class="volver" type="button" data-respuesta="cerrar">Close</button>
+</dialog>
+</body>
+</html>

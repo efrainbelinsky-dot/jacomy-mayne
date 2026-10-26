@@ -1,0 +1,92 @@
+/* tokens.css · Jacomy & Mayne · generado por landing-director-arte desde DESIGN.md (frontmatter), 2026-10-23.
+   Territorio: Góndola de noche (+ lo tomado de Censurado). Pisa los valores de respaldo de base.css.
+   Cambiar de gama = cambiar estas variables, nunca selectores. */
+
+/* Tipografía libre (la Helvetica de Apple y la Bodoni de Monotype del sitio actual no tienen licencia web conocida: ver DESIGN.md → Typography).
+   TeX Gyre Heros (GUST Font License) = clon métrico de Helvetica · Libre Bodoni (OFL) = Bodoni de Benton, la misma raíz que Bodoni Book. */
+@font-face{font-family:"JM Grotesk";src:url(fonts/texgyreheros-regular.otf) format("opentype");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"JM Grotesk";src:url(fonts/texgyreheros-italic.otf) format("opentype");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:"JM Grotesk";src:url(fonts/texgyreheros-bold.otf) format("opentype");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"JM Bodoni";src:url(fonts/librebodoni-italic-400.ttf) format("truetype");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:"JM Bodoni";src:url(fonts/librebodoni-italic-500.ttf) format("truetype");font-weight:500;font-style:italic;font-display:swap}
+
+:root{
+  /* ---- color por rol ---- */
+  /* ronda 11 (Efraín: "no quiero que sea todo negro y blanco, sino… como está implementado en bymonolog.com"): nunca #000 ni #fff.
+     Casi negro cálido #080807, beige #E8E8E3, gris cálido #181715 (tercer plano) y #FAFAF9 solo como destello (investigacion/monolog-paleta.md) */
+  --fondo:#080807;          /* la sala: casi negro cálido (MONOLOG) */
+  --superficie:#181715;     /* un escalón de tono sobre el negro: tarjetas de servicios en reposo, campos del formulario */
+  --tinta:#E8E8E3;          /* texto, firma, botón: beige de MONOLOG */
+  --tinta-suave:#A6A59F;    /* notas y rótulos sobre casi negro (8,0:1; 7,0:1 sobre #181715) */
+  --primario:#E8E8E3;       /* botón: la única forma clara sólida de la pantalla */
+  --sobre-primario:#080807;
+  --acento:#E8E8E3;         /* foco y estados; el color de verdad lo ponen las botellas */
+  --borde:#2A2926;          /* solo dentro de formularios (campos), nunca como filete entre secciones */
+  --exito:#E8E8E3;          /* confirmación: el mensaje firmado, sin verde de plantilla */
+  --error:#FF6B5E;          /* errores en línea sobre negro (6,9:1) */
+  /* roles de una sola sección o un solo gesto */
+  --papel:#E4E4CC;          /* crema pergamino de sus etiquetas (auditoría §2): fondo de UNA sola sección, S6 */
+  --sobre-papel:#080807;
+  --papel-suave:#4A4A3C;    /* notas sobre papel (7,0:1) */
+  --papel-oscuro:#CCCCB4;   /* ronda 3 (director): el crema más oscuro de sus etiquetas (AM §2), fondo de S6 para que la tarjeta en --papel sea un objeto */
+  --cinta:#C3B27E;          /* la cinta de Censurado: UNA sola vez, sobre las letras tapadas de F*** (S3) */
+  --luz:#E8E8E3;            /* G5: el relleno que sube en las tarjetas de servicios */
+  --sobre-luz:#080807;
+  --firma-ini:#080807;      /* G1: la firma arranca negra sobre blanco… */
+  --firma-fin:#E8E8E3;      /* …y termina blanca sobre la foto */
+  --velo:#E8E8E3;
+  /* ronda 9 · G12 (hover del FAQ en color, medido en MONOLOG con mouse real; LL26 / R49, cita de Efraín en decisiones.md): la fila se prende con
+     un destello casi blanco que se asienta en beige, y el texto pasa a casi negro. Solo en las filas del FAQ (S6b) */
+  --destello:#FAFAF9;
+  --encendido:#E8E8E3;
+  --sobre-encendido:#080807;
+
+  /* ---- tipografía ---- */
+  --f-display:"JM Grotesk","Helvetica Neue",Helvetica,Arimo,Arial,sans-serif;
+  --f-texto:"JM Grotesk","Helvetica Neue",Helvetica,Arimo,Arial,sans-serif;
+  --f-acento:"JM Bodoni","Bodoni 72","Bodoni MT",Didot,serif;   /* siempre en cursiva */
+  --f-datos:var(--f-texto);                                       /* sin monoespaciada */
+  --t-display:clamp(2.75rem,11.5vw,4.5rem);   /* 390: 4 renglones (excepción headline-lines) */
+  --t-h2:clamp(2.25rem,5vw,5rem);
+  --t-h3:clamp(1.75rem,2.6vw,2.75rem);        /* nombres de los trabajos y de las tarjetas, en Bodoni cursiva */
+  --t-lead:clamp(1.375rem,2.1vw,2rem);        /* bajadas y enunciados, en Bodoni cursiva */
+  --t-nota:clamp(1rem,1.25vw,1.25rem);        /* ronda 9: la única línea del hero (Bodoni cursiva) */
+  --t-opcion:clamp(2.5rem,4.4vw,4rem);        /* ronda 9: respuestas del paso 1 del formulario (Heros 400) */
+  --t-frase:clamp(4rem,15vw,13rem);           /* S3 sin movimiento (filas apiladas) */
+  --t-frase-fija:clamp(4rem,38svh,24rem);     /* ronda 3 (director): S3 fijada a ~40 vh de cuerpo, como Sweet Tape (≈ 340 px a 900 de alto, ≈ 320 a 844) */
+  --t-cuerpo:1.0625rem;
+  --t-chico:.875rem;
+  --track-display:-.032em; --lh-display:.96; --lh-texto:1.55;
+
+  /* ---- espacio ---- */
+  --gutter:clamp(20px,2.2vw,32px);
+  --max:1840px;
+  --seccion:clamp(88px,8vw,144px);   /* ronda 4: un poco menos de respiro para que la página entre en ~12 pantallas a 1440 */
+  --alto-barra:60px;
+
+  /* ---- formas: botones rectos salvo navegación y hero (R7) ---- */
+  --r-chico:0; --r-medio:0; --r-pastilla:999px;
+
+  /* ---- movimiento (sistema de MONOLOG, G3) ---- */
+  --rapido:300ms; --medio:650ms; --lento:950ms; --mas-lento:1250ms;
+  --salida:cubic-bezier(.22,1,.36,1);       /* "transition" de MONOLOG */
+  --entra-sale:cubic-bezier(.65,0,.35,1);   /* ≈ power3.inOut (G1) */
+  --suave:cubic-bezier(.45,.03,.51,.95);    /* ≈ power2.inOut (G1, G6) */
+  --resorte:cubic-bezier(.2,.9,.3,1.06);    /* ≈ resorte 120/18 de Butterfly Cannon (G2) */
+  --rebote:var(--resorte);
+}
+/* ---- ronda 11 · tramos (MONOLOG): cada sección elige su tema; los componentes no cambian, solo estas variables ---- */
+.tema-claro{                /* beige: los momentos de prueba (titular, marcas, Selected Work, historias) */
+  --fondo:#E8E8E3; --superficie:#D9D9D2; --tinta:#080807; --tinta-suave:#55544F;   /* 6,4:1 sobre beige */
+  --primario:#080807; --sobre-primario:#E8E8E3; --acento:#080807; --borde:#C4C4BC; --error:#A3261C; --luz:#080807; --sobre-luz:#E8E8E3;
+  background:var(--fondo); color:var(--tinta)}
+.tema-gris{                 /* tercer plano: el FAQ */
+  --fondo:#181715; --superficie:#232220; background:var(--fondo); color:var(--tinta)}
+.tema-oscuro{background:var(--fondo); color:var(--tinta)}
+@media (min-width:992px){
+  :root{
+    --t-display:min(7.9vw,10.5rem);           /* 2 renglones a todo el ancho: "Most bottles get walked past." ≈ 11,96 em */
+    --alto-barra:72px;
+  }
+}
+html{font-synthesis:none}
