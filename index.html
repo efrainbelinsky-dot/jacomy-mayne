@@ -305,6 +305,8 @@
         </div>
       </div>
     </div>
+    <!-- r21 (Efraín: "ser más pesado con el botón… no toda la gente llega hasta abajo"): CTA chico al terminar la sección, en la columna de la cabecera -->
+    <div class="contenedor cta-tramo cta-sw"><a class="btn" data-iman href="#start" data-cta="start" data-ubicacion="selected-work">Start a project</a></div>
   </section>
 
   <!-- S5b · "Behind the bottles" (G9, M11 v3 · MONOLOG works_home): tarjetas de dos columnas; la foto pasa con el scroll (parallax dentro
@@ -352,6 +354,8 @@
           </div>
         </li>
       </ol>
+      <!-- r21: CTA chico al terminar "Behind the bottles", alineado con las tarjetas (col. 3) -->
+      <div class="cta-tramo cta-hi"><a class="btn" data-iman href="#start" data-cta="start" data-ubicacion="historias">Start a project</a></div>
     </div>
   </section>
 
@@ -424,24 +428,23 @@
 
   <!-- S7b · el pedido (G8: blur por renglón de Neutomni + cascada de M08): "somos pocos: contanos". Patrones contact-single-field y
        cta-blank-in-the-sentence: una pregunta por vez, las respuestas como palabras grandes, campos sin caja -->
-  <section class="pedido" id="start" data-rol="pedido" data-afirmacion="escasez (anuncio de 84 días + DV) y el formulario de 2 pasos, una pregunta por vez">
+  <section class="pedido" id="start" data-rol="pedido" data-afirmacion="escasez (anuncio de 84 días + DV) y el formulario abierto en un solo paso (categoría opcional + campos)">
     <h2 class="h2 pedido-h" data-blur><span class="renglon"><span class="parte">We&rsquo;re not</span> <span class="parte">for everyone.</span></span> <span class="renglon"><span class="parte">Neither is</span> <span class="parte">your brand.</span></span></h2>
     <p class="pedido-sub" data-blur-sub>We take on a limited number of projects each year.</p>
 
-    <form class="form" id="form-proyecto" data-paso="1" data-clarity-mask="true" novalidate>
+    <form class="form" id="form-proyecto" data-clarity-mask="true" novalidate>
             <!-- campos ocultos: UTMs y origen (landing.js los completa) · honeypot anti-bot -->
             <input type="hidden" name="utm_source"><input type="hidden" name="utm_medium"><input type="hidden" name="utm_campaign">
             <input type="hidden" name="utm_content"><input type="hidden" name="utm_term"><input type="hidden" name="origen">
             <div class="sr trampa" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
 
-            <fieldset class="paso paso-1">
-              <legend class="pregunta-titulo">What goes in the bottle?</legend>
+            <!-- r21 (Efraín: "que el formulario de abajo ya te aparezca así abierto"): un solo paso. La categoría queda arriba como selección
+                 opcional y los campos se ven desde el principio; salieron Next, Back y "1 / 2" · "2 / 2" -->
+            <fieldset class="paso paso-categoria">
+              <legend class="pregunta-titulo">What goes in the bottle? <span class="opcional">optional</span></legend>
               <div class="opciones" data-opciones><label class="opcion"><input type="radio" name="categoria" value="spirits"><span>Spirits</span></label><label class="opcion"><input type="radio" name="categoria" value="wine"><span>Wine</span></label><label class="opcion"><input type="radio" name="categoria" value="beer"><span>Beer</span></label><label class="opcion"><input type="radio" name="categoria" value="other"><span>Other</span></label></div>
-              <div class="acciones"><button class="btn" data-iman type="button" data-accion="siguiente">Next</button><p class="paso-num" aria-hidden="true">1 / 2</p></div>
             </fieldset>
 
-            <fieldset class="paso paso-2">
-              <legend class="pregunta-titulo">Awesome. Who do we write back to?</legend>
               <div class="campos">
                 <div class="campo">
                   <label for="f-nombre">Your name</label>
@@ -467,9 +470,8 @@
                   <p class="ayuda" id="a-tel">Only if you'd rather we call.</p>
                 </div>
               </div>
-              <div class="acciones"><button class="btn" data-iman type="submit" data-ubicacion="formulario">Start a project</button><div class="paso-num"><span aria-hidden="true">2 / 2</span> <button class="volver btn btn-fantasma" data-iman type="button" data-accion="volver">Back</button></div></div>
+              <div class="acciones"><button class="btn" data-iman type="submit" data-ubicacion="formulario">Start a project</button></div>
               <p class="error" id="e-envio" role="alert" hidden>Something went wrong. Write to <a href="mailto:studio@jacomymayne.com" data-ruta="mailto">studio@jacomymayne.com</a> and we'll pick it up from there.</p>
-            </fieldset>
 
             <!-- debajo del botón, en los dos pasos y en un solo párrafo: qué pasa después (sin plazo: sin dato) y el aviso de finalidad (C1).
                  C1: cuando exista la política, poner la URL en marca.js y SACAR la clase "muestra" (y data-rotulo) de este link y del del pie -->
@@ -538,6 +540,11 @@
     <p class="pie-legal">© <span data-anio>2026</span> Jacomy Mayne Studio. All rights reserved. <a href="privacy.html" data-politica="privacidad">Privacy policy</a></p>
   </div>
 </footer>
+
+<!-- r21 · CTA flotante (Efraín: "mostrar más o ser más pesado con el botón del formulario"): aparece cuando el hero terminó de pasar y se
+     esconde cuando #start entra en pantalla (landing.js). ≥ 768: pastilla abajo a la derecha · < 768: barra fina a todo el ancho, abajo.
+     Fundido de 0,4 s; con reduced-motion, sin transición. Toma el tema del tramo que tiene detrás (como la barra) -->
+<div class="flotante" data-flotante><a class="btn btn-pastilla" data-iman href="#start" data-cta="start" data-ubicacion="flotante">Start a project</a></div>
 
 <!-- C9 · consentimiento: nada de Pixel, GA4, GTM ni Clarity hasta "Accept". Sin IDs configurados no se muestra (no hay nada que aceptar). -->
 <div class="consentimiento" id="consentimiento" role="region" aria-label="Cookie consent" hidden>

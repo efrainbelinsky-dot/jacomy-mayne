@@ -36,7 +36,7 @@
     if (['localhost', '127.0.0.1', ''].includes(location.hostname)) console.debug('[medición]', evento, d);
   };
   window.addEventListener('lp:cta_click', e => enviar('cta_click', e.detail));
-  // eventos propios de la landing (landing.js): form_start, form_step_2, generate_lead, email_copy, mailto_click, tel_click, whatsapp_click, work_open, brand_open, intro_skip, exit_survey
+  // eventos propios de la landing (landing.js): form_start, generate_lead, email_copy, mailto_click, tel_click, whatsapp_click, work_open, brand_open, intro_skip, exit_survey
   window.addEventListener('lp:evento', e => { const { evento, ...d } = e.detail || {}; if (evento) enviar(evento, d); });
   const hitos = [25, 50, 75, 90]; const vistos = new Set();
   addEventListener('scroll', () => {

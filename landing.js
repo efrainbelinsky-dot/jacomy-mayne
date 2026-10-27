@@ -79,6 +79,25 @@
     addEventListener('resize', verTema); verTema();
   }
 
+  // ---- r21 · CTA flotante "Start a project": visible desde que el hero terminó de pasar hasta que #start entra en pantalla (y oculto
+  //      después: el pie nunca queda tapado). Toma el tema del tramo que tiene detrás, como la barra. El fundido lo hace el CSS ----
+  const flot = document.querySelector('[data-flotante]'), heroF = document.getElementById('hero'), startF = document.getElementById('start');
+  if (flot && heroF && startF) {
+    const bF = flot.querySelector('.btn'); let pendF = false, visF = null, temaF = '';
+    const verF = () => {
+      pendF = false;
+      const vh = innerHeight, ver = heroF.getBoundingClientRect().bottom <= 0 && startF.getBoundingClientRect().top > vh;
+      if (ver !== visF) { visF = ver; flot.classList.toggle('visible', ver); }
+      if (!ver) return;
+      const y = bF.getBoundingClientRect().top + bF.offsetHeight / 2; let t = 'oscuro';
+      for (const sec of tramos) { const r = sec.getBoundingClientRect(); if (r.top <= y && r.bottom > y) { t = sec.dataset.tema; break; } }
+      if (t === temaF) return; temaF = t;
+      bF.classList.remove('tema-claro', 'tema-gris'); if (t !== 'oscuro') bF.classList.add('tema-' + t);
+    };
+    addEventListener('scroll', () => { if (!pendF) { pendF = true; requestAnimationFrame(verF); } }, { passive: true });
+    addEventListener('resize', verF); verF();
+  }
+
   // ---- Ronda 12-13 · Roy y Andy (fondo de la fila del pie): una luz chica recorre el contorno de cada persona al pasar el mouse o con el foco; con LinkedIn
   //      en marca.js → fundadores, la silueta es el link ("Roy Mayne on LinkedIn"). Táctil: el primer toque muestra el halo, el segundo abre.
   //      La otra persona no cambia ----
@@ -152,7 +171,7 @@
     });
   });
 
-  // ---- Formulario de 2 pasos (#start) ----
+  // ---- Formulario (#start), r21: un solo paso ----
   const form = document.getElementById('form-proyecto');
   if (form) {
     const cargado = Date.now(); let empezado = false;
@@ -165,32 +184,8 @@
     form.addEventListener('focusin', empezar);
     form.addEventListener('change', empezar);
 
-    // Ronda 9: una pregunta por vez. El paso que sale se va hacia arriba (opacidad 1 → 0, y 0 → −12 px, 300 ms) y el que entra sube
-    // (0 → 1, 12 → 0, 650 ms), en el mismo lugar; con reduced-motion el cambio es instantáneo. El foco va al nombre (o a la 1.ª opción).
-    const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const SALIDA = 'cubic-bezier(.22,1,.36,1)';
-    const mostrar = (n, enfocar) => {
-      form.dataset.paso = String(n);
-      const nuevo = form.querySelector('.paso-' + n);
-      if (!quieto && nuevo && nuevo.animate) nuevo.animate([{ opacity: 0, transform: 'translateY(12px)' }, { opacity: 1, transform: 'none' }], { duration: 650, easing: SALIDA });
-      const num = nuevo && nuevo.querySelector('.paso-num');
-      if (num && num.getBoundingClientRect().top < 0) {   // si la pregunta nueva quedó arriba de la pantalla, sube hasta 120 px por encima
-        const y = scrollY + num.getBoundingClientRect().top - 120;
-        if (window.__jmLenis) window.__jmLenis.scrollTo(y, { duration: 0.8 }); else scrollTo({ top: y, behavior: quieto ? 'auto' : 'smooth' });
-      }
-      if (n === 2) { evento('form_step_2', { categoria: (form.elements.categoria || {}).value || '' }); if (enfocar) form.elements.nombre.focus({ preventScroll: true }); }
-      else if (enfocar) form.querySelector('.paso-1 input')?.focus({ preventScroll: true });
-    };
-    const irPaso = (n, enfocar) => {
-      const viejo = form.querySelector('.paso-' + form.dataset.paso);
-      if (quieto || !viejo || !viejo.animate || form.dataset.paso === String(n)) { mostrar(n, enfocar); return; }
-      viejo.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(-12px)' }], { duration: 300, easing: SALIDA }).finished.then(() => mostrar(n, enfocar), () => mostrar(n, enfocar));
-    };
-    form.addEventListener('click', e => {
-      const b = e.target.closest('[data-accion]'); if (!b) return;
-      if (b.dataset.accion === 'siguiente') { empezar(); irPaso(2, true); }
-      if (b.dataset.accion === 'volver') irPaso(1, true);
-    });
+    // r21: un solo paso, abierto de entrada (salieron Next/Back, el cambio de paso y form_step_2). form_start = primer foco o primera
+    // elección; la categoría (opcional) viaja en generate_lead.
 
     // (ronda 9: salieron S6 "Where are you starting from?" y su pregunta en el formulario; sin campo punto ni start_point_select)
 
@@ -218,13 +213,14 @@
       const cfg = M.formulario || {};
       Object.assign(datos, cfg.extra || {});
       try {
-        if (cfg.endpoint) {
+        // r21: en localhost NUNCA se envía (antes, con endpoint cargado, el envío de prueba salía a FormSubmit)
+        if (local) {
+          console.debug('[formulario] localhost: no se envía nada', datos);
+        } else if (cfg.endpoint) {
           const body = cfg.formato === 'form' ? new URLSearchParams(datos) : JSON.stringify(datos);
           const headers = cfg.formato === 'form' ? { Accept: 'application/json' } : { 'Content-Type': 'application/json', Accept: 'application/json' };
           const r = await fetch(cfg.endpoint, { method: cfg.metodo || 'POST', headers, body });
           if (!r.ok) throw new Error(r.status);
-        } else if (local) {
-          console.debug('[formulario] sin endpoint: en localhost no se envía nada', datos);
         } else throw new Error('sin endpoint');
         evento('generate_lead', { categoria: datos.categoria || '', utm_content: datos.utm_content || '' });
         confirmar(nombre);

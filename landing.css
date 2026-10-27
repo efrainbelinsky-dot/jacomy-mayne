@@ -203,7 +203,7 @@ html.motion .fr-ventana{width:100%}
 .form-pie a{display:inline-flex;align-items:center;min-height:44px;color:var(--tinta)}
 .campos{clear:both;display:grid;grid-template-columns:minmax(0,1fr);gap:28px 32px;padding-top:36px;text-align:left}
 .campo{display:grid;gap:6px;align-content:start}
-.campo label{font-size:var(--t-chico);color:var(--tinta-suave)}
+.campo label{font-size:var(--t-chico);color:var(--tinta-suave);padding:11px 0;margin:-11px 0}   /* r21: con los campos a la vista, la etiqueta es tocable de 44 px sin sumar altura (R15) */
 .opcional{margin-left:.4em;opacity:.8}
 .campo input{width:100%;min-height:56px;padding:0;border:0;border-bottom:1px solid var(--tinta-suave);border-radius:0;background:transparent;color:var(--tinta);
   font:400 1.0625rem/1.2 var(--f-texto);text-overflow:ellipsis}   /* sin caja: solo la línea de abajo (8,6:1, WCAG 1.4.11) */
@@ -218,7 +218,8 @@ html.motion .fr-ventana{width:100%}
 .confirmacion{margin-top:clamp(64px,8vw,128px);display:grid;justify-items:center;gap:32px}
 .confirmacion p{font:italic 400 var(--t-h3)/1.15 var(--f-acento)}
 .firma-chica{display:block;width:220px;height:auto;fill:currentColor}
-.js .form[data-paso="1"] .paso-2,.js .form[data-paso="2"] .paso-1{display:none}   /* paso a paso solo con JS: sin JS se ve todo (R3) */
+.pregunta-titulo .opcional{color:var(--tinta-suave)}   /* r21: la categoría es opcional (mismo cuerpo que la pregunta: no es un antetítulo) */
+.paso-categoria+.campos{padding-top:56px}   /* r21: un solo paso; la categoría arriba, los campos a la vista */
 @media (min-width:600px){.pedido-h .parte{display:inline}}
 @media (min-width:768px){.campos{grid-template-columns:repeat(2,minmax(0,1fr))}.campo input{font-size:1.375rem}}
 @media (min-width:992px){.pedido{min-height:88svh;align-content:center;padding:clamp(56px,5vw,80px) var(--gutter) clamp(56px,5vw,80px)}}   /* sin vacíos de más de media pantalla entre S7a, S7b y el pie (blank-gap) */
@@ -685,3 +686,23 @@ html.motion .marcas-ventana.arrastrando .mc-link{cursor:grabbing}
 
 /* r17 · fundadores: sin anillo ni cuadrado al hacer clic; el indicador de foco (teclado) es la luz que recorre la silueta (landing.js la prende en focus) */
 .fu-links a{outline:none}
+
+/* ================= r21 · más presión con "Start a project" (Efraín: "no toda la gente llega hasta abajo") =================
+   CTAs chicos al final de Selected Work y de "Behind the bottles" (el de la FAQ ya estaba) + el flotante. Mismo .btn y M15 (data-iman) */
+.cta-tramo{display:flex;justify-content:flex-start;padding-top:clamp(40px,4vw,64px)}
+@media (min-width:992px){.cta-hi{grid-column:3 / -1}}            /* alineado con las tarjetas de S5b */
+.flotante{display:none}                                           /* sin JS no hay flotante (los CTA del flujo alcanzan) */
+.js .flotante{display:block;position:fixed;z-index:35;right:var(--gutter);bottom:24px;opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .4s var(--salida),visibility 0s linear .4s}
+.js .flotante.visible{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .4s var(--salida),visibility 0s}
+.flotante .btn{min-height:48px}   /* sin sombra: el contraste lo da el tema del tramo de atrás */
+@media (max-width:767px){
+  .js .flotante{left:0;right:0;bottom:0}
+  .flotante .btn{display:flex;width:100%;min-height:calc(52px + env(safe-area-inset-bottom));padding:0 var(--gutter) env(safe-area-inset-bottom);border-radius:0}
+  .js body{padding-bottom:calc(52px + env(safe-area-inset-bottom))}   /* lo último de la página nunca queda debajo de la barra */
+  html.js{scroll-padding-bottom:calc(52px + env(safe-area-inset-bottom))}
+  /* la escena fijada de S4 (tarjetas pegadas al piso) deja libre la franja de la barra flotante */
+  html.js.motion .sv-tarjetas{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+  html.js.motion .sv-lienzo{height:calc(100% - 72px - env(safe-area-inset-bottom))}
+}
+@media (prefers-reduced-motion:reduce){.js .flotante,.js .flotante.visible{transition:none}}
