@@ -81,7 +81,18 @@
   /* ---------- hero: los trabajos cambian solos (Holy Studio: cada ~2 s, fundido de 1 s), con pausa (WCAG 2.2.2) ---------- */
   const slidesHero = [...document.querySelectorAll('[data-slides] .hero-slide')];
   const pausa = document.querySelector('[data-pausa]');
-  if (slidesHero.length > 1) {
+  const videoHero = document.querySelector('[data-slides] .hero-video');
+  if (videoHero) {   // r22: con video del cliente, la pausa del hero pausa el video; fuera de pantalla o con la pestaña oculta, se detiene solo
+    let pausado = false, visible = true;
+    const sync = () => { if (!pausado && visible && !document.hidden) { const pr = videoHero.play(); if (pr) pr.catch(() => {}); } else videoHero.pause(); };
+    if (pausa) {
+      pausa.setAttribute('aria-label', 'Pause video'); pausa.hidden = false;
+      pausa.addEventListener('click', () => { pausado = !pausado; pausa.setAttribute('aria-pressed', String(pausado)); pausa.setAttribute('aria-label', pausado ? 'Play video' : 'Pause video'); sync(); });
+    }
+    new IntersectionObserver(es => { visible = es[0].isIntersecting; sync(); }).observe(heroEl);
+    document.addEventListener('visibilitychange', sync);
+    if (new URLSearchParams(location.search).get('qa') === '1') { pausado = true; videoHero.pause(); }
+  } else if (slidesHero.length > 1) {
     let k = 0, timer = null, pausado = false, visible = true;
     const pasar = () => { slidesHero[k].classList.remove('activa'); k = (k + 1) % slidesHero.length; const n = slidesHero[k]; setTimeout(() => n.classList.add('activa'), 520); };   // sale una (0,5 s), después entra la otra
     const sync = () => { clearInterval(timer); timer = null; if (!pausado && visible && !document.hidden) timer = setInterval(pasar, 2200); };
@@ -152,7 +163,12 @@
     const id = a.getAttribute('href'); if (id.length < 2) return;
     const t = document.querySelector(id); if (!t) return;
     e.preventDefault();
-    lenis.scrollTo(t, { offset: -(barra() + 12), duration: 1, onComplete: () => { if (!t.hasAttribute('tabindex')) t.setAttribute('tabindex', '-1'); t.focus({ preventScroll: true }); } });
+    // r26: al llegar se corrige la diferencia (las secciones que se apilan y los pins mueven el destino mientras se scrollea)
+    const enfocar = () => { if (!t.hasAttribute('tabindex')) t.setAttribute('tabindex', '-1'); t.focus({ preventScroll: true }); };
+    lenis.scrollTo(t, { offset: -(barra() + 12), duration: 1, onComplete: () => {
+      const d = t.getBoundingClientRect().top - (barra() + 12);
+      if (Math.abs(d) > 4) lenis.scrollTo(window.scrollY + d, { duration: 0.45, onComplete: enfocar }); else enfocar();
+    } });
   });
 
   /* ---------- G3 · la respuesta de S3 se ilumina letra por letra con el scroll (0,2 → 1, ~800 px) ---------- */
@@ -171,18 +187,18 @@
     const cinta = lienzo.querySelector('[data-cinta]');
     grupos.forEach(g => G.set(g.letras, { yPercent: 130, opacity: 0 }));
     if (cinta) G.set(cinta, { scaleX: 0, rotation: -1.4, transformOrigin: '0% 50%' });
-    // r18 (Efraín: "que se escriba como la del final: si scrolleás va apareciendo poco a poco"): la firma se escribe ATADA al scroll
-    // con el mismo recorte que la del pie (--firma-p) y termina en ¾ de pantalla extra de pin sumada al recorrido (el horizontal sigue en 8).
-    // r19 (Efraín: "quiero que se empiece a escribir al mismo tiempo y termine al mismo tiempo"): la firma y la respuesta de abajo comparten
-    // UN tramo y UNA curva: lineal en el tiempo de la timeline fijada, desde que la firma asoma por el 60 % del ancho (T0) hasta el final
-    // del pin. La respuesta se ilumina letra por letra (0,2 → 1) con el mismo progreso; si se sube, retroceden juntas.
+    // r25 (Efraín: "sigue siendo como muy infinito… que sea como antes, que se abre de una"): se revierte la escritura atada al scroll de
+    // r18/r19/r22/r24. Como antes de r18: la firma se escribe SOLA, una vez por carga, cuando su borde izquierdo cruza el 80 % del ancho
+    // (clip-path con --firma-p de 0 a 100 % en 1 s, curva de salida). La respuesta vuelve a iluminarse dentro del corrido (0,52 → 0,97 de
+    // la timeline), sin esperar a la firma. Sin tramo extra: el pin es el corrido horizontal más un respiro mínimo.
+    // Con reduced-motion este bloque no corre y la firma está entera (--firma-p vale 100 % por defecto en el CSS).
     if (firmaS3) G.set(firmaS3, { '--firma-p': '0%' });
-    let cintaK = 0, firmaT0 = 0.5, tlF = null, ultimoP = -1;
-    const PUNTA = 0.6;
-    const EXTRA = 0.75 / 8;   // ¾ de pantalla con el lienzo quieto al final; la escritura entera dura ≈ 3 pantallas (empieza en movimiento)
+    let cintaK = 0, firmaHecha = !firmaS3;
+    const HORIZ = 4.1;           // r25: pantallas de corrido horizontal (≈ 0,94 px de texto por px de scroll a 1440; antes 4,4)
+    const RESPIRO = 0.05;        // r25: respiro mínimo al final, en pantallas (antes 0,1 + el tramo de escritura)
     const escena = pistaF.querySelector('.fr-escena');
     const xTotal = () => Math.max(0, lienzo.scrollWidth - document.documentElement.clientWidth);
-    const recorrido = () => 8 * innerHeight;    // Sweet Tape fija ≈ 7.908 px a 1440×900 (corrección de Efraín: largo y lento)
+    const recorrido = () => HORIZ * innerHeight;
     const fijo = { trigger: escena, start: 'top top', end: () => '+=' + Math.round(recorrido()), scrub: 0.6, invalidateOnRefresh: true };
     const revisar = () => {
       const borde = innerWidth * 0.96;
@@ -193,25 +209,16 @@
         orden.forEach((i, k) => G.to(g.letras[i], { yPercent: 0, opacity: 1, duration: 0.6, ease: 'power3.out', delay: k * 0.025 }));
       });
       if (cinta) { const k = Math.min(1, Math.max(0, (innerWidth * 0.92 - cinta.getBoundingClientRect().left) / (innerWidth * 0.12))); cintaK = Math.max(cintaK, SALIDA(k)); G.set(cinta, { scaleX: cintaK }); }   // se pega atada al scroll al cruzar el 60 % del ancho (no depende de un tiempo) y no se despega
-    };
-    const medirFirma = () => {   // T0: punto del recorrido (0–1) en que el borde izquierdo de la firma cruza el 60 % del ancho
-      if (!firmaS3) return;
-      const xt = xTotal(), l0 = firmaS3.getBoundingClientRect().left - (Number(G.getProperty(lienzo, 'x')) || 0);
-      firmaT0 = xt ? Math.min(1, Math.max(0, (l0 - innerWidth * PUNTA) / xt)) : 0;
-    };
-    const escribirFirma = () => {   // un solo progreso p para las dos
-      if (!tlF) return;
-      const p = Math.min(1, Math.max(0, (tlF.time() - firmaT0) / (1 + EXTRA - firmaT0)));
-      if (Math.abs(p - ultimoP) < 1e-4) return; ultimoP = p;
-      if (firmaS3) firmaS3.style.setProperty('--firma-p', (p * 100).toFixed(2) + '%');
-      const n = letrasResp.length;
-      for (let i = 0; i < n; i++) letrasResp[i].style.opacity = (0.2 + 0.8 * Math.min(1, Math.max(0, p * n - i))).toFixed(3);   // letra i: de i/n a (i+1)/n
+      if (!firmaHecha && firmaS3.getBoundingClientRect().left <= innerWidth * 0.8) {   // la firma, una sola vez: se escribe de una
+        firmaHecha = true;
+        G.to(firmaS3, { '--firma-p': '100%', duration: 1, ease: SALIDA });
+      }
     };
     // el lienzo corre sin detenerse todo el recorrido (crítica r5: nada de tiempo quieto); la cinta se pega mientras pasa
-    tlF = G.timeline({ onUpdate: escribirFirma, scrollTrigger: { ...fijo, end: () => '+=' + Math.round(recorrido() * (1 + EXTRA)), pin: true, onRefresh: () => { medirFirma(); ultimoP = -1; escribirFirma(); } } });
+    const tlF = G.timeline({ scrollTrigger: { ...fijo, end: () => '+=' + Math.round(recorrido() * (1 + RESPIRO / HORIZ)), pin: true } });
     tlF.fromTo(lienzo, { x: 0 }, { x: () => -xTotal(), ease: 'none', duration: 1 }, 0);
-    tlF.to({}, { duration: EXTRA }, 1);   // la pantalla extra: el lienzo ya llegó y solo se escribe la firma
-    // (r19: la respuesta ya no va en 0,52 de la timeline: la ilumina escribirFirma con el mismo progreso que la firma)
+    tlF.to({}, { duration: RESPIRO / HORIZ }, 1);   // el respiro: el lienzo ya llegó
+    if (letrasResp.length) tlF.to(letrasResp, { opacity: 1, ease: 'none', stagger: { amount: 0.42 }, duration: 0.03 }, 0.52);   // G3 dentro del pin, como antes de r18
     fotos.forEach(f => G.fromTo(f, { x: () => 0.03 * innerWidth }, { x: () => -0.03 * innerWidth, ease: 'power2.inOut', scrollTrigger: { ...fijo } }));
     ST.create({ trigger: pistaF, start: 'top 85%', end: 'bottom top', onUpdate: revisar, onEnter: revisar, onRefresh: revisar });
   }

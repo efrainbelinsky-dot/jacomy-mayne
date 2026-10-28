@@ -1,5 +1,5 @@
 /* marca.js — ÚNICA fuente de datos de la marca en el sitio (LL4).
-   Jacomy & Mayne es B2B: no hay productos, precios, carrito ni envíos. El único CTA es "Start a project" → #start
+   Jacomy & Mayne es B2B: no hay productos, precios, carrito ni envíos. El único CTA es "Book a call with Andy" (r22) → agenda.url o #start
    (formulario de 2 pasos dentro de la página). Todo lo de acá sale de brief.md → "Datos verificados" (2026-10-23)
    o de textos.md (interruptores). Lo que falta va en null y se anota en estado.json → pendientes. */
 window.MARCA = {
@@ -11,8 +11,10 @@ window.MARCA = {
   interruptores: {
     USAR_SEGURO: {
       frase_horizontal: false,            // G4 decide. true → "WHO IS JACOMY & MAYNE?"
-      quien_lee: true,                    // true → "We'll reply by email." · false → "Roy or Andy reads it…" (S7 y pregunta 8 de S6b; solo si el cliente confirma)
-      faq_equipo: true                    // ronda 7 · S6b pregunta 1. false → "Roy and Andy. …we're in it with you." (solo si confirman C14)
+      quien_lee: true,                    // true → "We'll reply by email to set up the call." · false → "Andy reads it and replies by email…" (S7; solo si el cliente confirma)
+      logos_licenciantes: true,           // r22 · true → Warner Bros., DC y Peaky Blinders Co. solo como nombre en texto, nunca su logo oficial
+      faq_ttb: true,                      // r22 · true → respuesta TTB sin "Yes," · false → literal del cliente ("Yes, we design to…")
+      cta_duracion: true                  // r22 · true → "Book a call with Andy" · false → "Book a 20-min call with Andy" (el cliente no escribió los 20 min)
     },
     MOSTRAR_WHATSAPP: false               // true solo si el cliente confirma que atienden por WhatsApp el número publicado
   },
@@ -37,6 +39,23 @@ window.MARCA = {
     oficina: "LATAM office · Mendoza, Argentina"
   },
 
+  // r22 · objetivo = una llamada con Andy. url: link de agenda (Calendly o similar), sin dato. null → los 6 "Book a call with Andy"
+  // llevan a #start (el formulario pide la llamada). Con URL → abren la agenda en otra pestaña y el formulario queda de alternativa.
+  agenda: { url: null },
+
+  // r24 (Efraín 2026-10-28: "un video de él hablando sobre la marca"): el video de Andy a cámara, con sonido, en su propia sección
+  // (#video-andy, después de "Break the shelf."). mp4: ruta relativa a sitio/ (p. ej. "video/andy.mp4") · poster: la imagen de arranque
+  // (null → la foto de los fundadores en B/N) · subtitulos: un .vtt en inglés (opcional). Con mp4 en null, la sección solo se ve en
+  // localhost (con "Video coming soon"); publicada, no aparece.
+  video_marca: { mp4: null, poster: null, subtitulos: null },
+
+  // r22, opción APAGADA (r24: el pedido era el video de Andy, de arriba): video de fondo del hero en lugar de las fotos que cambian.
+  // Con mp4 y webm en null el hero queda con las fotos que cambian. Con un archivo (ruta relativa a sitio/, p. ej. "video/hero.mp4")
+  // reemplaza a las fotos detrás de la firma y la línea: muted, loop, playsinline, preload="metadata". poster: null → la 1.ª foto del hero.
+  hero: {
+    video: { mp4: null, webm: null, poster: null }
+  },
+
   // Fichas de los casos de Selected Work: la tarjeta entera abre la ficha (work_open). null = todavía sin URL confirmada.
   casos: {
     "marques-de-casa-concha": "https://jacomymayne.com/marques-de-casa-concha/",
@@ -53,6 +72,21 @@ window.MARCA = {
   // Entrometido, Paipo: paipogin.com, que redirige a paipogin.online); si no, la ficha del proyecto en jacomymayne.com (Concha y Toro → la de Marques).
   // Ojo: index.html repite url, color y logo en cada <li> (data-logo, style="--mc-color", <a href>) para no depender de este archivo: cambiar los dos.
   marcas: {   // logo: lo pone originales/logos-a-marca.mjs según lo que haya en img/logos/ (no tocar a mano)
+    "ab-inbev-chile": { logo: null, color: null, url: null },   // r22: del cliente; sin ficha ni sitio verificado: sin link; color sin fuente → blanco
+    "warner-bros": { logo: null, color: null, url: null },   // r22: del cliente; sin ficha ni sitio verificado: sin link; color sin fuente → blanco
+    "pepsico-nyc": { logo: null, color: null, url: null },   // r22: del cliente; sin ficha ni sitio verificado: sin link; color sin fuente → blanco
+    "ccu-argentina": { logo: null, color: null, url: null },   // r22: del cliente; sin ficha ni sitio verificado: sin link; color sin fuente → blanco
+    "peaky-blinders-co": { logo: null, color: null, url: "https://jacomymayne.com/peaky-blinders-official-playing-cards/" },   // r22: del cliente; ficha en jacomymayne.com (post-sitemap, 2026-10-28); color sin fuente → blanco
+    "montes-wines": { logo: null, color: null, url: null },   // r22: del cliente; sin ficha ni sitio verificado: sin link; color sin fuente → blanco
+    "theory11": { logo: null, color: null, url: "https://jacomymayne.com/peaky-blinders-official-playing-cards/" },   // r22: del cliente; ficha en jacomymayne.com (post-sitemap, 2026-10-28); color sin fuente → blanco
+    "dc": { logo: null, color: null, url: null },   // r22: del cliente; sin ficha ni sitio verificado: sin link; color sin fuente → blanco
+    "world-whiskey-society": { logo: null, color: null, url: null },   // r22: del cliente; sin ficha ni sitio verificado: sin link; color sin fuente → blanco
+    "ccu-chile": { logo: null, color: null, url: null },   // r22: del cliente; sin ficha ni sitio verificado: sin link; color sin fuente → blanco
+    "saranskiy-distillery": { logo: null, color: null, url: null },   // r22: del cliente; sin ficha ni sitio verificado: sin link; color sin fuente → blanco
+    "kaluga-distillery": { logo: null, color: null, url: null },   // r22: del cliente; sin ficha ni sitio verificado: sin link; color sin fuente → blanco
+    "vina-alta": { logo: null, color: null, url: null },   // r22: del cliente; sin ficha ni sitio verificado: sin link; color sin fuente → blanco
+    "nando-parrado-wines": { logo: null, color: null, url: "https://jacomymayne.com/nando-parrado-wines/" },   // r22: del cliente; ficha en jacomymayne.com (post-sitemap, 2026-10-28); color sin fuente → blanco
+    "esencial": { logo: null, color: null, url: "https://jacomymayne.com/esencial-wines/" },   // r22: del cliente; ficha en jacomymayne.com (post-sitemap, 2026-10-28); color sin fuente → blanco
     "concha-y-toro": { logo: "svg", color: "#C8A284", url: "https://jacomymayne.com/marques-de-casa-concha/" },   // r14: "CONCHA Y TORO" de la etiqueta Cabernet de Marques (sitio/img/caso-marques-900.jpg)
     "marques-de-casa-concha": { logo: "png", color: "#765E2D", url: "https://marquesdecasaconcha.com/" },   // r14: el escudo MCC dorado de la etiqueta Gold (sitio/img/caso-marques-900.jpg)
     "trivento": { logo: "svg", color: "#B4984B", url: "https://trivento.com/" },   // r14: el "TRIVENTO" dorado del cuello (originales/origen/trivento-03-1930.jpg)

@@ -17,15 +17,72 @@
   });
   document.querySelectorAll('[data-whatsapp]').forEach(el => { el.hidden = !I.MOSTRAR_WHATSAPP; });
 
+  // ---- r22 · CTA de la llamada: con cta_duracion = false dice "Book a 20-min call with Andy"; con marca.js → agenda.url, los 6 botones
+  //      abren la agenda en otra pestaña (si no, van al formulario #form-proyecto: Efraín 2026-10-28, "que me lleve más abajo"). Corre antes que motion.js, que parte el texto en letras (M15) ----
+  const agenda = (M.agenda && M.agenda.url) || null;
+  document.querySelectorAll('a[data-cta]').forEach(a => {
+    if (S.cta_duracion === false && a.textContent.trim() === 'Book a call with Andy') a.textContent = 'Book a 20-min call with Andy';
+    if (agenda) { a.href = agenda; a.target = '_blank'; a.rel = 'noopener'; a.dataset.cta = 'agenda'; }
+  });
+
   // ---- Titular por anuncio: solo utm_content=bottle-says cambia el titular de S1b (si no, queda la A). Ronda 9: el h1 es la firma del
   //      hero, así que la variante va a .titular-h y nunca a 'h1' (si no, reescribiría el nombre) ----
   const tpl = document.getElementById('titular-' + (q.get('utm_content') || '').replace(/[^a-z0-9-]/gi, ''));
   const tit = document.querySelector('.titular-h');
-  if (tpl && tit) tit.replaceChildren(tpl.content.cloneNode(true));
+  if (tpl && tit) { tit.replaceChildren(tpl.content.cloneNode(true)); tit.classList.remove('titular-corto'); }   // r22: la variante larga vuelve al cuerpo de siempre
   // Bajada por anuncio (message match, estrategia.md): remembered → A1, generic → A2; sin UTM o con otro valor queda la de siempre
   const bajada = document.getElementById('bajada-' + (q.get('utm_content') || '').replace(/[^a-z0-9-]/gi, ''));
   const hb = document.querySelector('.hero-bajada');
   if (bajada && hb) { hb.replaceChildren(bajada.content.cloneNode(true)); hb.classList.add('dos'); }   // 2 renglones: la frase del anuncio + la de siempre
+
+  // ---- r22 · video del hero (marca.js → hero.video): si hay archivo, un <video> a sangre reemplaza a las fotos que cambian, dentro
+  //      de [data-slides] (así hereda el fundido de la intro y el velo de arriba). Con reduced-motion no arranca solo: queda el poster.
+  //      El botón de pausa lo maneja motion.js. Sin archivo, el hero no cambia ----
+  const hv = (M.hero && M.hero.video) || {};
+  const slidesEl = document.querySelector('[data-slides]');
+  if (slidesEl && (hv.mp4 || hv.webm)) {
+    const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const img1 = slidesEl.querySelector('.hero-slide img');
+    const v = document.createElement('video');
+    v.className = 'hero-video';
+    v.muted = true; v.defaultMuted = true; v.loop = true; v.playsInline = true; v.preload = 'metadata';
+    ['muted', 'loop', 'playsinline'].forEach(a => v.setAttribute(a, ''));
+    if (!quieto) { v.autoplay = true; v.setAttribute('autoplay', ''); }
+    v.setAttribute('aria-hidden', 'true'); v.tabIndex = -1;
+    const poster = hv.poster || (img1 && (img1.currentSrc || img1.src));
+    if (poster) v.poster = poster;
+    [['webm', 'video/webm'], ['mp4', 'video/mp4']].forEach(([k, t]) => { if (hv[k]) { const s = document.createElement('source'); s.src = hv[k]; s.type = t; v.append(s); } });
+    slidesEl.prepend(v);
+    slidesEl.closest('.hero').classList.add('con-video');
+    slidesEl.setAttribute('aria-label', 'Packaging by Jacomy & Mayne (video)');
+    slidesEl.removeAttribute('aria-roledescription');
+  }
+
+  // ---- r24 · video de Andy (#video-andy, marca.js → video_marca). Con mp4: poster + play (M15); al tocarlo, un <video> con sonido,
+  //      controles, playsinline y preload="none" toma el lugar del poster y arranca. Eventos video_play (1.ª vez) y video_complete.
+  //      Sin mp4: en localhost se ve el lugar (poster provisorio en B/N + "Video coming soon", .muestra); afuera la sección queda oculta ----
+  const vm = M.video_marca || {}, vmSec = document.querySelector('[data-video-marca]');
+  if (vmSec && (vm.mp4 || local)) {
+    vmSec.hidden = false;
+    const marco = vmSec.querySelector('[data-vm-marco]'), play = vmSec.querySelector('[data-vm-play]'), posterEl = vmSec.querySelector('[data-vm-poster]');
+    if (vm.poster && posterEl) { const im = posterEl.querySelector('img'); posterEl.querySelectorAll('source').forEach(s => s.remove()); im.removeAttribute('srcset'); im.src = vm.poster; marco.classList.add('con-poster'); }
+    if (!vm.mp4) { const pr = vmSec.querySelector('[data-vm-pronto]'); if (pr) pr.hidden = false; marco.classList.add('sin-video'); }
+    if (play) play.addEventListener('click', () => {
+      if (!vm.mp4) return;                                   // sin video todavía: el botón solo muestra el lugar
+      const v = document.createElement('video');
+      v.className = 'vm-video'; v.controls = true; v.playsInline = true; v.preload = 'none';
+      v.setAttribute('playsinline', ''); v.setAttribute('controls', '');
+      if (vm.poster) v.poster = vm.poster;
+      const src = document.createElement('source'); src.src = vm.mp4; src.type = 'video/mp4'; v.append(src);
+      if (vm.subtitulos) { const t = document.createElement('track'); t.kind = 'captions'; t.srclang = 'en'; t.label = 'English'; t.src = vm.subtitulos; v.append(t); }
+      let empezo = false;
+      v.addEventListener('play', () => { if (!empezo) { empezo = true; evento('video_play', { video: 'andy' }); } });
+      v.addEventListener('ended', () => evento('video_complete', { video: 'andy' }));
+      marco.replaceChildren(v); marco.classList.add('reproduciendo');
+      const pr = v.play(); if (pr) pr.catch(() => {});        // con sonido: lo arranca el toque del usuario
+      v.focus({ preventScroll: true });
+    });
+  }
 
   // ---- Enlaces de la política de privacidad desde marca.js ----
   const pol = (M.legales || {}).politicas || {};
@@ -44,6 +101,7 @@
       if (color) li.style.setProperty('--mc-color', color);
       if (link && url) link.setAttribute('href', url);
       if (link && !link.dataset.evento) { link.dataset.evento = '1'; link.addEventListener('click', ev => { if (!ev.defaultPrevented) evento('brand_open', { slug }); }); }
+      if (S.logos_licenciantes !== false && ['warner-bros', 'dc', 'peaky-blinders-co'].includes(slug)) return;   // r22: licenciantes solo como nombre
       if ((logo !== 'svg' && logo !== 'png') || li.querySelector('.mc-logo') || li.dataset.probando) return;
       li.dataset.probando = '1';
       const caja = link || li, nombre = caja.textContent.replace(/ /g, ' ').trim(), src = `img/logos/${slug}.${logo}`;
@@ -79,7 +137,7 @@
     addEventListener('resize', verTema); verTema();
   }
 
-  // ---- r21 · CTA flotante "Start a project": visible desde que el hero terminó de pasar hasta que #start entra en pantalla (y oculto
+  // ---- r21 · CTA flotante (r22: "Book a call with Andy"): visible desde que el hero terminó de pasar hasta que #start entra en pantalla (y oculto
   //      después: el pie nunca queda tapado). Toma el tema del tramo que tiene detrás, como la barra. El fundido lo hace el CSS ----
   const flot = document.querySelector('[data-flotante]'), heroF = document.getElementById('hero'), startF = document.getElementById('start');
   if (flot && heroF && startF) {
