@@ -62,7 +62,8 @@
   //      controles, playsinline y preload="none" toma el lugar del poster y arranca. Eventos video_play (1.ª vez) y video_complete.
   //      Sin mp4: en localhost se ve el lugar (poster provisorio en B/N + "Video coming soon", .muestra); afuera la sección queda oculta ----
   const vm = M.video_marca || {}, vmSec = document.querySelector('[data-video-marca]');
-  if (vmSec && (vm.mp4 || local)) {
+  // r28 (Efraín 2026-10-29: "no lo subiste, todo igual que el localhost"): el lugar del video se ve también publicado, con "Video coming soon"
+  if (vmSec) {
     vmSec.hidden = false;
     const marco = vmSec.querySelector('[data-vm-marco]'), play = vmSec.querySelector('[data-vm-play]'), posterEl = vmSec.querySelector('[data-vm-poster]');
     if (vm.poster && posterEl) { const im = posterEl.querySelector('img'); posterEl.querySelectorAll('source').forEach(s => s.remove()); im.removeAttribute('srcset'); im.src = vm.poster; marco.classList.add('con-poster'); }
