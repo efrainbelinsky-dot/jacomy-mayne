@@ -20,7 +20,6 @@
      Nada depende del JS para verse: los estados iniciales ocultos los pone motion.js solo si GSAP cargó y no hay prefers-reduced-motion.
      Publicación 2026-10-26: GitHub Pages (https://efrainbelinsky-dot.github.io/jacomy-mayne/); cuando el cliente agregue el CNAME, cambiar canonical/og a https://start.jacomymayne.com/. -->
 <link rel="preload" href="fonts/texgyreheros-regular.otf" as="font" type="font/otf" crossorigin>
-<link rel="preload" as="image" type="image/webp" imagesrcset="img/fundadores-ancho-960.webp 960w, img/fundadores-ancho-1916.webp 1916w" imagesizes="(min-width: 992px) 640px, 100vw">   <!-- r29: el poster del video del hero llega antes de que termine la intro -->
 <link rel="preload" href="fonts/librebodoni-italic-400.ttf" as="font" type="font/ttf" crossorigin>
 <script>window.__introT = performance.now(); document.documentElement.classList.add('js');</script>
 <link rel="stylesheet" href="base.css">
@@ -79,7 +78,7 @@
            "Video coming soon" (.muestra); publicada, el recuadro no existe y el titular queda solo -->
       <figure class="hv-video" data-video-marca data-intro-fade hidden>
         <div class="vm-marco" data-vm-marco>
-          <picture class="vm-poster" data-vm-poster><source type="image/webp" srcset="img/fundadores-ancho-960.webp 960w, img/fundadores-ancho-1916.webp 1916w" sizes="(min-width: 992px) 640px, 100vw"><img src="img/fundadores-ancho-1916.jpg" srcset="img/fundadores-ancho-960.jpg 960w, img/fundadores-ancho-1916.jpg 1916w" sizes="(min-width: 992px) 640px, 100vw" width="1916" height="821" alt="" decoding="async" fetchpriority="high"></picture>
+          <picture class="vm-poster" data-vm-poster><source type="image/webp" srcset="img/fundadores-ancho-960.webp 960w, img/fundadores-ancho-1916.webp 1916w" sizes="(min-width: 992px) 640px, 100vw"><img src="img/fundadores-ancho-1916.jpg" srcset="img/fundadores-ancho-960.jpg 960w, img/fundadores-ancho-1916.jpg 1916w" sizes="(min-width: 992px) 640px, 100vw" width="1916" height="821" alt="" decoding="async"></picture>
           <button class="btn vm-play" type="button" data-iman data-vm-play aria-label="Play the video: a word from Andy">Play</button>
           <p class="vm-pronto" data-vm-pronto hidden><span>Video coming soon</span></p>
         </div>
@@ -126,8 +125,8 @@
   })();
   </script>
 
-  <!-- S3 · frase horizontal (G4, M04): el lienzo se fija y se corre a la izquierda al bajar; la cinta tapa los *** y la firma contesta -->
-  <section class="frase-sec" id="frase-horizontal" data-rol="frase-horizontal" data-afirmacion="la pregunta firma se corre con el scroll, trabajos entre palabras, cinta sobre F***, y la firma contesta">
+  <!-- S3 · frase horizontal (G4, M04 sin pin, r30): la sección se scrollea normal y la frase corre a la izquierda mientras cruza la ventana; la cinta tapa los *** y la firma contesta debajo -->
+  <section class="frase-sec" id="frase-horizontal" data-rol="frase-horizontal" data-afirmacion="la pregunta se corre con el scroll sin fijar la página (r30), trabajos entre palabras, cinta sobre F***, y la firma contesta debajo">
     <div class="fr-pista" data-frase>
       <div class="fr-escena">
         <div class="fr-ventana">
@@ -139,8 +138,6 @@
           <span class="fr-palabra">F<span class="fr-tapado">***<span class="cinta" data-cinta></span></span></span>
           <span class="fr-foto"><img src="img/s3-frankly-420.jpg" srcset="img/s3-frankly-420.webp 420w, img/s3-frankly-840.webp 840w" sizes="42svh" width="840" height="600" alt="" loading="lazy" decoding="async"></span>
           <span class="fr-palabra">is</span>
-          <span class="fr-foto"><img src="img/s3-anansi-420.jpg" srcset="img/s3-anansi-420.webp 420w, img/s3-anansi-840.webp 840w" sizes="42svh" width="840" height="600" alt="" loading="lazy" decoding="async"></span>
-          <span class="fr-firma"><svg viewBox="0 0 394.4 83.8" focusable="false"><use href="#firma"/></svg></span>
         </div>
         <h2 class="sr" data-seguro="frase_horizontal:true" hidden>Who is Jacomy &amp; Mayne?</h2>
         <div class="fr-lienzo" data-lienzo data-gesto="G4" data-seguro="frase_horizontal:true" aria-hidden="true" hidden>
@@ -148,10 +145,11 @@
           <span class="fr-foto"><img src="img/s3-trivento-420.jpg" srcset="img/s3-trivento-420.webp 420w, img/s3-trivento-840.webp 840w" sizes="42svh" width="840" height="600" alt="" loading="lazy" decoding="async"></span>
           <span class="fr-palabra">is</span>
           <span class="fr-foto"><img src="img/s3-frankly-420.jpg" srcset="img/s3-frankly-420.webp 420w, img/s3-frankly-840.webp 840w" sizes="42svh" width="840" height="600" alt="" loading="lazy" decoding="async"></span>
-          <span class="fr-firma"><svg viewBox="0 0 394.4 83.8" focusable="false"><use href="#firma"/></svg></span>
         </div>
         </div>
-        <!-- la respuesta, quieta debajo de la pregunta: se ilumina mientras llega la firma (G3) -->
+        <!-- r30: la firma contesta debajo de la frase (ya no al final de la cinta): se escribe sola al entrar al 60 % de la ventana -->
+        <div class="fr-firma-sola" role="img" aria-label="Jacomy &amp; Mayne"><svg viewBox="0 0 394.4 83.8" aria-hidden="true" focusable="false"><use href="#firma"/></svg></div>
+        <!-- la respuesta, debajo de la firma: se ilumina con su propio tramo de scroll (G3) -->
         <div class="respuesta">
           <p class="respuesta-texto" data-ilumina data-gesto="G3">Roy and Andy, from a Mendoza studio. Friends first, designers second. 20 projects in our portfolio. No two look alike.</p>
         </div>

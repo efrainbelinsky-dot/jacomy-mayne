@@ -283,7 +283,7 @@ html.motion .fr-ventana{width:100%}
 
 /* ================= MOVIMIENTO: solo con html.motion (GSAP cargó y no hay reduced-motion) ================= */
 /* G4: el lienzo en una sola fila, fijado; el alto de la pista lo calcula motion.js (recorrido ≤ 3 pantallas) */
-html.motion .fr-escena{height:100svh;display:flex;align-items:center}   /* lo fija ScrollTrigger (pin) */
+html.motion .fr-escena{display:flex}   /* r30: sin pin, la sección se scrollea normal */
 html.motion .fr-lienzo{flex-wrap:nowrap;width:max-content;padding-inline:var(--gutter);font-size:var(--t-frase-fija);gap:0 .16em;-webkit-text-stroke-width:2.25px;will-change:transform}   /* trazo proporcional al cuerpo grande (ronda 4) */
 html.motion .fr-palabra{position:relative;z-index:1}
 html.motion .fr-foto{position:relative;z-index:0;width:1.2em;height:.86em;margin-inline:-.14em}   /* a la altura de la palabra y encimada en sus bordes */
@@ -801,3 +801,16 @@ html.intro .hero-vsl .hero-firma{transform:translateY(-50%);opacity:1;visibility
   .hv-video{grid-column:2;grid-row:2}
   .hv-sub{font-size:clamp(1.375rem,1.9vw,1.875rem)}
 }
+
+/* ================= r30 · S3 sin pin: la frase corre con el scroll mientras cruza la ventana; la firma va debajo, sola ================= */
+html.motion .fr-lienzo{font-size:min(20svh,21vw)}                      /* r30 A: más chica que la fijada (38 svh) para que cada palabra quede entera en pantalla con una pasada normal de rueda */
+.frase-sec{padding-bottom:var(--seccion)}
+@media (max-width:767px){.frase-sec{padding-top:56px;padding-bottom:0}}   /* r30: en celular la franja corre rápido; menos aire alrededor para que la pantalla nunca quede vacía */
+.fr-firma-sola{width:min(78vw,1080px);margin:clamp(32px,4vw,64px) var(--gutter) 0;color:var(--tinta)}
+.fr-firma-sola svg{display:block;width:100%;height:auto;fill:currentColor}
+html.motion .fr-firma-sola svg{clip-path:inset(-2% calc(100% - var(--firma-p,100%)) -2% 0)}   /* se escribe de una (motion.js); reduced-motion: entera */
+/* r30 · variante B (?s3=corto): la escena entera (frase + firma + respuesta) se fija 2 pantallas */
+html.motion.s3-corto .fr-escena{height:100svh;justify-content:center}
+html.motion.s3-corto .frase-sec{padding-block:0}
+html.motion.s3-corto .fr-lienzo{font-size:min(30svh,26vw)}
+html.motion.s3-corto .fr-firma-sola{width:min(60vw,820px)}
