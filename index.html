@@ -20,9 +20,8 @@
      Nada depende del JS para verse: los estados iniciales ocultos los pone motion.js solo si GSAP cargó y no hay prefers-reduced-motion.
      Publicación 2026-10-26: GitHub Pages (https://efrainbelinsky-dot.github.io/jacomy-mayne/); cuando el cliente agregue el CNAME, cambiar canonical/og a https://start.jacomymayne.com/. -->
 <link rel="preload" href="fonts/texgyreheros-regular.otf" as="font" type="font/otf" crossorigin>
+<link rel="preload" as="image" type="image/webp" imagesrcset="img/fundadores-ancho-960.webp 960w, img/fundadores-ancho-1916.webp 1916w" imagesizes="(min-width: 992px) 640px, 100vw">   <!-- r29: el poster del video del hero llega antes de que termine la intro -->
 <link rel="preload" href="fonts/librebodoni-italic-400.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="preload" as="image" type="image/webp" media="(min-width: 992px)" imagesrcset="img/hero-anansi-r9-800.webp 800w, img/hero-anansi-r9-1200.webp 1200w, img/hero-anansi-r9-1600.webp 1600w, img/hero-anansi-r9-1930.webp 1930w" imagesizes="100vw">
-<link rel="preload" as="image" type="image/webp" media="(max-width: 991px)" imagesrcset="img/hero-anansi-r9-mob-600.webp 600w, img/hero-anansi-r9-mob-780.webp 780w" imagesizes="100vw">
 <script>window.__introT = performance.now(); document.documentElement.classList.add('js');</script>
 <link rel="stylesheet" href="base.css">
 <link rel="stylesheet" href="tokens.css">
@@ -62,28 +61,42 @@
 
 <main id="principal">
 
-  <!-- S1 · hero como Holy Studio (ronda 9, ronda-9-diseno.md): foto a sangre que cambia sola, la firma = h1 al pie y UNA sola línea
-       arriba a la izquierda (en el lugar de la firma chica de la barra, que se apaga en el hero). Nada más fuera de la barra (R43).
-       La intro (G1, M01) no cambia: la firma de lado a lado, negra sobre blanco, ~1 s; la foto aparece detrás y la firma baja y se vuelve blanca -->
-  <section class="hero" id="hero" data-rol="hero" data-afirmacion="Holy Studio: un trabajo a pantalla completa que cambia solo (o el video del cliente), el nombre gigante abajo (h1) y una línea del cliente: qué hace y para quién">
-    <div class="velo" aria-hidden="true"></div>
-    <div class="hero-mueve" data-hero-mueve>
-      <div class="hero-slides" data-slides data-intro-fade role="group" aria-roledescription="slideshow" aria-label="Packaging by Jacomy &amp; Mayne">
-        <figure class="hero-slide activa"><picture><source media="(max-width: 991px)" type="image/webp" srcset="img/hero-anansi-r9-mob-600.webp 600w, img/hero-anansi-r9-mob-780.webp 780w" sizes="100vw" width="780" height="1444"><source media="(max-width: 991px)" srcset="img/hero-anansi-r9-mob-600.jpg 600w, img/hero-anansi-r9-mob-780.jpg 780w" sizes="100vw" width="780" height="1444"><source type="image/webp" srcset="img/hero-anansi-r9-800.webp 800w, img/hero-anansi-r9-1200.webp 1200w, img/hero-anansi-r9-1600.webp 1600w, img/hero-anansi-r9-1930.webp 1930w" sizes="100vw"><img src="img/hero-anansi-r9-1200.jpg" srcset="img/hero-anansi-r9-800.jpg 800w, img/hero-anansi-r9-1200.jpg 1200w, img/hero-anansi-r9-1600.jpg 1600w, img/hero-anansi-r9-1930.jpg 1930w" sizes="100vw" width="1930" height="1000" alt="Anansi Rum bottle, label and packaging by Jacomy &amp; Mayne" fetchpriority="high" decoding="async"></picture></figure>
-        <figure class="hero-slide hero-censurado"><picture><source media="(max-width: 991px)" type="image/webp" srcset="img/hero-censurado-mob-600.webp" width="600" height="700"><source media="(max-width: 991px)" srcset="img/hero-censurado-mob-600.jpg" width="600" height="700"><source type="image/webp" srcset="img/hero-censurado-r9-800.webp 800w, img/hero-censurado-r9-1200.webp 1200w, img/hero-censurado-r9-1600.webp 1600w, img/hero-censurado-r9-1930.webp 1930w" sizes="100vw"><img src="img/hero-censurado-r9-1200.jpg" srcset="img/hero-censurado-r9-800.jpg 800w, img/hero-censurado-r9-1200.jpg 1200w, img/hero-censurado-r9-1600.jpg 1600w, img/hero-censurado-r9-1930.jpg 1930w" sizes="100vw" width="1930" height="1285" alt="Censurado Sparkling Wine bottles, packaging by Jacomy &amp; Mayne" loading="lazy" fetchpriority="low" decoding="async"></picture></figure>
+  <!-- S1 · hero VSL (r29, Efraín: "en la pantalla principal necesito que ahí vaya el video. Necesito que tenga un título que se vea y un
+       subtítulo, y el video que sea un cuadradito que no ocupe toda la pantalla"). Sin fotos de fondo: el oscuro de la marca, el grano del
+       body y la firma en sombra tono sobre tono. Título del cliente (h1, 2 renglones), su bajada, el CTA y el reproductor de Andy en un
+       recuadro 16:9 (a la derecha ≥ 992; debajo en celular). La intro G1 sigue: la firma de lado a lado al cargar y, al terminar, sube y
+       se va (ya no queda al pie) -->
+  <section class="hero hero-vsl" id="hero" data-rol="hero" data-afirmacion="VSL: el titular del cliente (Packaging design for beverages. Break the shelf.), su bajada, el CTA de la llamada y el video de Andy en un recuadro">
+    <div class="velo" aria-hidden="true"></div>   <!-- G1: el blanco de la intro (se corre hacia abajo) -->
+    <div class="sombra-caja" aria-hidden="true"><svg class="sombra-firma" viewBox="0 0 394.4 83.8" aria-hidden="true" focusable="false"><use href="#firma"/></svg></div>
+    <div class="hv-grilla">
+      <h1 class="hv-titulo" data-intro-fade data-hv-titulo><span class="renglon">Packaging design for&nbsp;beverages.</span> <span class="renglon">Break the shelf.</span></h1>
+      <div class="hv-texto" data-intro-fade>
+        <p class="hv-sub">We are a kick-ass packaging design studio. Specializing in eye-catching designs and strong storytelling for the worldwide beverage market.</p>
+        <a class="btn" data-iman href="#start" data-cta="start" data-ubicacion="hero">Book a call with Andy</a>
       </div>
-      <p class="hero-bajada" data-intro-fade><span class="renglon">Packaging design for beverages.</span></p>
-      <button class="hero-pausa" type="button" data-pausa data-intro-fade aria-label="Pause slideshow" aria-pressed="false" hidden><svg class="ic-pausa" viewBox="0 0 12 14" aria-hidden="true" focusable="false"><rect width="4" height="14"/><rect x="8" width="4" height="14"/></svg><svg class="ic-play" viewBox="0 0 12 14" aria-hidden="true" focusable="false"><path d="M0 0l12 7-12 7z"/></svg></button>
-      <h1 class="hero-firma" data-intro-firma data-gesto="G1"><span class="sr">Jacomy &amp; Mayne</span><svg viewBox="0 0 394.4 83.8" aria-hidden="true" focusable="false"><use href="#firma"/></svg></h1>
+      <!-- el video de Andy (marca.js → video_marca; landing.js arma el reproductor). Sin video: en localhost se ve el lugar con
+           "Video coming soon" (.muestra); publicada, el recuadro no existe y el titular queda solo -->
+      <figure class="hv-video" data-video-marca data-intro-fade hidden>
+        <div class="vm-marco" data-vm-marco>
+          <picture class="vm-poster" data-vm-poster><source type="image/webp" srcset="img/fundadores-ancho-960.webp 960w, img/fundadores-ancho-1916.webp 1916w" sizes="(min-width: 992px) 640px, 100vw"><img src="img/fundadores-ancho-1916.jpg" srcset="img/fundadores-ancho-960.jpg 960w, img/fundadores-ancho-1916.jpg 1916w" sizes="(min-width: 992px) 640px, 100vw" width="1916" height="821" alt="" decoding="async" fetchpriority="high"></picture>
+          <button class="btn vm-play" type="button" data-iman data-vm-play aria-label="Play the video: a word from Andy">Play</button>
+          <p class="vm-pronto" data-vm-pronto hidden><span>Video coming soon</span></p>
+        </div>
+        <figcaption class="rotulo rotulo-nota vm-rotulo">Meet Andy</figcaption>
+      </figure>
     </div>
-    <!-- Bajada por anuncio: ?utm_content=remembered (A1) y ?utm_content=generic (A2), con la frase del anuncio (2 renglones) -->
-    <template id="bajada-remembered"><span class="renglon">Some spirits are tasted. Others are remembered.</span> <span class="renglon">Packaging design for beverages.</span></template>
-    <template id="bajada-generic"><span class="renglon">Great spirits deserve more than generic packaging.</span> <span class="renglon">Packaging design for beverages.</span></template>
+    <!-- G1: la firma de la intro (de lado a lado, centrada); al terminar sube y se desvanece -->
+    <div class="hero-firma" data-intro-firma data-gesto="G1" aria-hidden="true"><svg viewBox="0 0 394.4 83.8" aria-hidden="true" focusable="false"><use href="#firma"/></svg></div>
+    <!-- Titular por anuncio (utm_content): reemplaza el h1; la bajada, el CTA y el video quedan -->
+    <template id="titulo-bottle-says"><span class="renglon">What does your bottle say</span> <span class="renglon">before anyone tastes&nbsp;it?</span></template>
+    <template id="titulo-remembered"><span class="renglon">Some spirits are tasted.</span> <span class="renglon">Others are remembered.</span></template>
+    <template id="titulo-generic"><span class="renglon">Great spirits deserve more</span> <span class="renglon">than generic packaging.</span></template>
   </section>
   <script>
   /* G1 · intro como Holy Studio (corrección de Efraín 2026-10-24), en línea para que no dependa de que carguen GSAP ni los CDN:
-     la firma de lado a lado, centrada, negra sobre blanco; espera 1,0 s; la foto aparece detrás (1,0 s power2.inOut) mientras la firma
-     baja al pie y se vuelve blanca (0,8 s power3.inOut). En cada carga y recarga; ?intro=1 la fuerza, ?intro=0 la apaga; con reduced-motion
+     la firma de lado a lado, centrada, negra sobre blanco; espera 1,0 s; el velo se corre (1,0 s power2.inOut) y aparece el hero mientras
+     la firma sube y se desvanece (0,8 s; r29, hero VSL: antes bajaba al pie). En cada carga y recarga; ?intro=1 la fuerza, ?intro=0 la apaga; con reduced-motion
      no existe. Toque o tecla la saltean. Si algo falla, a los 3 s la página queda visible igual. */
   (function () {
     var root = document.documentElement;
@@ -93,45 +106,25 @@
     var ini = getComputedStyle(root).getPropertyValue('--firma-ini').trim(), fin = getComputedStyle(root).getPropertyValue('--firma-fin').trim();
     var espera = Math.max(0, 1000 - (performance.now() - (window.__introT || 0)));   // 1,0 s desde el primer script de la página (Holy Studio)
     var suave = 'cubic-bezier(.45,.03,.51,.95)';
-    var anims = [f.animate([{ transform: desde, color: ini }, { transform: 'none', color: fin }], { duration: 800, delay: espera, easing: 'cubic-bezier(.65,0,.35,1)', fill: 'both' }),
+    var anims = [f.animate([{ transform: desde, color: ini }, { transform: desde + ' translateY(-9svh)', color: fin }], { duration: 800, delay: espera, easing: 'cubic-bezier(.65,0,.35,1)', fill: 'both' }),   // r29: sube y se va (el hero VSL no tiene la firma al pie)
+                 f.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 800, delay: espera, easing: 'cubic-bezier(.2,.6,.4,1)', fill: 'both' }),   // r29: el fundido arranca enseguida (la subida tiene salida lenta)
                  document.querySelector('.velo').animate([{ clipPath: 'inset(0% 0% 0% 0%)' }, { clipPath: 'inset(100% 0% 0% 0%)' }], { duration: 1000, delay: espera, easing: suave, fill: 'both' })];   // r17: el velo se corre hacia abajo con la firma (antes se fundía y dejaba la página gris)
     document.querySelectorAll('[data-intro-fade]').forEach(function (el) { anims.push(el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 1000, delay: espera, easing: suave, fill: 'both' })); });
     var listo = false;
     function terminar() { if (listo) return; listo = true; root.classList.remove('intro'); anims.forEach(function (a) { a.cancel(); }); window.__introFin = true; window.dispatchEvent(new CustomEvent('jm:intro-fin')); }
     function saltar() { if (listo) return; window.dispatchEvent(new CustomEvent('lp:evento', { detail: { evento: 'intro_skip' } })); anims.forEach(function (a) { a.finish(); }); }
     addEventListener('pointerdown', saltar, { once: true }); addEventListener('keydown', saltar, { once: true });
-    // anclada al reloj del documento: arranca a 1,0 s del primer script aunque el hilo principal esté ocupado decodificando fotos
-    if (document.timeline && typeof document.timeline.currentTime === 'number') anims.forEach(function (a) { var t = a.effect.getTiming(); a.effect.updateTiming({ delay: 0 }); a.startTime = (window.__introT || 0) + 1000; });
+    // anclada al reloj del documento: arranca a 1,0 s del primer script aunque el hilo principal esté ocupado decodificando fotos.
+    // r29: si el documento todavía no pintó (currentTime null), se ancla cuando cada animación está lista (antes quedaba con la espera
+    // relativa al primer cuadro y arrancaba ~0,3 s tarde)
+    var T0 = (window.__introT || 0) + 1000;
+    function anclar(a) { a.effect.updateTiming({ delay: 0 }); a.startTime = T0; }
+    if (document.timeline && typeof document.timeline.currentTime === 'number') anims.forEach(anclar);
+    else anims.forEach(function (a) { a.ready.then(function () { if (!listo) anclar(a); }); });
     Promise.all(anims.map(function (a) { return a.finished; })).then(terminar, terminar);
+    setTimeout(function () { if (!listo) anims.forEach(function (a) { try { a.finish(); } catch (e) {} }); }, 3200);   // r29: seguro: si el reloj de las animaciones no avanzó (pestaña en segundo plano), a los 3,2 s todo queda visible
   })();
   </script>
-
-  <!-- S1b · titular (ronda 9): el dolor solo, en su propia pantalla, a todo el ancho (MONOLOG: una idea por pantalla). G3 por renglón -->
-  <section data-tema="claro" data-panel class="tema-claro titular" id="titular" data-rol="titular" data-afirmacion="titular del cliente en gigante (Break the shelf) + su bajada (kick-ass packaging design studio) + clientes en texto (R22.2 B)">
-    <div class="sombra-caja" aria-hidden="true"><svg class="sombra-firma" viewBox="0 0 394.4 83.8" aria-hidden="true" focusable="false"><use href="#firma"/></svg></div>
-    <h2 class="display titular-h titular-corto" data-lineas data-gesto="G3">
-      <span class="renglon"><span class="renglon-in">Break</span></span>
-      <span class="renglon"><span class="renglon-in">the shelf.</span></span>
-    </h2>
-    <div class="titular-pie" data-clientes>
-      <p class="titular-bajada">We are a kick-ass packaging design studio. Specializing in eye-catching designs and strong storytelling for the worldwide beverage market.</p>
-      <p class="clientes">Worked with AB InBev Chile, PepsiCo NYC, Warner Bros. and Concha&nbsp;y&nbsp;Toro.</p>
-    </div>
-    <!-- Variante del titular solo con ?utm_content=bottle-says (textos.md) -->
-    <template id="titular-bottle-says"><span class="renglon"><span class="renglon-in"><span class="parte">What does</span> <span class="parte">your bottle say</span></span></span> <span class="renglon"><span class="renglon-in"><span class="parte">before anyone</span> <span class="parte">tastes it?</span></span></span></template>
-  </section>
-
-  <!-- S1c · video de Andy hablando a cámara (r24, Efraín: "un video de él hablando sobre la marca"). Sección propia con un reproductor 16:9
-       grande; poster con el play (M15) y, al tocarlo, el video con sonido y controles. Datos: marca.js → video_marca. Sin video: en localhost
-       se ve el lugar (foto de los fundadores en B/N + "Video coming soon" como .muestra); r28: también publicada, igual que en localhost (Efraín) -->
-  <section class="video-sec" id="video-andy" data-rol="video-marca" data-afirmacion="una persona con nombre del otro lado: Andy cuenta la marca a cámara, con sonido (D5 simpatía)" data-video-marca hidden>
-    <p class="rotulo rotulo-nota vm-rotulo">Meet Andy</p>
-    <div class="vm-marco" data-vm-marco>
-      <picture class="vm-poster" data-vm-poster><source type="image/webp" srcset="img/fundadores-ancho-960.webp 960w, img/fundadores-ancho-1916.webp 1916w" sizes="(min-width: 992px) 76vw, 100vw"><img src="img/fundadores-ancho-1916.jpg" srcset="img/fundadores-ancho-960.jpg 960w, img/fundadores-ancho-1916.jpg 1916w" sizes="(min-width: 992px) 76vw, 100vw" width="1916" height="821" alt="" loading="lazy" decoding="async"></picture>
-      <button class="btn vm-play" type="button" data-iman data-vm-play aria-label="Play the video: a word from Andy">Play</button>
-      <p class="vm-pronto" data-vm-pronto hidden><span>Video coming soon</span></p>
-    </div>
-  </section>
 
   <!-- S3 · frase horizontal (G4, M04): el lienzo se fija y se corre a la izquierda al bajar; la cinta tapa los *** y la firma contesta -->
   <section class="frase-sec" id="frase-horizontal" data-rol="frase-horizontal" data-afirmacion="la pregunta firma se corre con el scroll, trabajos entre palabras, cinta sobre F***, y la firma contesta">

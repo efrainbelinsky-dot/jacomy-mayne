@@ -43,18 +43,11 @@ window.MARCA = {
   // llevan a #start (el formulario pide la llamada). Con URL → abren la agenda en otra pestaña y el formulario queda de alternativa.
   agenda: { url: null },
 
-  // r24 (Efraín 2026-10-28: "un video de él hablando sobre la marca"): el video de Andy a cámara, con sonido, en su propia sección
-  // (#video-andy, después de "Break the shelf."). mp4: ruta relativa a sitio/ (p. ej. "video/andy.mp4") · poster: la imagen de arranque
-  // (null → la foto de los fundadores en B/N) · subtitulos: un .vtt en inglés (opcional). Con mp4 en null, la sección solo se ve en
+  // r24 (Efraín 2026-10-28: "un video de él hablando sobre la marca"): el video de Andy a cámara, con sonido, en el recuadro del hero
+  // (r29: hero VSL; antes, r24, en una sección propia). mp4: ruta relativa a sitio/ (p. ej. "video/andy.mp4") · poster: la imagen de arranque
+  // (null → la foto de los fundadores en B/N) · subtitulos: un .vtt en inglés (opcional). Con mp4 en null, el recuadro solo se ve en
   // localhost (con "Video coming soon"); publicada, no aparece.
   video_marca: { mp4: null, poster: null, subtitulos: null },
-
-  // r22, opción APAGADA (r24: el pedido era el video de Andy, de arriba): video de fondo del hero en lugar de las fotos que cambian.
-  // Con mp4 y webm en null el hero queda con las fotos que cambian. Con un archivo (ruta relativa a sitio/, p. ej. "video/hero.mp4")
-  // reemplaza a las fotos detrás de la firma y la línea: muted, loop, playsinline, preload="metadata". poster: null → la 1.ª foto del hero.
-  hero: {
-    video: { mp4: null, webm: null, poster: null }
-  },
 
   // Fichas de los casos de Selected Work: la tarjeta entera abre la ficha (work_open). null = todavía sin URL confirmada.
   casos: {

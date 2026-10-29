@@ -25,40 +25,13 @@
     if (agenda) { a.href = agenda; a.target = '_blank'; a.rel = 'noopener'; a.dataset.cta = 'agenda'; }
   });
 
-  // ---- Titular por anuncio: solo utm_content=bottle-says cambia el titular de S1b (si no, queda la A). Ronda 9: el h1 es la firma del
-  //      hero, así que la variante va a .titular-h y nunca a 'h1' (si no, reescribiría el nombre) ----
-  const tpl = document.getElementById('titular-' + (q.get('utm_content') || '').replace(/[^a-z0-9-]/gi, ''));
-  const tit = document.querySelector('.titular-h');
-  if (tpl && tit) { tit.replaceChildren(tpl.content.cloneNode(true)); tit.classList.remove('titular-corto'); }   // r22: la variante larga vuelve al cuerpo de siempre
-  // Bajada por anuncio (message match, estrategia.md): remembered → A1, generic → A2; sin UTM o con otro valor queda la de siempre
-  const bajada = document.getElementById('bajada-' + (q.get('utm_content') || '').replace(/[^a-z0-9-]/gi, ''));
-  const hb = document.querySelector('.hero-bajada');
-  if (bajada && hb) { hb.replaceChildren(bajada.content.cloneNode(true)); hb.classList.add('dos'); }   // 2 renglones: la frase del anuncio + la de siempre
+  // ---- Titular por anuncio (r29: va al h1 del hero VSL): utm_content = bottle-says | remembered | generic cambia el titular; la bajada,
+  //      el CTA y el video quedan. Sin UTM o con otro valor, el del cliente ----
+  const tpl = document.getElementById('titulo-' + (q.get('utm_content') || '').replace(/[^a-z0-9-]/gi, ''));
+  const tit = document.querySelector('[data-hv-titulo]');
+  if (tpl && tit) tit.replaceChildren(tpl.content.cloneNode(true));
 
-  // ---- r22 · video del hero (marca.js → hero.video): si hay archivo, un <video> a sangre reemplaza a las fotos que cambian, dentro
-  //      de [data-slides] (así hereda el fundido de la intro y el velo de arriba). Con reduced-motion no arranca solo: queda el poster.
-  //      El botón de pausa lo maneja motion.js. Sin archivo, el hero no cambia ----
-  const hv = (M.hero && M.hero.video) || {};
-  const slidesEl = document.querySelector('[data-slides]');
-  if (slidesEl && (hv.mp4 || hv.webm)) {
-    const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const img1 = slidesEl.querySelector('.hero-slide img');
-    const v = document.createElement('video');
-    v.className = 'hero-video';
-    v.muted = true; v.defaultMuted = true; v.loop = true; v.playsInline = true; v.preload = 'metadata';
-    ['muted', 'loop', 'playsinline'].forEach(a => v.setAttribute(a, ''));
-    if (!quieto) { v.autoplay = true; v.setAttribute('autoplay', ''); }
-    v.setAttribute('aria-hidden', 'true'); v.tabIndex = -1;
-    const poster = hv.poster || (img1 && (img1.currentSrc || img1.src));
-    if (poster) v.poster = poster;
-    [['webm', 'video/webm'], ['mp4', 'video/mp4']].forEach(([k, t]) => { if (hv[k]) { const s = document.createElement('source'); s.src = hv[k]; s.type = t; v.append(s); } });
-    slidesEl.prepend(v);
-    slidesEl.closest('.hero').classList.add('con-video');
-    slidesEl.setAttribute('aria-label', 'Packaging by Jacomy & Mayne (video)');
-    slidesEl.removeAttribute('aria-roledescription');
-  }
-
-  // ---- r24 · video de Andy (#video-andy, marca.js → video_marca). Con mp4: poster + play (M15); al tocarlo, un <video> con sonido,
+  // ---- r24 · video de Andy (r29: en el recuadro del hero, marca.js → video_marca). Con mp4: poster + play (M15); al tocarlo, un <video> con sonido,
   //      controles, playsinline y preload="none" toma el lugar del poster y arranca. Eventos video_play (1.ª vez) y video_complete.
   //      Sin mp4: en localhost se ve el lugar (poster provisorio en B/N + "Video coming soon", .muestra); afuera la sección queda oculta ----
   const vm = M.video_marca || {}, vmSec = document.querySelector('[data-video-marca]');

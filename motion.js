@@ -65,7 +65,7 @@
       pend = false;
       const abajo = heroEl.getBoundingClientRect().bottom;
       barraEl.classList.toggle('sobre-hero', abajo > barraEl.offsetHeight + 8);
-      if (!chica) return;
+      if (!chica || heroEl.classList.contains('hero-vsl')) return;   // r29: en el hero VSL la firma chica de la barra está siempre (la grande se va con la intro)
       if (reduce) { chica.style.opacity = abajo <= barraEl.offsetHeight ? '1' : '0'; return; }
       const y = Math.max(0, scrollY), H = (tit || heroEl).offsetHeight || innerHeight;
       const k = Math.min(1, Math.max(0, (y - 0.2 * H) / (0.45 * H)));
@@ -77,36 +77,6 @@
     addEventListener('resize', marcar); marcar();
   }
   if (reduce) return;
-
-  /* ---------- hero: los trabajos cambian solos (Holy Studio: cada ~2 s, fundido de 1 s), con pausa (WCAG 2.2.2) ---------- */
-  const slidesHero = [...document.querySelectorAll('[data-slides] .hero-slide')];
-  const pausa = document.querySelector('[data-pausa]');
-  const videoHero = document.querySelector('[data-slides] .hero-video');
-  if (videoHero) {   // r22: con video del cliente, la pausa del hero pausa el video; fuera de pantalla o con la pestaña oculta, se detiene solo
-    let pausado = false, visible = true;
-    const sync = () => { if (!pausado && visible && !document.hidden) { const pr = videoHero.play(); if (pr) pr.catch(() => {}); } else videoHero.pause(); };
-    if (pausa) {
-      pausa.setAttribute('aria-label', 'Pause video'); pausa.hidden = false;
-      pausa.addEventListener('click', () => { pausado = !pausado; pausa.setAttribute('aria-pressed', String(pausado)); pausa.setAttribute('aria-label', pausado ? 'Play video' : 'Pause video'); sync(); });
-    }
-    new IntersectionObserver(es => { visible = es[0].isIntersecting; sync(); }).observe(heroEl);
-    document.addEventListener('visibilitychange', sync);
-    if (new URLSearchParams(location.search).get('qa') === '1') { pausado = true; videoHero.pause(); }
-  } else if (slidesHero.length > 1) {
-    let k = 0, timer = null, pausado = false, visible = true;
-    const pasar = () => { slidesHero[k].classList.remove('activa'); k = (k + 1) % slidesHero.length; const n = slidesHero[k]; setTimeout(() => n.classList.add('activa'), 520); };   // sale una (0,5 s), después entra la otra
-    const sync = () => { clearInterval(timer); timer = null; if (!pausado && visible && !document.hidden) timer = setInterval(pasar, 2200); };
-    const arrancar = () => { if (pausa) pausa.hidden = false; sync(); };
-    if (pausa) pausa.addEventListener('click', () => { pausado = !pausado; pausa.setAttribute('aria-pressed', String(pausado)); pausa.setAttribute('aria-label', pausado ? 'Play slideshow' : 'Pause slideshow'); sync(); });
-    new IntersectionObserver(es => { visible = es[0].isIntersecting; sync(); }).observe(heroEl);
-    document.addEventListener('visibilitychange', sync);
-    // QA: ?slide=N fija esa foto (0, 1, 2) y apaga el autoplay; ?qa=1 lo apaga y deja la primera
-    const qp = new URLSearchParams(location.search), fija = qp.get('slide');
-    if (fija !== null || qp.get('qa') === '1') {
-      const n = Math.min(slidesHero.length - 1, Math.max(0, parseInt(fija, 10) || 0));
-      pausado = true; slidesHero.forEach((x, i) => { x.style.transition = 'none'; x.classList.toggle('activa', i === n); });
-    } else if (enIntro) addEventListener('jm:intro-fin', arrancar, { once: true }); else arrancar();
-  }
 
   /* ================= G3 · titular de S1b por renglones (MONOLOG: yPercent 150 → 0 dentro de la máscara del renglón, 0,95 s, salida,
                        stagger 0,075, al 80 %, una vez) y "Worked with…" 0,65 s (opacidad 0 → 1, y 12 → 0) 0,3 s después del último ================= */

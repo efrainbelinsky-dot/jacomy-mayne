@@ -73,7 +73,8 @@ p+p{margin-top:0}
 .hero-pausa:focus-visible{opacity:1;outline:2px solid var(--tinta);outline-offset:3px}
 .barra{transition:background-color .5s var(--suave),color var(--rapido) var(--salida)}   /* r17: el fondo entra con un fundido de 0,5 s, nunca de golpe; sobre el hero no hay fondo (sobre-hero ya viene en el HTML) */   /* r13: 0,3 s (con 0,65 s el texto de la barra quedaba a mitad de camino, 2,45:1, al volver arriba rápido) */   /* r11: cambia de tema al cruzar el borde de un tramo (MONOLOG) */
 .barra.sobre-hero{background:transparent}   /* sobre el hero la barra flota, como en Holy Studio */
-.js .barra-firma{opacity:0}                 /* la firma chica se apaga dentro del hero (la grande es el nombre); motion.js la cruza al bajar */
+.js .barra-firma{opacity:0}
+.js body:has(.hero-vsl) .barra-firma{opacity:1}   /* r29: con el hero VSL la firma chica de la barra está siempre (la grande se va con la intro) */                 /* la firma chica se apaga dentro del hero (la grande es el nombre); motion.js la cruza al bajar */
 .barra-firma:focus-visible{opacity:1!important}
 /* G1 · estados de la intro (los pone el script en línea; sin JS no existen) */
 .velo{display:none}
@@ -532,7 +533,7 @@ html.motion .marcas-copia{display:flex}
         Todo existe solo con .iman (lo pone motion.js; con reduced-motion no corre) ---- */
 .btn.iman{position:relative;overflow:hidden;isolation:isolate;transition:opacity var(--rapido) var(--salida),color .25s var(--salida),background-color var(--rapido) var(--salida)}
 .btn.iman:hover,.btn.iman:active{transform:none}            /* el movimiento lo maneja GSAP (imán y rebote) */
-.btn-rueda{position:relative;display:inline-flex;overflow:hidden;line-height:1.3;white-space:nowrap;pointer-events:none}
+.btn-rueda{position:relative;display:inline-flex;overflow:hidden;line-height:1.3;white-space:nowrap;pointer-events:none;padding-bottom:.08em;margin-bottom:-.08em}   /* r29: .08 em de aire abajo: el cuerpo de la letra ya no queda 1 px recortado (R13) */
 .btn-l{position:relative;display:inline-block;transition:transform .6s var(--salida);transition-delay:calc(var(--i) * 16ms)}
 .btn-l::after{content:attr(data-l);position:absolute;left:0;top:100%}
 .btn-tinta{position:absolute;z-index:-1;left:var(--mx,50%);top:var(--my,50%);width:var(--d,400px);height:var(--d,400px);
@@ -757,24 +758,18 @@ html.motion .sv-lado{flex:none;margin:0;padding:0 var(--gutter) 20px}
 .barra.sobre-hero{transition:background-color 0s,color var(--rapido) var(--salida)}
 
 /* ================= r24 · S1c video de Andy (marca.js → video_marca): reproductor 16:9 grande, centrado con aire; poster + play (M15) ================= */
-.video-sec{padding:var(--seccion) var(--gutter);display:grid;justify-items:center;background:var(--fondo)}
-.video-sec[hidden]{display:none}
-.vm-rotulo{justify-self:center;margin:0 0 16px;width:100%}
+.vm-rotulo{margin:12px 0 0}
 .vm-marco{position:relative;width:100%;aspect-ratio:16 / 9;overflow:hidden;background:#141412;border-radius:var(--r-medio)}
 .vm-poster,.vm-poster img{position:absolute;inset:0;display:block;width:100%;height:100%}
 .vm-poster img{object-fit:cover;object-position:50% 30%}
 .vm-marco.sin-video .vm-poster img,.vm-marco:not(.con-poster) .vm-poster img{filter:grayscale(1) contrast(1.05) brightness(.72)}   /* poster provisorio: los fundadores en B/N */
-.vm-marco .btn.vm-play{position:absolute;inset:0;margin:auto;z-index:2;width:clamp(88px,9vw,132px);height:clamp(88px,9vw,132px);min-height:0;padding:0;
+.vm-marco .btn.vm-play{position:absolute;inset:0;margin:auto;z-index:2;width:clamp(76px,6.4vw,104px);height:clamp(76px,6.4vw,104px);min-height:0;padding:0;
   border-radius:50%;flex-direction:column;gap:6px;font-size:clamp(.875rem,1vw,1rem)}
 .vm-play::before{content:"";display:block;width:0;height:0;margin-left:4px;border-style:solid;border-width:9px 0 9px 15px;border-color:transparent transparent transparent currentColor}
 .vm-marco.sin-video .vm-play{cursor:default}
 .vm-pronto{position:absolute;left:16px;bottom:14px;z-index:2;margin:0;font-size:var(--t-chico);color:var(--tinta)}
 .vm-pronto .muestra{display:inline-flex;align-items:center;min-height:28px;padding:0 10px;border-radius:var(--r-pastilla);background:rgb(8 8 7 / .72)}
 .vm-video{position:absolute;inset:0;width:100%;height:100%;background:#000}
-@media (min-width:992px){
-  .video-sec{padding-block:clamp(72px,7vw,120px)}
-  .vm-rotulo,.vm-marco{width:min(76vw,1180px)}
-}
 
 /* r26 (Efraín 2026-10-28): los botones "Book a call with Andy" llevan directo al formulario, no al arranque de #start */
 #form-proyecto{scroll-margin-top:96px}
@@ -784,3 +779,25 @@ html.motion .sv-lado{flex:none;margin:0;padding:0 var(--gutter) 20px}
 @media (max-width:599px){.acciones button[type="submit"]{width:100%;min-width:0}}
 /* r27b (Efraín 2026-10-28, captura: "mirá lo chico que se sigue viendo"): el botón flotante "Book a call with Andy", más grande */
 @media (min-width:600px){.flotante a[data-cta]{min-height:68px;padding:1.1em 2.3em;font-size:1.22em}}
+
+/* ================= r29 · S1 hero VSL: título del cliente + bajada + CTA + el video de Andy en un recuadro 16:9 (sin fotos de fondo) ================= */
+.hero.hero-vsl{height:auto;min-height:100svh;display:grid;align-content:center;padding:calc(var(--alto-barra) + 28px) var(--gutter) 40px}
+.hero-vsl .sombra-caja{z-index:0}
+.hero-vsl .sombra-firma{fill:#141412}                                   /* tono sobre tono sobre el oscuro (como el fondo del formulario) */
+.hv-grilla{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr);gap:24px;width:100%;max-width:1440px;margin-inline:auto}
+.hv-titulo{margin:0;font:400 clamp(2.5rem,11.2vw,4rem)/1 var(--f-display);letter-spacing:var(--track-display);color:var(--tinta)}
+.hv-titulo .renglon{display:block}
+.hv-texto{display:grid;justify-items:start;gap:24px}
+.hv-sub{margin:0;font:italic 400 var(--t-lead)/1.25 var(--f-acento);letter-spacing:.01em;color:var(--tinta);max-width:28em;text-wrap:pretty}
+.hv-video{margin:0}
+.hv-video[hidden]{display:none}
+.hero-vsl .hero-firma{top:50svh;bottom:auto;transform:translateY(calc(-50% - 9svh));opacity:0;visibility:hidden}   /* G1: solo existe durante la intro; queda donde termina (arriba, invisible), sin salto al cancelar */
+html.intro .hero-vsl .hero-firma{transform:translateY(-50%);opacity:1;visibility:visible}
+@media (min-width:992px){
+  .hero.hero-vsl{padding:calc(var(--alto-barra) + 24px) var(--gutter) 48px}
+  .hv-grilla{grid-template-columns:minmax(0,1fr) min(44vw,620px);column-gap:clamp(40px,4.4vw,72px);row-gap:clamp(28px,4svh,48px);align-items:start}
+  .hv-titulo{grid-column:1 / -1;font-size:min(6vw,12svh)}
+  .hv-texto{grid-column:1;padding-top:6px}
+  .hv-video{grid-column:2;grid-row:2}
+  .hv-sub{font-size:clamp(1.375rem,1.9vw,1.875rem)}
+}
